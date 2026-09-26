@@ -39,6 +39,45 @@ window.PHYSICS_PRACTICE_DATA = {
       answer: "FA = 10000 x 0.02 = 200 N. Vì FA > P (200 > 180), vật nổi.",
       expectedKeywords: ["fa=d.v", "200", "180", "fa>p", "noi"]
     },
+    {
+      id: "p8-cohoc-basic-02",
+      grade: "8",
+      chapter: "Cơ học",
+      level: "basic",
+      title: "Đề Nhận biết: Quãng đường và thời gian",
+      sourceTopicId: "p8-motion-mech",
+      sourceLesson: "SGK Vật lý 8 - Cơ học - Chuyển động đều",
+      question: "Một người đi xe đạp trong 30 phút và đi được 6 km. Tính vận tốc của người đó theo km/h.",
+      hint: "Đổi 30 phút sang giờ rồi dùng v = s/t.",
+      answer: "30 phút = 0,5 giờ. Vận tốc v = 6/0,5 = 12 km/h.",
+      expectedKeywords: ["12", "km/h", "v=s/t", "0.5", "30 phut"]
+    },
+    {
+      id: "p8-cohoc-intermediate-02",
+      grade: "8",
+      chapter: "Cơ học",
+      level: "intermediate",
+      title: "Đề Thông hiểu: Áp suất trên mặt đất và bàn chân",
+      sourceTopicId: "p8-pressure-solid",
+      sourceLesson: "SGK Vật lý 8 - Cơ học - Áp suất chất rắn",
+      question: "Vì sao khi đi bằng giày cao gót, người ta dễ gây đau chân hơn so với đi giày phẳng dưới cùng một trọng lượng?",
+      hint: "Áp suất tỉ lệ nghịch với diện tích tiếp xúc.",
+      answer: "Bàn chân đạp trên bề mặt nhỏ hơn, diện tích tiếp xúc giảm nên áp suất tăng lên. Vì vậy lực tác dụng lên một đơn vị diện tích lớn hơn, gây đau và khó chịu hơn.",
+      expectedKeywords: ["dien tich tiep xuc", "ap suat tang", "giay cao got", "nho hon"]
+    },
+    {
+      id: "p8-cohoc-advanced-02",
+      grade: "8",
+      chapter: "Cơ học",
+      level: "advanced",
+      title: "Đề Vận dụng: So sánh lực đẩy và trọng lượng",
+      sourceTopicId: "p8-archimedes",
+      sourceLesson: "SGK Vật lý 8 - Cơ học - Lực đẩy Archimedes",
+      question: "Một vật có trọng lượng 250 N được nhúng vào nước. Lực đẩy Archimedes lên vật là 280 N. Hãy cho biết vật nổi, chìm hay lơ lửng và giải thích.",
+      hint: "So sánh FA với P.",
+      answer: "Vì FA = 280 N lớn hơn trọng lượng P = 250 N, vật nổi lên trên mặt nước. Khi lực đẩy lớn hơn trọng lượng, vật có xu hướng nổi.",
+      expectedKeywords: ["fa>p", "noi", "280", "250", "luon"]
+    },
 
     {
       id: "p8-nhiethoc-basic-01",
@@ -78,6 +117,45 @@ window.PHYSICS_PRACTICE_DATA = {
       hint: "Liên hệ quy luật nở ra khi nóng lên.",
       answer: "Kim loại nở ra khi nóng. Nếu không có khe hở, ray bị dồn nén có thể cong vênh hoặc nứt gãy, gây mất an toàn chạy tàu.",
       expectedKeywords: ["no vi nhiet", "kim loai no", "khe ho", "cong venh", "an toan"]
+    },
+    {
+      id: "p8-nhiethoc-basic-02",
+      grade: "8",
+      chapter: "Nhiệt học",
+      level: "basic",
+      title: "Đề Nhận biết: Nhiệt độ và nhiệt lượng",
+      sourceTopicId: "p8-heat-quantity",
+      sourceLesson: "SGK Vật lý 8 - Nhiệt học - Nhiệt lượng",
+      question: "Nêu sự khác nhau giữa nhiệt độ và nhiệt lượng của một vật.",
+      hint: "Một đại lượng cho biết mức nóng, một đại lượng cho biết lượng nhiệt vật nhận hay tỏa ra.",
+      answer: "Nhiệt độ cho biết mức độ nóng lạnh của vật, còn nhiệt lượng là lượng năng lượng mà vật thu vào hoặc tỏa ra khi nóng lên hoặc lạnh đi.",
+      expectedKeywords: ["nhiet do", "nhiệt lượng", "mức nóng", "thu vao", "toa ra"]
+    },
+    {
+      id: "p8-nhiethoc-intermediate-02",
+      grade: "8",
+      chapter: "Nhiệt học",
+      level: "intermediate",
+      title: "Đề Thông hiểu: Đo nhiệt độ bằng nhiệt kế",
+      sourceTopicId: "p8-heat-transfer",
+      sourceLesson: "SGK Vật lý 8 - Nhiệt học - Đo nhiệt độ",
+      question: "Tại sao khi đặt nhiệt kế vào nước nóng, cột thủy ngân hoặc cột chất lỏng trong ống nhiệt kế dâng lên?",
+      hint: "Nhiệt làm chất trong nhiệt kế nở ra.",
+      answer: "Vì khi tiếp xúc với nước nóng, chất lỏng trong nhiệt kế nhận nhiệt, nở ra và tăng thể tích, làm cột chất lỏng dâng lên. Từ đó ta đọc được nhiệt độ.",
+      expectedKeywords: ["nong len", "nở ra", "thể tích", "nhiet ke", "dâng lên"]
+    },
+    {
+      id: "p8-nhiethoc-advanced-02",
+      grade: "8",
+      chapter: "Nhiệt học",
+      level: "advanced",
+      title: "Đề Vận dụng: Nấu thức ăn bằng nồi áp suất",
+      sourceTopicId: "p8-heat-transfer",
+      sourceLesson: "SGK Vật lý 8 - Nhiệt học - Ứng dụng sự nở vì nhiệt",
+      question: "Vì sao nồi áp suất nấu thức ăn nhanh hơn nồi thường?",
+      hint: "Nhiệt độ sôi của nước tăng khi áp suất tăng.",
+      answer: "Trong nồi áp suất, áp suất bên trong lớn hơn áp suất khí quyển nên nước sôi ở nhiệt độ cao hơn. Do đó thức ăn được nấu chín nhanh hơn so với nồi thường.",
+      expectedKeywords: ["ap suat", "nước sôi", "nhiet do cao", "nấu nhanh"]
     },
 
     {
@@ -119,6 +197,45 @@ window.PHYSICS_PRACTICE_DATA = {
       answer: "700W = 0.7kW. Điện năng tiêu thụ A = 0.7 x 2 = 1.4 kWh.",
       expectedKeywords: ["a=p.t", "0.7", "2", "1.4", "kwh"]
     },
+    {
+      id: "p9-dienhoc-basic-02",
+      grade: "9",
+      chapter: "Điện học",
+      level: "basic",
+      title: "Đề Nhận biết: Cường độ dòng điện và hiệu điện thế",
+      sourceTopicId: "p9-ohm",
+      sourceLesson: "SGK Vật lý 9 - Điện học - Định luật Ohm",
+      question: "Nêu định nghĩa cường độ dòng điện và hiệu điện thế trong mạch điện.",
+      hint: "Một đại lượng xác định lượng điện tích đi qua tiết diện trong một đơn vị thời gian; một đại lượng mô tả chênh lệch điện thế giữa hai điểm.",
+      answer: "Cường độ dòng điện là lượng điện tích đi qua tiết diện mạch trong một giây. Hiệu điện thế là chênh lệch điện thế giữa hai điểm, tạo ra lực đẩy electron chuyển động trong mạch.",
+      expectedKeywords: ["cuong do dong dien", "hieu dien the", "dien tich", "ket nap"]
+    },
+    {
+      id: "p9-dienhoc-intermediate-02",
+      grade: "9",
+      chapter: "Điện học",
+      level: "intermediate",
+      title: "Đề Thông hiểu: Đèn mắc nối tiếp và song song",
+      sourceTopicId: "p9-series-parallel",
+      sourceLesson: "SGK Vật lý 9 - Điện học - Mắc điện trở",
+      question: "So sánh hiệu điện thế trên mỗi bóng đèn khi hai bóng đèn giống nhau mắc song song và mắc nối tiếp trong cùng một mạch.",
+      hint: "Xét phân bố điện áp trong các cách mắc.",
+      answer: "Khi mắc song song, mỗi bóng nhận cùng hiệu điện thế bằng nguồn; khi mắc nối tiếp, hiệu điện thế trên mỗi bóng nhỏ hơn hiệu điện thế toàn mạch và tổng các điện áp bằng nguồn.",
+      expectedKeywords: ["mắc song song", "mắc nối tiếp", "hieu dien the", "tong bang nguon"]
+    },
+    {
+      id: "p9-dienhoc-advanced-02",
+      grade: "9",
+      chapter: "Điện học",
+      level: "advanced",
+      title: "Đề Vận dụng: Tính hao phí điện trên đường dây",
+      sourceTopicId: "p9-electric-power",
+      sourceLesson: "SGK Vật lý 9 - Điện học - Công suất và phép truyền tải",
+      question: "Nếu cùng công suất truyền tải, khi tăng hiệu điện thế lên gấp 2, hao phí trên đường dây thay đổi như thế nào?",
+      hint: "Hao phí tỉ lệ với I^2.R, còn I = P/U.",
+      answer: "Với cùng công suất P, khi tăng hiệu điện thế lên gấp 2 thì cường độ dòng điện giảm đi 2 lần. Vì hao phí tỉ lệ với I^2, nên hao phí giảm 4 lần.",
+      expectedKeywords: ["giam 4 lan", "i giam 2", "hao phi", "u tang 2"]
+    },
 
     {
       id: "p9-dientu-basic-01",
@@ -159,6 +276,45 @@ window.PHYSICS_PRACTICE_DATA = {
       answer: "Với cùng công suất truyền tải, tăng hiệu điện thế sẽ giảm cường độ dòng điện I, từ đó giảm hao phí trên đường dây do hao phí tỉ lệ I^2.R.",
       expectedKeywords: ["tang hieu dien the", "giam i", "hao phi", "i^2.r"]
     },
+    {
+      id: "p9-dientu-basic-02",
+      grade: "9",
+      chapter: "Điện từ học",
+      level: "basic",
+      title: "Đề Nhận biết: Cực Bắc và cực Nam của nam châm",
+      sourceTopicId: "p9-magnet",
+      sourceLesson: "SGK Vật lý 9 - Điện từ học - Nam châm",
+      question: "Hãy nêu cách nhận biết cực Bắc và cực Nam của một nam châm mà không có dấu hiệu nào trên nam châm.",
+      hint: "Dùng tác dụng với nam châm khác.",
+      answer: "Nếu cực của nam châm hút nhau, đó là hai cực khác tên; nếu đẩy nhau, đó là hai cực cùng tên. Dựa vào cách chúng đẩy và hút với nam châm đã biết ta xác định được cực Bắc và cực Nam.",
+      expectedKeywords: ["cực bắc", "cực nam", "hút nhau", "đẩy nhau"]
+    },
+    {
+      id: "p9-dientu-intermediate-02",
+      grade: "9",
+      chapter: "Điện từ học",
+      level: "intermediate",
+      title: "Đề Thông hiểu: Lực từ tác dụng lên dây dẫn có dòng điện",
+      sourceTopicId: "p9-motor-principle",
+      sourceLesson: "SGK Vật lý 9 - Điện từ học - Lực từ",
+      question: "Vì sao dây dẫn có dòng điện đặt trong từ trường thường chịu một lực từ?",
+      hint: "Lực từ là tác dụng của từ trường lên dòng điện.",
+      answer: "Khi dây dẫn có dòng điện đặt trong từ trường, các hạt mang điện chuyển động trong dây chịu lực từ. Lực từ này làm dây dẫn bị đẩy lệch hướng, đây là nguyên lý làm động cơ điện hoạt động.",
+      expectedKeywords: ["lực từ", "dong dien", "tu truong", "dong co dien"]
+    },
+    {
+      id: "p9-dientu-advanced-02",
+      grade: "9",
+      chapter: "Điện từ học",
+      level: "advanced",
+      title: "Đề Vận dụng: Ứng dụng máy biến thế trong nhà máy điện",
+      sourceTopicId: "p9-transformer",
+      sourceLesson: "SGK Vật lý 9 - Điện từ học - Máy biến thế",
+      question: "Tại sao trước khi truyền tải điện năng đi xa, người ta thường dùng máy tăng áp? Nêu nguyên lý và lợi ích.",
+      hint: "Hạt điện năng đi xa với hao phí ít hơn khi cường độ dòng điện giảm.",
+      answer: "Máy tăng áp làm tăng hiệu điện thế của dòng xoay chiều, từ đó giảm cường độ dòng điện trong đường dây. Vì hao phí nhiệt giảm theo I^2, nên điện năng truyền đi hiệu quả hơn và ít thất thoát hơn.",
+      expectedKeywords: ["may tang ap", "giam i", "hao phi", "truyen tai", "hiệu quả"]
+    },
 
     {
       id: "p9-quanghoc-basic-01",
@@ -198,6 +354,45 @@ window.PHYSICS_PRACTICE_DATA = {
       hint: "Nhớ quy tắc lệch màu trong lăng kính.",
       answer: "Tia tím lệch nhiều hơn tia đỏ vì chiết suất của lăng kính đối với tia tím lớn hơn tia đỏ.",
       expectedKeywords: ["tia tim", "lech nhieu hon", "tia do", "chiet suat lon hon"]
+    },
+    {
+      id: "p9-quanghoc-basic-02",
+      grade: "9",
+      chapter: "Quang học",
+      level: "basic",
+      title: "Đề Nhận biết: Tia tới và tia phản xạ",
+      sourceTopicId: "p9-reflection",
+      sourceLesson: "SGK Vật lý 9 - Quang học - Phản xạ ánh sáng",
+      question: "Phát biểu định luật phản xạ ánh sáng bằng lời ngắn gọn và cho biết góc tới và góc phản xạ quan hệ với mặt phẳng gương như thế nào.",
+      hint: "Góc tới bằng góc phản xạ.",
+      answer: "Tia phản xạ nằm trong mặt phẳng tới và góc phản xạ bằng góc tới. Mặt phẳng tới là mặt phẳng chứa tia tới và pháp tuyến tại điểm tới.",
+      expectedKeywords: ["goc toi bang goc phan xa", "mat phang toi", "tia phan xa"]
+    },
+    {
+      id: "p9-quanghoc-intermediate-02",
+      grade: "9",
+      chapter: "Quang học",
+      level: "intermediate",
+      title: "Đề Thông hiểu: Chiết suất và lệch ánh sáng qua lăng kính",
+      sourceTopicId: "p9-dispersion-light",
+      sourceLesson: "SGK Vật lý 9 - Quang học - Khúc xạ ánh sáng",
+      question: "Vì sao ánh sáng đi từ không khí vào thủy tinh bị khúc xạ và lệch về phía pháp tuyến?",
+      hint: "Vận tốc ánh sáng thay đổi khi đi qua môi trường khác.",
+      answer: "Vì vận tốc của ánh sáng trong thủy tinh nhỏ hơn trong không khí, nên góc tới lớn hơn góc khúc xạ. Do đó tia sáng bị lệch về phía pháp tuyến khi đi từ không khí vào thủy tinh.",
+      expectedKeywords: ["khúc xạ", "van toc giam", "phap tuyen", "thủy tinh"]
+    },
+    {
+      id: "p9-quanghoc-advanced-02",
+      grade: "9",
+      chapter: "Quang học",
+      level: "advanced",
+      title: "Đề Vận dụng: Mắt cận và kính phân kỳ",
+      sourceTopicId: "p9-eyesight-correction",
+      sourceLesson: "SGK Vật lý 9 - Quang học - Mắt và dụng cụ quang học",
+      question: "Mắt cận nhìn vật ở xa không rõ. Nêu loại kính cần dùng để sửa tật này và giải thích tại sao.",
+      hint: "Mắt cận cần làm cho chùm sáng lệch ít hơn trước khi vào mắt.",
+      answer: "Mắt cận cần dùng kính phân kỳ. Kính phân kỳ làm chùm sáng đi vào mắt lệch ra xa hơn, giúp ảnh của vật ở xa rơi đúng trên võng mạc.",
+      expectedKeywords: ["mat can", "kinh phan ky", "anh roi dung", "vong mac"]
     }
   ]
 };
