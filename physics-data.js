@@ -686,17 +686,20 @@ window.PHYSICS_DATA = {
       grade: "9",
       chapter: "Quang học",
       type: "theory",
-      title: "Dụng cụ quang học cơ bản",
-      summary: "Kính lúp, máy ảnh, kính hiển vi và kính thiên văn là các ứng dụng của sự khúc xạ và hội tụ ánh sáng.",
-      explanation: "Các dụng cụ quang học sử dụng thấu kính hoặc gương để tạo ảnh rõ hơn và lớn hơn so với mắt thường. Chúng giúp quan sát vật ở xa hoặc nhỏ hơn.",
+      title: "Dụng cụ quang học",
+      summary: "Kính lúp, máy ảnh, kính hiển vi và kính thiên văn là các dụng cụ quang học dùng thấu kính để tạo ảnh rõ hơn, lớn hơn hoặc quan sát vật ở xa.",
+      explanation: "Các dụng cụ quang học hoạt động dựa trên hiện tượng khúc xạ và hội tụ ánh sáng qua thấu kính hoặc gương. Mỗi thiết bị có mục tiêu riêng: có thể tạo ảnh lớn hơn, đem vật ở xa gần hơn, hoặc chụp hình ảnh thật của vật. Câu hỏi trọng tâm là cách ánh sáng đi qua hệ thống quang học để hình thành ảnh rõ và đúng vị trí.",
       keyPoints: [
-        "Kính lúp là thấu kính hội tụ giúp nhìn vật gần hơn.",
-        "Kính hiển vi và kính thiên văn dùng nhiều thấu kính để tăng độ phóng đại.",
-        "Máy ảnh dùng thấu kính hội tụ để tạo ảnh trên phim hoặc cảm biến."
+        "Kính lúp là thấu kính hội tụ, giúp ta nhìn vật rất gần và thấy vật lớn hơn so với mắt thường.",
+        "Kính hiển vi dùng nhiều thấu kính để phóng đại vật rất nhỏ, giúp quan sát cấu trúc chi tiết của tế bào hoặc vật thể nhỏ.",
+        "Kính thiên văn dùng thấu kính hoặc gương để quan sát các thiên thể ở rất xa, giúp hình ảnh rõ hơn và lớn hơn.",
+        "Máy ảnh dùng thấu kính hội tụ để tạo ảnh thật của vật trên phim hoặc cảm biến điện tử.",
+        "Từ trường quang học, tiêu cự và khoảng cách vật-ảnh quyết định độ phóng đại và độ rõ của ảnh tạo ra."
       ],
-      example: "Ví dụ: kính thiên văn giúp quan sát các thiên thể ở xa bằng cách dùng thấu kính hội tụ mạnh.",
-      memoryTip: "Mẹo nhớ: dụng cụ quang học là cách ‘điều khiển ánh sáng’ để tạo ảnh rõ và lớn hơn.",
-      tags: ["kính lúp", "máy ảnh", "kính hiển vi", "kính thiên văn"]
+      formula: "Ảnh phóng đại phụ thuộc vào khoảng cách vật ảnh: M ≈ d'/d hoặc dùng mô hình thấu kính mỏng để xác định vị trí và kích thước ảnh.",
+      example: "Ví dụ: khi quan sát Mặt Trăng bằng kính thiên văn, thấu kính hội tụ làm cho hình ảnh thiên thể trở nên lớn hơn và rõ ràng hơn so với quan sát bằng mắt thường. Trong máy ảnh, vật qua thấu kính sẽ tạo ảnh thật ngược chiều trên cảm biến.",
+      memoryTip: "Mẹo nhớ: thấu kính là 'đường ray dẫn ánh sáng'; kính lúp, kính hiển vi, kính thiên văn và máy ảnh đều chỉ là các biến thể của cùng một nguyên lý: làm cho ánh sáng hội tụ để tạo ảnh rõ hơn.",
+      tags: ["kính lúp", "thấu kính", "máy ảnh", "kính hiển vi", "kính thiên văn", "phóng đại", "hội tụ ánh sáng"]
     }
   ]
 };
