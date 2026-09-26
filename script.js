@@ -568,6 +568,7 @@ const cardTemplate = document.getElementById("reactionCardTemplate");
 const modeButtons = document.querySelectorAll(".mode-btn");
 const gradeButtons = document.querySelectorAll(".grade-btn");
 const quickTags = document.querySelectorAll(".tag");
+const moduleNav = document.getElementById("moduleNav");
 
 const periodicGrid = document.getElementById("periodicGrid");
 const periodicLegend = document.getElementById("periodicLegend");
@@ -1811,6 +1812,10 @@ function switchModule(nextModule) {
   Object.entries(modulePanels).forEach(([key, panel]) => {
     panel.classList.toggle("is-hidden", key !== nextModule);
   });
+
+  if (moduleNav) {
+    moduleNav.classList.toggle("is-hidden", nextModule === "physics");
+  }
 
   const subjectKey = nextModule === "physics" ? "physics" : "chemistry";
   subjectButtons.forEach((button) => {

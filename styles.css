@@ -163,6 +163,10 @@ h1 {
   gap: 8px;
 }
 
+.module-nav.is-hidden {
+  display: none;
+}
+
 .module-tab {
   border: 1px solid #c9d6c6;
   background: #fff;
