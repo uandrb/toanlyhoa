@@ -304,7 +304,7 @@ const nonMetalOxideMap = {
 };
 
 const elementInferenceMatrix = {
-  metalRules: ["metal_plus_acid", "metal_plus_water", "metal_plus_oxygen", "metal_plus_sulfur"],
+  metalRules: ["metal_plus_acid", "metal_plus_water", "metal_plus_oxygen", "metal_plus_sulfur", "metal_plus_salt_displacement"],
   nonMetalRules: ["nonmetal_plus_oxygen"],
   activeMetals: ["K", "Na", "Li", "Rb", "Cs", "Ba", "Ca", "Mg", "Al", "Zn", "Fe", "Ni", "Sn", "Pb"]
 };
@@ -772,6 +772,13 @@ function inferFromElementMatrix(left, right) {
     }
   }
 
+  if (leftClass === "metal_element" && rightClass === "salt" && elementInferenceMatrix.metalRules.includes("metal_plus_salt_displacement")) {
+    const reaction = inferMetalSaltDisplacement(left, right);
+    if (reaction) {
+      results.push(reaction);
+    }
+  }
+
   if (leftClass === "nonmetal_element" && rightNorm === "O2" && elementInferenceMatrix.nonMetalRules.includes("nonmetal_plus_oxygen")) {
     const reaction = inferNonMetalOxidationReaction(left, "O2");
     if (reaction) {
@@ -954,6 +961,55 @@ function inferMetalWaterReaction(metal) {
   };
 }
 
+function inferMetalSaltDisplacement(freeMetal, saltFormula) {
+  const salt = getIonicCompoundInfo(saltFormula);
+  const freeValence = commonMetalValence[freeMetal];
+  if (!salt || !freeValence) {
+    return null;
+  }
+
+  if (!isMetalSymbol(salt.cation) || salt.cation === freeMetal || salt.cation === "H") {
+    return null;
+  }
+
+  const freeRank = activityRank[freeMetal];
+  const ionRank = activityRank[salt.cation];
+  if (freeRank === undefined || ionRank === undefined || freeRank >= ionRank) {
+    return null;
+  }
+
+  const oldSalt = buildIonicSalt(salt.cation, salt.cationCharge, salt.anion, salt.anionCharge);
+  const newSalt = buildIonicSalt(freeMetal, freeValence, salt.anion, salt.anionCharge);
+  if (oldSalt.formula === newSalt.formula) {
+    return null;
+  }
+
+  const gAnion = gcd(oldSalt.anionCount, newSalt.anionCount);
+  let b = newSalt.anionCount / gAnion;
+  let c = oldSalt.anionCount / gAnion;
+  let a = c * newSalt.cationCount;
+  let d = b * oldSalt.cationCount;
+  const gCoeff = gcd(gcd(a, b), gcd(c, d));
+  a /= gCoeff;
+  b /= gCoeff;
+  c /= gCoeff;
+  d /= gCoeff;
+
+  const isVeryReactive = veryReactiveMetalsInWater.has(freeMetal) || activeMetalsWithWater.has(freeMetal);
+
+  return {
+    equation: `${withCoeff(a, freeMetal)} + ${withCoeff(b, oldSalt.formula)} -> ${withCoeff(c, newSalt.formula)} + ${withCoeff(d, salt.cation)}`,
+    reactants: [freeMetal, oldSalt.formula],
+    products: [newSalt.formula, salt.cation],
+    note: isVeryReactive
+      ? `Suy luận theo dãy hoạt động: ${freeMetal} mạnh hơn ${salt.cation} nên có thể đẩy ${salt.cation} khỏi muối; trong dung dịch nước có thể xuất hiện phản ứng phụ với nước.`
+      : `Suy luận theo dãy hoạt động: ${freeMetal} mạnh hơn ${salt.cation} nên đẩy được ${salt.cation} khỏi dung dịch muối.`,
+    level: (freeValence >= 3 || salt.cationCharge >= 3) ? "grade1012" : "grade89",
+    source: "matrix",
+    confidence: isVeryReactive ? "low" : "medium"
+  };
+}
+
 function inferNeutralizationBySaltProduct(metal, acidKey) {
   const acid = acidProfiles[acidKey];
   const valence = commonMetalValence[metal];
@@ -1089,6 +1145,13 @@ function inferReactions(queryTerms, currentMode) {
       if (sulfurReaction && sulfurReaction.products.map(normalizeFormula).includes(target)) {
         inferred.push(sulfurReaction);
       }
+
+      ionicCompounds.forEach((salt) => {
+        const displacement = inferMetalSaltDisplacement(metal, salt);
+        if (displacement && displacement.products.map(normalizeFormula).includes(target)) {
+          inferred.push(displacement);
+        }
+      });
 
       const valence = commonMetalValence[metal];
       if (valence) {
