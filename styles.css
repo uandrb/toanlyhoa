@@ -502,8 +502,14 @@ input:focus-visible {
 
 .reaction-note {
   margin: 0;
-  color: #4f5a67;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid #d9e8da;
+  background: #f7fcf7;
+  color: #2f4954;
   font-size: 0.94rem;
+  line-height: 1.45;
+  font-weight: 500;
 }
 
 .reaction-detail-list {
