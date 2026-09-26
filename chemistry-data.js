@@ -44,6 +44,7 @@ window.CHEMISTRY_DATA = {
     { equation: "Zn + 2HCl -> ZnCl2 + H2", reactants: ["Zn", "HCl"], products: ["ZnCl2", "H2"], note: "Thí nghiệm điều chế H2 trong PTN." },
     { equation: "Zn + H2SO4 -> ZnSO4 + H2", reactants: ["Zn", "H2SO4"], products: ["ZnSO4", "H2"], note: "Kim loại đứng trước H tác dụng với axit loãng." },
     { equation: "Zn + CuSO4 -> ZnSO4 + Cu", reactants: ["Zn", "CuSO4"], products: ["ZnSO4", "Cu"], note: "Zn đẩy Cu khỏi dung dịch muối." },
+    { equation: "3Zn + Fe2O3 -> 3ZnO + 2Fe", reactants: ["Zn", "Fe2O3"], products: ["ZnO", "Fe"], note: "Phản ứng khử oxit sắt(III) bởi kẽm khi đun nóng mạnh." },
 
     { equation: "Fe + 2HCl -> FeCl2 + H2", reactants: ["Fe", "HCl"], products: ["FeCl2", "H2"], note: "Sắt phản ứng với axit loãng giải phóng H2." },
     { equation: "Fe + S -> FeS", reactants: ["Fe", "S"], products: ["FeS"], note: "Đun nóng bột sắt và lưu huỳnh tạo sắt(II) sunfua." },
@@ -111,6 +112,7 @@ window.CHEMISTRY_DATA = {
     "MgO + 2HCl -> MgCl2 + H2O": "grade89",
     "Zn + 2HCl -> ZnCl2 + H2": "grade89",
     "Zn + CuSO4 -> ZnSO4 + Cu": "grade89",
+    "3Zn + Fe2O3 -> 3ZnO + 2Fe": "grade1012",
     "Fe + 2HCl -> FeCl2 + H2": "grade89",
     "Fe + S -> FeS": "grade89",
     "Fe + CuSO4 -> FeSO4 + Cu": "grade89",
