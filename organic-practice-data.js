@@ -263,6 +263,66 @@ window.ORGANIC_PRACTICE_DATA = {
       answer: "Ưu điểm: bền, nhẹ, cách điện, dễ gia công thành nhiều sản phẩm. Nhược điểm: khó phân hủy, gây ô nhiễm môi trường nếu không xử lý đúng cách và tiêu thụ nhiều nguyên liệu hóa dầu. Vì vậy cần tái chế và giảm sử dụng một lần.",
       expectedKeywords: ["bền", "nhẹ", "khó phân hủy", "môi trường", "tái chế"],
       sourceLesson: "SGK KHTN 9 - Polime"
+    },
+    {
+      id: "o9-hydrocarbon-basic-03",
+      grade: "9",
+      chapter: "Hiđrocacbon",
+      level: "basic",
+      title: "Đề Nhận biết: Hợp chất no và không no",
+      question: "Hãy nêu cách đơn giản để phân biệt hiđrocacbon no và hiđrocacbon không no trong phòng thí nghiệm.",
+      hint: "Phải dùng phản ứng với dung dịch brom.",
+      answer: "Hiđrocacbon no không làm mất màu dung dịch brom; hiđrocacbon không no làm dung dịch brom mất màu. Đây là dấu hiệu nhận biết đơn giản nhất giữa ankan và anken/ankin.",
+      expectedKeywords: ["dung dịch brom", "mất màu", "hiđrocacbon no", "không no"],
+      sourceLesson: "SGK KHTN 9 - Phân biệt hidrocacbon"
+    },
+    {
+      id: "o9-derivative-intermediate-03",
+      grade: "9",
+      chapter: "Dẫn xuất hydrocarbon",
+      level: "intermediate",
+      title: "Đề Thông hiểu: Phân biệt rượu và axit bằng phẩm chất hóa học",
+      question: "Nêu 3 cách phân biệt rượu etylic và axit axetic trong phòng thí nghiệm.",
+      hint: "Cần xét quỳ tím, phản ứng với kim loại và với Na2CO3.",
+      answer: "Axit axetic làm quỳ tím hóa đỏ, có phản ứng với Na2CO3 tạo khí CO2; rượu etylic không làm quỳ tím đổi màu và không tạo khí CO2 với Na2CO3. Cả hai đều có thể phản ứng với kim loại Na nhưng cách biểu hiện khác và dưới điều kiện khác nhau.",
+      expectedKeywords: ["quỳ tím", "Na2CO3", "CO2", "rượu etylic", "axit axetic"],
+      sourceLesson: "SGK KHTN 9 - Phản ứng của rượu và axit"
+    },
+    {
+      id: "o9-acid-advanced-01",
+      grade: "9",
+      chapter: "Axit hữu cơ",
+      level: "advanced",
+      title: "Đề Vận dụng: Lợi ích và hạn chế của giấm ăn",
+      question: "Vì sao giấm ăn được dùng để bảo quản thực phẩm và làm gia vị nhưng nếu dùng quá mức sẽ làm hỏng cấu trúc thực phẩm?", 
+      hint: "Axit axetic có môi trường axit.",
+      answer: "Giấm ăn có tính axit nên ức chế vi sinh vật và bảo quản thực phẩm tốt. Tuy nhiên, nếu nồng độ hoặc thời gian tiếp xúc quá lớn, môi trường axit sẽ làm hỏng cấu trúc tế bào, làm mất chất lượng và hương vị thực phẩm.",
+      expectedKeywords: ["giấm ăn", "bảo quản", "axit", "vi sinh vật", "hương vị"],
+      sourceLesson: "SGK KHTN 9 - Ứng dụng axit axetic"
+    },
+    {
+      id: "o9-biomolecule-basic-03",
+      grade: "9",
+      chapter: "Hợp chất thiên nhiên",
+      level: "basic",
+      title: "Đề Nhận biết: Tinh bột và saccarozơ",
+      question: "Nêu 2 điểm khác nhau giữa tinh bột và saccarozơ về cách nhận biết và vai trò trong dinh dưỡng.",
+      hint: "Một phản ứng với iot, một là đường ăn.",
+      answer: "Tinh bột làm iot chuyển màu xanh tím và là nguồn dự trữ năng lượng ở thực vật. Saccarozơ là đường ăn, tan tốt trong nước và là chất tạo ngọt; khi thủy phân cho glucose và fructose.",
+      expectedKeywords: ["xanh tím", "iot", "saccarozơ", "đường ăn", "thủy phân"],
+      sourceLesson: "SGK KHTN 9 - Carbohydrate"
+    },
+    {
+      id: "o9-polymer-basic-02",
+      grade: "9",
+      chapter: "Polime",
+      level: "basic",
+      title: "Đề Nhận biết: Tại sao PE được dùng làm túi nilon?",
+      question: "Lý giải vì sao polyethylene có thể dùng làm bao bì, túi nilon và các vật liệu cách điện.",
+      hint: "PE là polime bền, nhẹ và cách điện.",
+      answer: "Polyethylene được tạo từ nhiều mắt xích lặp lại nên bền, nhẹ, mềm và ít bị ẩm, đồng thời là chất cách điện tốt. Vì vậy nó phù hợp làm túi nilon, bọc thực phẩm và vật liệu cách điện.",
+      expectedKeywords: ["polyethylene", "PE", "mắt xích", "cách điện", "túi nilon"],
+      sourceLesson: "SGK KHTN 9 - Polyme"
     }
   ]
 };

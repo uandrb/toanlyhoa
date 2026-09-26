@@ -1720,6 +1720,105 @@ function formatEquationText(text) {
   return formatChemicalText(text).replace(/->/g, "→");
 }
 
+const substanceProfiles = {
+  ZN: "chất rắn, kim loại màu xám bạc, khá bền, hóa trị II.",
+  CU: "chất rắn, kim loại đỏ đồng, dẫn điện và dẫn nhiệt tốt, hóa trị I hoặc II.",
+  FE: "chất rắn, kim loại màu trắng xám, có tính nhiễm từ, hóa trị II hoặc III.",
+  AG: "chất rắn, kim loại trắng sáng, dẫn điện tốt, hóa trị I.",
+  NA: "kim loại mềm, màu trắng bạc, rất hoạt động, hóa trị I.",
+  K: "kim loại mềm, màu trắng bạc, rất hoạt động, hóa trị I.",
+  BA: "kim loại mềm, rất hoạt động, hóa trị II.",
+  CA: "kim loại màu trắng xám, hoạt động mạnh, hóa trị II.",
+  MG: "kim loại nhẹ, màu trắng bạc, hóa trị II.",
+  AL: "kim loại màu trắng bạc, nhẹ, hóa trị III.",
+  H2O: "chất lỏng, không màu, không mùi, là dung môi quan trọng và có tính phân cực.",
+  O2: "khí không màu, không mùi, hỗ trợ sự cháy và hô hấp.",
+  H2: "khí không màu, không mùi, dễ cháy, nặng hơn không khí rất ít.",
+  CO2: "khí không màu, không mùi, nặng hơn không khí và dập tắt ngọn lửa.",
+  HCL: "dung dịch axit mạnh, không màu, mùi hắc, là axit mạnh trong nước.",
+  H2SO4: "dung dịch axit mạnh, không màu, nhớt, háo nước và có tính oxi hóa mạnh khi đặc.",
+  HNO3: "dung dịch axit mạnh, không màu, mùi hắc, có tính oxi hóa mạnh.",
+  NAOH: "dung dịch bazơ mạnh, không màu, có tính ăn mòn, tan tốt trong nước.",
+  KOH: "dung dịch bazơ mạnh, không màu, ăn mòn, tan tốt trong nước.",
+  BAOH2: "bazo tan, dung dịch trong suốt, có tính kiềm, Ba có hóa trị II.",
+  CAOH2: "bazo ít tan, dạng dung dịch gọi là nước vôi trong, không màu, Ca có hóa trị II.",
+  CUOH2: "chất kết tủa màu xanh lam, không tan trong nước, Cu có hóa trị II.",
+  FEOH2: "kết tủa màu trắng xanh, dễ bị oxi hóa trong không khí, Fe hóa trị II.",
+  FEOH3: "kết tủa màu nâu đỏ, không tan trong nước, Fe hóa trị III.",
+  AGCL: "kết tủa màu trắng, không tan trong nước, dễ bị ánh sáng làm đen dần.",
+  BASO4: "kết tủa trắng, không tan trong nước, thường xuất hiện trong phản ứng trao đổi.",
+  CACO3: "chất rắn màu trắng, khó tan trong nước, thành phần chính của đá vôi.",
+  NACL: "muối tan trong nước, không màu, hằng ngày được dùng làm muối ăn, Na hóa trị I.",
+  CUSO4: "muối màu xanh lam, tan tốt trong nước, Cu hóa trị II.",
+  FESO4: "muối màu xanh nhạt, tan trong nước, Fe hóa trị II.",
+  ZNSO4: "muối tan, không màu hoặc nhạt, Zn hóa trị II.",
+  CUO: "oxit bazơ màu đen, không tan trong nước, Cu hóa trị II.",
+  FE2O3: "oxit sắt màu đỏ nâu, không tan trong nước, Fe hóa trị III.",
+  ZNO: "oxit bazơ màu trắng, không tan trong nước, Zn hóa trị II.",
+  NA2CO3: "muối tan, không màu, thường dùng trong công nghiệp và gia đình, Na hóa trị I.",
+  K2CO3: "muối tan, không màu, bazơ mạnh hơn, K hóa trị I.",
+  CO: "khí không màu, không mùi, rất độc, dễ cháy trong oxi.",
+  SO2: "khí không màu, mùi hắc, dễ tan trong nước, làm môi trường axit.",
+  P2O5: "chất rắn hút ẩm mạnh, tạo axit phosphoric khi tác dụng với nước."
+};
+
+function getSubstanceProfile(formulaLike) {
+  const normalized = normalizeFormula(formulaLike || "");
+  const key = normalized.replace(/[()]/g, "");
+  if (!key) {
+    return "chất hóa học trong bảng dữ liệu, cần xác định thêm tính chất cụ thể theo đề bài.";
+  }
+
+  if (substanceProfiles[key]) {
+    return substanceProfiles[key];
+  }
+
+  const derivedKey = normalizeFormula(canonicalizeTerm(formulaLike || "")).replace(/[()]/g, "");
+  if (substanceProfiles[derivedKey]) {
+    return substanceProfiles[derivedKey];
+  }
+
+  if (key === "H2O") {
+    return substanceProfiles.H2O;
+  }
+
+  if (/[A-Z][a-z]?\(/.test(key) || key.includes("OH") || key.includes("CO3") || key.includes("SO4") || key.includes("NO3")) {
+    return "hợp chất hóa học, thường có dạng chất rắn, kết tủa hoặc dung dịch tùy điều kiện và thành phần ion.";
+  }
+
+  if (key.length <= 3 && /[A-Z]/.test(key)) {
+    return "kim loại hoặc phi kim phổ biến; cần xét dãy hoạt động và trạng thái ở nhiệt độ thường.";
+  }
+
+  if (key.includes("H2") || key.includes("O2") || key.includes("CO2") || key.includes("SO2") || key.includes("N2")) {
+    return "khí hóa học, thường không màu và dễ bay hơi ở điều kiện thường.";
+  }
+
+  return "hợp chất hóa học phổ biến; cần xác định thêm trạng thái, màu sắc và tính chất theo thí nghiệm thực tế.";
+}
+
+function buildNoReactionCard(terms) {
+  const substances = terms.map((term) => canonicalizeTerm(term)).slice(0, 2);
+  const list = substances
+    .map((item) => `<li><strong>${formatChemicalText(item)}</strong>: ${getSubstanceProfile(item)}</li>`)
+    .join("");
+
+  const reason = detectNoReactionReason(terms) || "Không có cơ chế đề xuất trong dữ liệu hiện có để hình thành sản phẩm mới ở nhiệt độ thường.";
+
+  const card = document.createElement("article");
+  card.className = "reaction-card no-reaction-card";
+  card.innerHTML = `
+    <p class="reaction-equation">Không xảy ra phản ứng ở nhiệt độ thường</p>
+    <p class="reaction-level advanced">Không phản ứng</p>
+    <div class="substance-profile">
+      <p class="flow-label">Giới thiệu ngắn gọn về các chất</p>
+      <ul class="substance-list">${list}</ul>
+    </div>
+    <p class="reaction-note">${reason}</p>
+  `;
+  return card;
+}
+
 async function copyEquationToClipboard(text) {
   const safeText = String(text).replace(/<[^>]*>/g, "");
 
@@ -1827,6 +1926,19 @@ function buildReactionKey(reaction) {
 function renderReactionCard(reaction) {
   const fragment = cardTemplate.content.cloneNode(true);
   fragment.querySelector(".reaction-equation").innerHTML = formatEquationText(reaction.equation);
+
+  const detailedProfiles = document.createElement("div");
+  detailedProfiles.className = "substance-profile";
+  detailedProfiles.innerHTML = `
+    <p class="flow-label">Giới thiệu ngắn gọn về các chất</p>
+    <ul class="substance-list">
+      ${[...new Set([...reaction.reactants, ...reaction.products])]
+        .slice(0, 6)
+        .map((item) => `<li><strong>${formatChemicalText(item)}</strong>: ${getSubstanceProfile(item)}</li>`)
+        .join("")}
+    </ul>
+  `;
+  fragment.querySelector(".reaction-card").insertBefore(detailedProfiles, fragment.querySelector(".reaction-note"));
 
   const copyBtn = fragment.querySelector(".copy-btn");
   copyBtn.dataset.copyText = reaction.equation;
@@ -2082,7 +2194,20 @@ function search(queryText) {
   if (!results.length && !pathways.length) {
     resultMeta.textContent = `0 kết quả cho: ${terms.join(", ")}`;
     const reason = mode === "reactants" ? detectNoReactionReason(terms) : "";
-    showEmpty("Không tìm thấy phản ứng phù hợp. Hãy thử chất khác, ít chất hơn, hoặc đổi chế độ tra cứu.", reason);
+
+    resultsRoot.innerHTML = "";
+    if (terms.length >= 2) {
+      const noReactionCard = buildNoReactionCard(terms);
+      resultsRoot.appendChild(noReactionCard);
+      if (reason) {
+        const note = document.createElement("p");
+        note.className = "reaction-note secondary-note";
+        note.textContent = reason;
+        resultsRoot.appendChild(note);
+      }
+    } else {
+      showEmpty("Không tìm thấy phản ứng phù hợp. Hãy thử chất khác, ít chất hơn, hoặc đổi chế độ tra cứu.", reason);
+    }
     return;
   }
 
