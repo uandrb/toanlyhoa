@@ -65,6 +65,23 @@ h1 {
   font-size: 1.05rem;
 }
 
+.brand-strip {
+  margin-top: 14px;
+}
+
+.brand-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  padding: 8px 14px;
+  background: rgba(11, 122, 117, 0.08);
+  border: 1px solid rgba(11, 122, 117, 0.18);
+  color: var(--primary-strong);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
 .subject-switch {
   display: flex;
   flex-wrap: wrap;
