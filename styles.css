@@ -577,6 +577,36 @@ input:focus-visible {
   border-color: #ead8b6;
 }
 
+.reaction-exception {
+  margin: 10px 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid #d9e6d6;
+  background: #f5fbf4;
+}
+
+.reaction-exception.grade89 {
+  background: #f1fbff;
+  border-color: #cfe9f2;
+}
+
+.reaction-exception.advanced {
+  background: #fff4eb;
+  border-color: #f0cfb6;
+}
+
+.reaction-exception-title {
+  margin: 0 0 4px;
+  font-weight: 800;
+  color: #1f3b48;
+}
+
+.reaction-exception-text {
+  margin: 0;
+  color: #374a57;
+  line-height: 1.45;
+}
+
 .reaction-detail-list {
   margin: 10px 0 0;
   padding-left: 18px;

@@ -47,11 +47,13 @@ window.CHEMISTRY_DATA = {
     { equation: "3Zn + Fe2O3 -> 3ZnO + 2Fe", reactants: ["Zn", "Fe2O3"], products: ["ZnO", "Fe"], note: "Phản ứng khử oxit sắt(III) bởi kẽm khi đun nóng mạnh." },
 
     { equation: "Fe + 2HCl -> FeCl2 + H2", reactants: ["Fe", "HCl"], products: ["FeCl2", "H2"], note: "Sắt phản ứng với axit loãng giải phóng H2." },
+    { equation: "Fe + H2SO4 -> FeSO4 + H2", reactants: ["Fe", "H2SO4"], products: ["FeSO4", "H2"], note: "Sắt phản ứng với H2SO4 loãng ở nhiệt độ thường hoặc đun nhẹ." },
     { equation: "Fe + S -> FeS", reactants: ["Fe", "S"], products: ["FeS"], note: "Đun nóng bột sắt và lưu huỳnh tạo sắt(II) sunfua." },
     { equation: "Fe + CuSO4 -> FeSO4 + Cu", reactants: ["Fe", "CuSO4"], products: ["FeSO4", "Cu"], note: "Sắt đẩy đồng khỏi muối đồng." },
     { equation: "4Fe + 3O2 -> 2Fe2O3", reactants: ["Fe", "O2"], products: ["Fe2O3"], note: "Quá trình gỉ sắt khi có O2 và ẩm." },
     { equation: "3Fe + 2O2 -> Fe3O4", reactants: ["Fe", "O2"], products: ["Fe3O4"], note: "Sắt cháy trong oxi tạo Fe3O4." },
     { equation: "Fe2O3 + 3CO -> 2Fe + 3CO2", reactants: ["Fe2O3", "CO"], products: ["Fe", "CO2"], note: "Khử quặng trong lò cao." },
+    { equation: "2Fe + 6H2SO4 -> Fe2(SO4)3 + 3SO2 + 6H2O", reactants: ["Fe", "H2SO4"], products: ["Fe2(SO4)3", "SO2", "H2O"], note: "Sắt tác dụng với H2SO4 đặc, nóng tạo muối sắt(III), SO2 và nước." },
 
     { equation: "2Cu + O2 -> 2CuO", reactants: ["Cu", "O2"], products: ["CuO"], note: "Đồng bị oxi hóa khi đun nóng trong không khí." },
     { equation: "CuO + 2HCl -> CuCl2 + H2O", reactants: ["CuO", "HCl"], products: ["CuCl2", "H2O"], note: "Đồng(II) oxit phản ứng với axit." },
@@ -114,6 +116,7 @@ window.CHEMISTRY_DATA = {
     "Zn + CuSO4 -> ZnSO4 + Cu": "grade89",
     "3Zn + Fe2O3 -> 3ZnO + 2Fe": "grade1012",
     "Fe + 2HCl -> FeCl2 + H2": "grade89",
+    "Fe + H2SO4 -> FeSO4 + H2": "grade89",
     "Fe + S -> FeS": "grade89",
     "Fe + CuSO4 -> FeSO4 + Cu": "grade89",
     "2Cu + O2 -> 2CuO": "grade89",
@@ -128,6 +131,7 @@ window.CHEMISTRY_DATA = {
     "4Fe + 3O2 -> 2Fe2O3": "grade1012",
     "3Fe + 2O2 -> Fe3O4": "grade1012",
     "Fe2O3 + 3CO -> 2Fe + 3CO2": "grade1012",
+    "2Fe + 6H2SO4 -> Fe2(SO4)3 + 3SO2 + 6H2O": "grade1012",
     "CuO + H2SO4 -> CuSO4 + H2O": "grade1012",
     "Cu(OH)2 -> CuO + H2O": "grade1012",
     "CuO + H2 -> Cu + H2O": "grade1012",
@@ -206,11 +210,29 @@ window.CHEMISTRY_DATA = {
       observation: "Bari tan, giải phóng khí H2.",
       caution: "Muối bari tan có độc tính, hạn chế tiếp xúc."
     },
+    "Fe + H2SO4 -> FeSO4 + H2": {
+      type: "Phản ứng thế (kim loại + axit loãng)",
+      condition: "H2SO4 loãng, nhiệt độ thường hoặc đun nhẹ.",
+      observation: "Sắt tan dần, giải phóng khí H2 không màu.",
+      caution: "Tránh dùng axit đặc trong điều kiện này vì có thể xuất hiện ngoại lệ khác."
+    },
+    "2Fe + 6H2SO4 -> Fe2(SO4)3 + 3SO2 + 6H2O": {
+      type: "Phản ứng oxi hóa - khử",
+      condition: "H2SO4 đặc, nóng.",
+      observation: "Tạo khí SO2 mùi hắc, dung dịch muối sắt(III).",
+      caution: "SO2 độc, chỉ xét trong điều kiện đun nóng và thông gió tốt."
+    },
     "Cu + 4HNO3 -> Cu(NO3)2 + 2NO2 + 2H2O": {
       type: "Oxi hoa-khu (nang cao)",
       condition: "HNO3 đặc.",
       observation: "Tạo khí NO2 màu nâu đỏ, dung dịch xanh Cu(NO3)2.",
       caution: "NO2 độc, cần hệ thống hút khí."
+    },
+    "3Zn + Fe2O3 -> 3ZnO + 2Fe": {
+      type: "Phản ứng khử oxit kim loại",
+      condition: "Đun nóng mạnh.",
+      observation: "Tạo ZnO và sắt kim loại.",
+      caution: "Cần nhiệt độ cao; đây là phản ứng khử oxit, không phải phản ứng trao đổi trong dung dịch."
     }
   },
 

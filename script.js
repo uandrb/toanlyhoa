@@ -1903,6 +1903,51 @@ function getReactionInsight(reaction) {
   };
 }
 
+function getExceptionBox(reaction) {
+  const equation = reaction.equation;
+  if (equation === "3Zn + Fe2O3 -> 3ZnO + 2Fe") {
+    return {
+      title: "Trường hợp ngoại lệ cần nhớ",
+      text: "Zn khử được Fe2O3 khi đun nóng mạnh. Đây là phản ứng khử oxit kim loại, không phải phản ứng trao đổi trong dung dịch.",
+      tone: "advanced"
+    };
+  }
+
+  if (equation === "Fe + H2SO4 -> FeSO4 + H2") {
+    return {
+      title: "Trường hợp axit loãng",
+      text: "Với H2SO4 loãng, Fe phản ứng tạo FeSO4 và H2. Nếu là H2SO4 đặc, nóng thì phải xét nhánh oxi hóa - khử khác.",
+      tone: "grade89"
+    };
+  }
+
+  if (equation === "2Fe + 6H2SO4 -> Fe2(SO4)3 + 3SO2 + 6H2O") {
+    return {
+      title: "Trường hợp H2SO4 đặc, nóng",
+      text: "Fe bị oxi hóa bởi H2SO4 đặc, nóng tạo muối sắt(III), SO2 và nước. Đây là ngoại lệ so với axit loãng.",
+      tone: "advanced"
+    };
+  }
+
+  if (equation === "Cu + 2H2SO4 -> CuSO4 + SO2 + 2H2O") {
+    return {
+      title: "Trường hợp H2SO4 đặc, nóng",
+      text: "Cu chỉ phản ứng rõ với H2SO4 đặc, nóng. Nếu điều kiện không đủ mạnh, không nên kết luận theo nhánh này.",
+      tone: "advanced"
+    };
+  }
+
+  if (equation === "Cu + 4HNO3 -> Cu(NO3)2 + 2NO2 + 2H2O" || equation === "3Cu + 8HNO3 -> 3Cu(NO3)2 + 2NO + 4H2O") {
+    return {
+      title: "Trường hợp axit nitric",
+      text: "HNO3 là axit oxi hóa mạnh. Với kim loại như Cu, phải xét riêng HNO3 loãng/đặc để tránh nhầm với nhánh axit thường.",
+      tone: "advanced"
+    };
+  }
+
+  return null;
+}
+
 function scoreReaction(reaction, queryTerms) {
   const reactantsNorm = reaction.reactants.map(normalizeFormula);
   const productsNorm = reaction.products.map(normalizeFormula);
@@ -1982,6 +2027,17 @@ function renderReactionCard(reaction) {
   });
 
   fragment.querySelector(".reaction-note").textContent = `Ghi chú: ${reaction.note}`;
+
+  const exceptionBox = getExceptionBox(reaction);
+  if (exceptionBox) {
+    const exceptionNode = document.createElement("div");
+    exceptionNode.className = `reaction-exception ${exceptionBox.tone}`;
+    exceptionNode.innerHTML = `
+      <p class="reaction-exception-title">${exceptionBox.title}</p>
+      <p class="reaction-exception-text">${exceptionBox.text}</p>
+    `;
+    fragment.querySelector(".reaction-card").insertBefore(exceptionNode, fragment.querySelector(".reaction-note"));
+  }
 
   const detailList = document.createElement("ul");
   detailList.className = "reaction-detail-list";
