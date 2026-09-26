@@ -45,6 +45,12 @@ window.CHEMISTRY_DATA = {
     { equation: "Zn + H2SO4 -> ZnSO4 + H2", reactants: ["Zn", "H2SO4"], products: ["ZnSO4", "H2"], note: "Kim loại đứng trước H tác dụng với axit loãng." },
     { equation: "Zn + CuSO4 -> ZnSO4 + Cu", reactants: ["Zn", "CuSO4"], products: ["ZnSO4", "Cu"], note: "Zn đẩy Cu khỏi dung dịch muối." },
     { equation: "3Zn + Fe2O3 -> 3ZnO + 2Fe", reactants: ["Zn", "Fe2O3"], products: ["ZnO", "Fe"], note: "Phản ứng khử oxit sắt(III) bởi kẽm khi đun nóng mạnh." },
+    { equation: "ZnO + 2HCl -> ZnCl2 + H2O", reactants: ["ZnO", "HCl"], products: ["ZnCl2", "H2O"], note: "ZnO là oxit lưỡng tính, phản ứng với axit." },
+    { equation: "ZnO + H2SO4 -> ZnSO4 + H2O", reactants: ["ZnO", "H2SO4"], products: ["ZnSO4", "H2O"], note: "ZnO phản ứng với axit tạo muối và nước." },
+    { equation: "ZnO + 2NaOH -> Na2ZnO2 + H2O", reactants: ["ZnO", "NaOH"], products: ["Na2ZnO2", "H2O"], note: "ZnO phản ứng với bazơ mạnh tạo muối kẽmat." },
+    { equation: "Zn(OH)2 + 2HCl -> ZnCl2 + 2H2O", reactants: ["Zn(OH)2", "HCl"], products: ["ZnCl2", "H2O"], note: "Zn(OH)2 là hiđroxit lưỡng tính." },
+    { equation: "Zn(OH)2 + H2SO4 -> ZnSO4 + 2H2O", reactants: ["Zn(OH)2", "H2SO4"], products: ["ZnSO4", "H2O"], note: "Zn(OH)2 phản ứng với axit tạo muối kẽm." },
+    { equation: "Zn(OH)2 + 2NaOH -> Na2ZnO2 + 2H2O", reactants: ["Zn(OH)2", "NaOH"], products: ["Na2ZnO2", "H2O"], note: "Zn(OH)2 phản ứng với bazơ mạnh tạo kẽmat." },
 
     { equation: "Fe + 2HCl -> FeCl2 + H2", reactants: ["Fe", "HCl"], products: ["FeCl2", "H2"], note: "Sắt phản ứng với axit loãng giải phóng H2." },
     { equation: "Fe + H2SO4 -> FeSO4 + H2", reactants: ["Fe", "H2SO4"], products: ["FeSO4", "H2"], note: "Sắt phản ứng với H2SO4 loãng ở nhiệt độ thường hoặc đun nhẹ." },
@@ -62,6 +68,12 @@ window.CHEMISTRY_DATA = {
     { equation: "CuSO4 + 2NaOH -> Cu(OH)2 + Na2SO4", reactants: ["CuSO4", "NaOH"], products: ["Cu(OH)2", "Na2SO4"], note: "Tạo kết tủa Cu(OH)2 xanh lam." },
     { equation: "Cu(OH)2 -> CuO + H2O", reactants: ["Cu(OH)2"], products: ["CuO", "H2O"], note: "Nhiệt phân bazơ không tan." },
     { equation: "CuO + H2 -> Cu + H2O", reactants: ["CuO", "H2"], products: ["Cu", "H2O"], note: "Phản ứng khử oxit đồng." },
+    { equation: "Al2O3 + 6HCl -> 2AlCl3 + 3H2O", reactants: ["Al2O3", "HCl"], products: ["AlCl3", "H2O"], note: "Al2O3 là oxit lưỡng tính, phản ứng với axit." },
+    { equation: "Al2O3 + 3H2SO4 -> Al2(SO4)3 + 3H2O", reactants: ["Al2O3", "H2SO4"], products: ["Al2(SO4)3", "H2O"], note: "Al2O3 phản ứng với axit tạo muối nhôm." },
+    { equation: "Al2O3 + 2NaOH -> 2NaAlO2 + H2O", reactants: ["Al2O3", "NaOH"], products: ["NaAlO2", "H2O"], note: "Al2O3 phản ứng với bazơ mạnh tạo aluminat." },
+    { equation: "Al(OH)3 + 3HCl -> AlCl3 + 3H2O", reactants: ["Al(OH)3", "HCl"], products: ["AlCl3", "H2O"], note: "Al(OH)3 là hiđroxit lưỡng tính." },
+    { equation: "2Al(OH)3 + 3H2SO4 -> Al2(SO4)3 + 6H2O", reactants: ["Al(OH)3", "H2SO4"], products: ["Al2(SO4)3", "H2O"], note: "Al(OH)3 phản ứng với axit tạo muối nhôm." },
+    { equation: "Al(OH)3 + NaOH -> NaAlO2 + 2H2O", reactants: ["Al(OH)3", "NaOH"], products: ["NaAlO2", "H2O"], note: "Al(OH)3 phản ứng với bazơ mạnh tạo aluminat." },
 
     { equation: "2AgNO3 + Cu -> Cu(NO3)2 + 2Ag", reactants: ["AgNO3", "Cu"], products: ["Cu(NO3)2", "Ag"], note: "Kim loại hoạt động mạnh đẩy kim loại yếu hơn." },
     { equation: "AgNO3 + NaCl -> AgCl + NaNO3", reactants: ["AgNO3", "NaCl"], products: ["AgCl", "NaNO3"], note: "Xuất hiện kết tủa trắng AgCl." },
@@ -115,6 +127,12 @@ window.CHEMISTRY_DATA = {
     "Zn + 2HCl -> ZnCl2 + H2": "grade89",
     "Zn + CuSO4 -> ZnSO4 + Cu": "grade89",
     "3Zn + Fe2O3 -> 3ZnO + 2Fe": "grade1012",
+    "ZnO + 2HCl -> ZnCl2 + H2O": "grade1012",
+    "ZnO + H2SO4 -> ZnSO4 + H2O": "grade1012",
+    "ZnO + 2NaOH -> Na2ZnO2 + H2O": "grade1012",
+    "Zn(OH)2 + 2HCl -> ZnCl2 + 2H2O": "grade1012",
+    "Zn(OH)2 + H2SO4 -> ZnSO4 + 2H2O": "grade1012",
+    "Zn(OH)2 + 2NaOH -> Na2ZnO2 + 2H2O": "grade1012",
     "Fe + 2HCl -> FeCl2 + H2": "grade89",
     "Fe + H2SO4 -> FeSO4 + H2": "grade89",
     "Fe + S -> FeS": "grade89",
@@ -122,6 +140,12 @@ window.CHEMISTRY_DATA = {
     "2Cu + O2 -> 2CuO": "grade89",
     "CuO + 2HCl -> CuCl2 + H2O": "grade89",
     "CuSO4 + 2NaOH -> Cu(OH)2 + Na2SO4": "grade89",
+    "Al2O3 + 6HCl -> 2AlCl3 + 3H2O": "grade1012",
+    "Al2O3 + 3H2SO4 -> Al2(SO4)3 + 3H2O": "grade1012",
+    "Al2O3 + 2NaOH -> 2NaAlO2 + H2O": "grade1012",
+    "Al(OH)3 + 3HCl -> AlCl3 + 3H2O": "grade1012",
+    "2Al(OH)3 + 3H2SO4 -> Al2(SO4)3 + 6H2O": "grade1012",
+    "Al(OH)3 + NaOH -> NaAlO2 + 2H2O": "grade1012",
     "AgNO3 + NaCl -> AgCl + NaNO3": "grade89",
     "NH4Cl + NaOH -> NaCl + NH3 + H2O": "grade89",
     "4Al + 3O2 -> 2Al2O3": "grade1012",
@@ -233,6 +257,42 @@ window.CHEMISTRY_DATA = {
       condition: "Đun nóng mạnh.",
       observation: "Tạo ZnO và sắt kim loại.",
       caution: "Cần nhiệt độ cao; đây là phản ứng khử oxit, không phải phản ứng trao đổi trong dung dịch."
+    },
+    "ZnO + 2HCl -> ZnCl2 + H2O": {
+      type: "Phản ứng oxit lưỡng tính + axit",
+      condition: "Trong dung dịch axit.",
+      observation: "ZnO tan, tạo muối kẽm và nước.",
+      caution: "ZnO là oxit lưỡng tính nên cũng có thể phản ứng với bazơ mạnh."
+    },
+    "ZnO + 2NaOH -> Na2ZnO2 + H2O": {
+      type: "Phản ứng oxit lưỡng tính + bazơ",
+      condition: "Bazơ mạnh, thường khi đun nhẹ hoặc trong dung dịch đậm đặc.",
+      observation: "ZnO tan dần, tạo muối kẽmat.",
+      caution: "Đây là trường hợp lưỡng tính, không xếp chung với oxit bazơ thông thường."
+    },
+    "Al2O3 + 6HCl -> 2AlCl3 + 3H2O": {
+      type: "Phản ứng oxit lưỡng tính + axit",
+      condition: "Dung dịch axit.",
+      observation: "Al2O3 tan, tạo muối nhôm và nước.",
+      caution: "Al2O3 là oxit lưỡng tính; với bazơ mạnh cũng phản ứng." 
+    },
+    "Al2O3 + 2NaOH -> 2NaAlO2 + H2O": {
+      type: "Phản ứng oxit lưỡng tính + bazơ",
+      condition: "Bazơ mạnh, thường đun nóng.",
+      observation: "Al2O3 tan dần, tạo aluminat.",
+      caution: "Đây là ngoại lệ quan trọng của oxit nhôm."
+    },
+    "Al(OH)3 + 3HCl -> AlCl3 + 3H2O": {
+      type: "Phản ứng hiđroxit lưỡng tính + axit",
+      condition: "Dung dịch axit.",
+      observation: "Kết tủa Al(OH)3 tan dần.",
+      caution: "Al(OH)3 cũng tan trong bazơ mạnh."
+    },
+    "Al(OH)3 + NaOH -> NaAlO2 + 2H2O": {
+      type: "Phản ứng hiđroxit lưỡng tính + bazơ",
+      condition: "Bazơ mạnh.",
+      observation: "Al(OH)3 tan, tạo aluminat.",
+      caution: "Cần phân biệt với hiđroxit bazơ thông thường."
     }
   },
 

@@ -1905,6 +1905,14 @@ function getReactionInsight(reaction) {
 
 function getExceptionBox(reaction) {
   const equation = reaction.equation;
+  if (equation === "ZnO + 2HCl -> ZnCl2 + H2O" || equation === "ZnO + 2NaOH -> Na2ZnO2 + H2O" || equation === "Zn(OH)2 + 2HCl -> ZnCl2 + 2H2O" || equation === "Zn(OH)2 + 2NaOH -> Na2ZnO2 + 2H2O" || equation === "Al2O3 + 6HCl -> 2AlCl3 + 3H2O" || equation === "Al2O3 + 2NaOH -> 2NaAlO2 + H2O" || equation === "Al(OH)3 + 3HCl -> AlCl3 + 3H2O" || equation === "Al(OH)3 + NaOH -> NaAlO2 + 2H2O") {
+    return {
+      title: "Trường hợp lưỡng tính",
+      text: "Đây là oxit hoặc hiđroxit lưỡng tính nên có thể phản ứng cả với axit lẫn bazơ mạnh. Không được xếp chung với oxit bazơ thông thường.",
+      tone: "advanced"
+    };
+  }
+
   if (equation === "3Zn + Fe2O3 -> 3ZnO + 2Fe") {
     return {
       title: "Trường hợp ngoại lệ cần nhớ",
