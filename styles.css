@@ -1000,8 +1000,42 @@ input:focus-visible {
   line-height: 1.5;
 }
 
+.physics-detail-stack {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.physics-detail-block {
+  border: 1px solid #e0ebf8;
+  border-radius: 12px;
+  background: #f8fbff;
+  padding: 10px 12px;
+}
+
+.physics-detail-label {
+  margin: 0 0 6px;
+  color: #1a4d82;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.physics-bullets {
+  margin: 0;
+  padding-left: 18px;
+  color: #2f4050;
+  line-height: 1.6;
+}
+
+.physics-example {
+  color: #334b67;
+  font-weight: 600;
+}
+
 .physics-formula {
-  margin-top: 8px;
+  margin-top: 12px;
   border-radius: 10px;
   background: #f2f8ff;
   border: 1px solid #d8e6f7;
@@ -1011,7 +1045,7 @@ input:focus-visible {
 }
 
 .physics-tags {
-  margin-top: 8px;
+  margin-top: 12px;
   display: flex;
   flex-wrap: wrap;
   gap: 6px;

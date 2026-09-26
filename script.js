@@ -1570,10 +1570,42 @@ function renderPhysicsResults() {
       .map((tag) => `<span class=\"physics-tag\">${tag}</span>`)
       .join("");
 
+    const explanation = topic.explanation || topic.summary || `Nội dung ${topic.title} thuộc phần ${topic.chapter}.`;
+    const keyPoints = Array.isArray(topic.keyPoints) && topic.keyPoints.length
+      ? topic.keyPoints
+      : [
+        topic.summary || `Khái niệm trọng tâm của ${topic.title}.`,
+        topic.formula ? `Công thức liên quan: ${topic.formula}` : `Hãy ghi nhớ đặc điểm chính của ${topic.title}.`,
+        `Mẹo ôn tập: liên hệ ${topic.title.toLowerCase()} với ví dụ thực tế trong đời sống và bài tập tương ứng.`
+      ];
+    const examples = Array.isArray(topic.examples) && topic.examples.length
+      ? topic.examples
+      : (topic.example ? [topic.example] : []);
+    const memoryTip = topic.memoryTip || `Mẹo nhớ: hãy nối ${topic.title.toLowerCase()} với mẫu câu hỏi thường gặp trong phần ${topic.chapter}.`;
+
+    const bulletsHtml = keyPoints.map((point) => `<li>${point}</li>`).join("");
+    const examplesHtml = examples.length
+      ? `<div class="physics-detail-block"><p class="physics-detail-label">Ví dụ</p><p class="physics-example">${examples[0]}</p></div>`
+      : "";
+
     card.innerHTML = `
       <p class="physics-meta">Lớp ${topic.grade} | ${topic.chapter} | ${physicsTypeLabels[topic.type] || topic.type}</p>
       <h3>${topic.title}</h3>
-      <p>${topic.summary}</p>
+      <div class="physics-detail-stack">
+        <div class="physics-detail-block">
+          <p class="physics-detail-label">Khái niệm</p>
+          <p>${explanation}</p>
+        </div>
+        <div class="physics-detail-block">
+          <p class="physics-detail-label">Điểm cần nhớ</p>
+          <ul class="physics-bullets">${bulletsHtml}</ul>
+        </div>
+        ${examplesHtml}
+        <div class="physics-detail-block">
+          <p class="physics-detail-label">Mẹo ghi nhớ</p>
+          <p>${memoryTip}</p>
+        </div>
+      </div>
       ${topic.formula ? `<p class="physics-formula">${topic.formula}</p>` : ""}
       <div class="physics-tags">${tagsHtml}</div>
     `;
