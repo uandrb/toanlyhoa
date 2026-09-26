@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Toán - Lý - Hóa | Tra cứu công thức</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&family=IBM+Plex+Serif:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="background-glow" aria-hidden="true"></div>
+
+  <header class="hero">
+    <p class="eyebrow">Nền tảng học tập</p>
+    <h1>Tra cứu phản ứng Hóa Vô Cơ</h1>
+    <p class="hero-subtitle">
+      Tìm nhanh phương trình hóa học giữa các chất, hoặc tra cứu ngược từ chất tạo thành.
+    </p>
+    <div class="subject-switch" role="tablist" aria-label="Môn học">
+      <button class="subject active" type="button" aria-selected="true">Hóa Vô Cơ</button>
+      <button class="subject" type="button" disabled aria-selected="false">Hóa Hữu Cơ (sắp có)</button>
+      <button class="subject" type="button" disabled aria-selected="false">Toán (sắp có)</button>
+      <button class="subject" type="button" disabled aria-selected="false">Lý (sắp có)</button>
+    </div>
+
+    <div class="module-nav" role="tablist" aria-label="Nội dung Hóa Vô Cơ">
+      <button class="module-tab active" type="button" data-module="reactions" aria-selected="true">Phản ứng hóa học</button>
+      <button class="module-tab" type="button" data-module="periodic" aria-selected="false">Bảng tuần hoàn</button>
+      <button class="module-tab" type="button" data-module="activity" aria-selected="false">Dãy hoạt động hóa học</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="module-panel" id="module-reactions">
+      <div class="layout">
+        <section class="search-panel" aria-labelledby="searchTitle">
+          <h2 id="searchTitle">Công cụ tra cứu phản ứng</h2>
+
+          <div class="grade-filter" role="tablist" aria-label="Lọc theo cấp lớp">
+            <button class="grade-btn active" type="button" data-grade="all" aria-selected="true">Tất cả cấp lớp</button>
+            <button class="grade-btn" type="button" data-grade="grade89" aria-selected="false">Lớp 8-9</button>
+            <button class="grade-btn" type="button" data-grade="grade1012" aria-selected="false">Lớp 10-12</button>
+            <button class="grade-btn" type="button" data-grade="advanced" aria-selected="false">Nâng cao / ngoại lệ</button>
+          </div>
+          <p class="grade-hint" id="gradeHint">Đang hiển thị: tất cả phản ứng trong ngân hàng dữ liệu.</p>
+
+          <div class="lookup-mode" role="tablist" aria-label="Chế độ tra cứu">
+            <button class="mode-btn active" data-mode="reactants" role="tab" aria-selected="true" type="button">
+              Tìm theo chất phản ứng
+            </button>
+            <button class="mode-btn" data-mode="products" role="tab" aria-selected="false" type="button">
+              Tra cứu ngược theo chất tạo thành
+            </button>
+          </div>
+
+          <form id="searchForm" novalidate>
+            <label for="queryInput" id="queryLabel">Nhập chất phản ứng (ngăn cách bằng dấu phẩy)</label>
+            <div class="search-row">
+              <input
+                id="queryInput"
+                name="query"
+                type="text"
+                placeholder="Ví dụ: NaOH, HCl"
+                autocomplete="off"
+              />
+              <button type="submit" class="primary-btn">Tra cứu</button>
+            </div>
+          </form>
+
+          <div class="quick-tags" aria-label="Gợi ý tìm kiếm nhanh">
+            <button type="button" class="tag" data-query="Na, H2O">Na, H2O</button>
+            <button type="button" class="tag" data-query="K">K</button>
+            <button type="button" class="tag" data-query="K, HCl">K, HCl</button>
+            <button type="button" class="tag" data-query="Ba">Ba</button>
+            <button type="button" class="tag" data-query="H, O2">H, O2</button>
+            <button type="button" class="tag" data-query="Cu, HCl">Cu, HCl</button>
+            <button type="button" class="tag" data-query="NaOH, HCl">NaOH, HCl</button>
+            <button type="button" class="tag" data-query="CO2">CO2</button>
+          </div>
+        </section>
+
+        <section class="results-panel" aria-live="polite" aria-labelledby="resultTitle">
+          <div class="result-header">
+            <h2 id="resultTitle">Kết quả</h2>
+            <p id="resultMeta">Chưa có truy vấn.</p>
+          </div>
+          <div id="results" class="results-grid"></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="module-panel is-hidden" id="module-periodic" aria-labelledby="periodicTitle">
+      <div class="periodic-layout">
+        <div class="periodic-head">
+          <h2 id="periodicTitle">Bảng tuần hoàn các nguyên tố hóa học</h2>
+          <p>
+            Tra cứu theo ký hiệu, tên nguyên tố hoặc số hiệu nguyên tử.
+          </p>
+        </div>
+
+        <div class="periodic-top-row">
+          <div class="periodic-search-row">
+            <input id="elementSearchInput" type="text" placeholder="Ví dụ: Na, Sodium, 11" autocomplete="off" />
+            <button id="elementSearchBtn" type="button" class="primary-btn">Tìm nguyên tố</button>
+          </div>
+
+          <div class="periodic-result" id="elementResult">
+            Chọn một nguyên tố trong bảng hoặc nhập từ khóa để xem chi tiết.
+          </div>
+        </div>
+
+        <div class="periodic-legend" id="periodicLegend"></div>
+        <div class="periodic-grid" id="periodicGrid"></div>
+      </div>
+    </section>
+
+    <section class="module-panel is-hidden" id="module-activity" aria-labelledby="activityTitle">
+      <div class="activity-layout">
+        <h2 id="activityTitle">Dãy hoạt động hóa học của kim loại</h2>
+        <p class="activity-intro">
+          Dãy chuẩn dùng trong phổ thông: K > Ba > Ca > Na > Mg > Al > Zn > Fe > Ni > Sn > Pb > (H) > Cu > Hg > Ag > Pt > Au.
+        </p>
+
+        <div class="activity-series" id="activitySeries"></div>
+
+        <div class="activity-grid">
+          <article class="activity-card">
+            <h3>Dự đoán kim loại + axit loãng</h3>
+            <label for="acidMetalInput">Nhập kim loại (ví dụ: Zn, Cu, Ba)</label>
+            <div class="search-row">
+              <input id="acidMetalInput" type="text" placeholder="Ví dụ: Cu" />
+              <button id="acidCheckBtn" type="button" class="primary-btn">Kiểm tra</button>
+            </div>
+            <p id="acidCheckResult" class="activity-result-text"></p>
+          </article>
+
+          <article class="activity-card">
+            <h3>Dự đoán phản ứng thế</h3>
+            <label for="displaceMetalInput">Kim loại tự do M (ví dụ: Fe)</label>
+            <input id="displaceMetalInput" type="text" placeholder="Ví dụ: Fe" />
+            <label for="displaceIonInput">Kim loại trong muối M' (ví dụ: Cu)</label>
+            <input id="displaceIonInput" type="text" placeholder="Ví dụ: Cu" />
+            <button id="displaceCheckBtn" type="button" class="primary-btn full-width">Dự đoán phản ứng</button>
+            <p id="displaceResult" class="activity-result-text"></p>
+          </article>
+
+          <article class="activity-card">
+            <h3>Quy tắc nhanh cần nhớ</h3>
+            <ul class="rules-list">
+              <li>Kim loại đứng trước H phản ứng với axit loãng giải phóng H2.</li>
+              <li>Kim loại đứng trước đẩy được kim loại đứng sau ra khỏi dung dịch muối.</li>
+              <li>K, Na, Ba, Ca phản ứng rất mạnh với nước ở nhiệt độ thường.</li>
+              <li>Cu, Ag, Au không phản ứng với HCl loãng và H2SO4 loãng.</li>
+              <li>Ngoại lệ nâng cao: Fe, Al, Cr có thể bị thụ động hóa trong HNO3 đặc nguội.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <template id="reactionCardTemplate">
+    <article class="reaction-card">
+      <p class="reaction-equation"></p>
+      <p class="reaction-level"></p>
+      <p class="reaction-origin"></p>
+      <div class="reaction-flow">
+        <div>
+          <p class="flow-label">Chất phản ứng</p>
+          <div class="chip-list reactants"></div>
+        </div>
+        <div>
+          <p class="flow-label">Sản phẩm</p>
+          <div class="chip-list products"></div>
+        </div>
+      </div>
+      <p class="reaction-note"></p>
+    </article>
+  </template>
+
+  <script src="periodic-data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
