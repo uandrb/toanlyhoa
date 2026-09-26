@@ -264,6 +264,143 @@ const symbolAliases = {
   MAGIE: "Mg"
 };
 
+const physicsKnowledgeBase = [
+  {
+    id: "p8-motion-speed",
+    grade: "8",
+    chapter: "Cơ học",
+    type: "formula",
+    title: "Vận tốc và chuyển động cơ học",
+    summary: "Dùng để mô tả mức nhanh/chậm của chuyển động đều.",
+    formula: "v = s/t; s = v.t; t = s/v",
+    tags: ["vận tốc", "chuyển động đều", "đổi đơn vị"]
+  },
+  {
+    id: "p8-pressure-solid",
+    grade: "8",
+    chapter: "Cơ học",
+    type: "formula",
+    title: "Áp suất chất rắn",
+    summary: "Áp suất tăng khi lực ép tăng hoặc diện tích bị ép giảm.",
+    formula: "p = F/S",
+    tags: ["áp suất", "N/m2", "Pa"]
+  },
+  {
+    id: "p8-liquid-pressure",
+    grade: "8",
+    chapter: "Cơ học",
+    type: "formula",
+    title: "Áp suất chất lỏng",
+    summary: "Áp suất chất lỏng tại một điểm phụ thuộc vào độ sâu.",
+    formula: "p = d.h",
+    tags: ["chất lỏng", "độ sâu", "trọng lượng riêng"]
+  },
+  {
+    id: "p8-archimedes",
+    grade: "8",
+    chapter: "Cơ học",
+    type: "theory",
+    title: "Lực đẩy Archimedes",
+    summary: "Vật nhúng trong chất lỏng chịu lực đẩy hướng lên bằng trọng lượng phần chất lỏng bị chiếm chỗ.",
+    formula: "FA = d.V",
+    tags: ["lực đẩy", "nổi chìm", "thể tích chiếm chỗ"]
+  },
+  {
+    id: "p8-work-power",
+    grade: "8",
+    chapter: "Cơ học",
+    type: "formula",
+    title: "Công cơ học và công suất",
+    summary: "Công đo phần năng lượng truyền do lực sinh công; công suất đo tốc độ sinh công.",
+    formula: "A = F.s; P = A/t",
+    tags: ["công", "công suất", "W"]
+  },
+  {
+    id: "p8-thermal-balance",
+    grade: "8",
+    chapter: "Nhiệt học",
+    type: "problem",
+    title: "Bài toán cân bằng nhiệt cơ bản",
+    summary: "Nguyên tắc: nhiệt lượng tỏa ra bằng nhiệt lượng thu vào (bỏ qua thất thoát).",
+    formula: "Qthu = Qtỏa; Q = m.c.Δt",
+    tags: ["nhiệt lượng", "cân bằng nhiệt", "đổi độ C"]
+  },
+  {
+    id: "p9-ohm-law",
+    grade: "9",
+    chapter: "Điện học",
+    type: "formula",
+    title: "Định luật Ohm",
+    summary: "Cường độ dòng điện tỉ lệ thuận với hiệu điện thế và tỉ lệ nghịch điện trở.",
+    formula: "I = U/R; U = I.R; R = U/I",
+    tags: ["điện trở", "cường độ", "hiệu điện thế"]
+  },
+  {
+    id: "p9-series-parallel",
+    grade: "9",
+    chapter: "Điện học",
+    type: "formula",
+    title: "Mạch nối tiếp và song song",
+    summary: "Tổng hợp điện trở tương đương theo cấu trúc mạch.",
+    formula: "Rtđ(nt) = R1+R2+...; 1/Rtđ(ss)=1/R1+1/R2+...",
+    tags: ["mạch điện", "nối tiếp", "song song"]
+  },
+  {
+    id: "p9-electric-power",
+    grade: "9",
+    chapter: "Điện học",
+    type: "formula",
+    title: "Công suất điện và điện năng",
+    summary: "Công suất điện đặc trưng khả năng tiêu thụ điện năng theo thời gian.",
+    formula: "P = U.I = I2.R = U2/R; A = P.t",
+    tags: ["điện năng", "công suất", "kWh"]
+  },
+  {
+    id: "p9-joule-lenz",
+    grade: "9",
+    chapter: "Điện học",
+    type: "formula",
+    title: "Định luật Joule-Lenz",
+    summary: "Nhiệt lượng tỏa ra trên dây dẫn phụ thuộc điện trở, cường độ và thời gian.",
+    formula: "Q = I2.R.t",
+    tags: ["tỏa nhiệt", "hiệu ứng nhiệt", "dây dẫn"]
+  },
+  {
+    id: "p9-lens-theory",
+    grade: "9",
+    chapter: "Quang học",
+    type: "theory",
+    title: "Thấu kính hội tụ và phân kỳ",
+    summary: "Nhận biết đặc điểm đường truyền tia sáng và tính chất ảnh của từng loại thấu kính.",
+    tags: ["thấu kính", "ảnh thật", "ảnh ảo", "quang hình học"]
+  },
+  {
+    id: "p9-lens-problem",
+    grade: "9",
+    chapter: "Quang học",
+    type: "problem",
+    title: "Quy trình dựng ảnh qua thấu kính",
+    summary: "Chọn 2 tia đặc biệt, xác định giao điểm để suy ra vị trí và tính chất ảnh.",
+    tags: ["dựng hình", "tia đặc biệt", "trục chính"]
+  },
+  {
+    id: "p9-induction",
+    grade: "9",
+    chapter: "Điện từ học",
+    type: "theory",
+    title: "Hiện tượng cảm ứng điện từ",
+    summary: "Suất điện động cảm ứng xuất hiện khi từ thông qua mạch kín biến thiên.",
+    tags: ["cảm ứng điện từ", "từ thông", "máy phát điện"]
+  }
+];
+
+const physicsChapterOrder = ["Cơ học", "Nhiệt học", "Điện học", "Điện từ học", "Quang học"];
+const physicsTypeLabels = {
+  theory: "Lý thuyết",
+  formula: "Công thức",
+  problem: "Dạng bài"
+};
+
 const periodicElements = (window.PERIODIC_ELEMENTS || []).filter((element) => element.z <= 118);
 const veryReactiveMetalsInWater = new Set(["K", "Na", "Li", "Rb", "Cs"]);
 const activeMetalsWithWater = new Set(["K", "Na", "Li", "Rb", "Cs", "Ba", "Ca"]);
@@ -412,11 +549,13 @@ function getElementCategoryKey(element) {
 }
 
 const moduleTabs = document.querySelectorAll(".module-tab");
+const subjectButtons = document.querySelectorAll(".subject[data-subject]");
 const modulePanels = {
   reactions: document.getElementById("module-reactions"),
   periodic: document.getElementById("module-periodic"),
   activity: document.getElementById("module-activity"),
-  practice: document.getElementById("module-practice")
+  practice: document.getElementById("module-practice"),
+  physics: document.getElementById("module-physics")
 };
 
 const form = document.getElementById("searchForm");
@@ -438,6 +577,13 @@ const elementResult = document.getElementById("elementResult");
 const elementSearchInput = document.getElementById("elementSearchInput");
 const elementSearchBtn = document.getElementById("elementSearchBtn");
 
+const physicsSearchInput = document.getElementById("physicsSearchInput");
+const physicsSearchBtn = document.getElementById("physicsSearchBtn");
+const physicsMap = document.getElementById("physicsMap");
+const physicsResults = document.getElementById("physicsResults");
+const physicsGradeButtons = document.querySelectorAll(".physics-grade-btn");
+const physicsTypeButtons = document.querySelectorAll(".physics-type-btn");
+
 const activitySeriesRoot = document.getElementById("activitySeries");
 const acidMetalInput = document.getElementById("acidMetalInput");
 const acidCheckBtn = document.getElementById("acidCheckBtn");
@@ -451,6 +597,8 @@ let mode = "reactants";
 let gradeFilter = "all";
 let periodicCategoryFilter = "all";
 let periodicFamilyFilter = "all";
+let physicsGradeFilter = "all";
+let physicsTypeFilter = "all";
 
 function normalizeFormula(formula) {
   return formula.replace(/\s+/g, "").toUpperCase();
@@ -1663,6 +1811,114 @@ function switchModule(nextModule) {
   Object.entries(modulePanels).forEach(([key, panel]) => {
     panel.classList.toggle("is-hidden", key !== nextModule);
   });
+
+  const subjectKey = nextModule === "physics" ? "physics" : "chemistry";
+  subjectButtons.forEach((button) => {
+    const isActive = button.dataset.subject === subjectKey;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
+  });
+}
+
+function getFilteredPhysicsTopics() {
+  const query = (physicsSearchInput?.value || "").trim().toLowerCase();
+
+  return physicsKnowledgeBase.filter((topic) => {
+    const matchGrade = physicsGradeFilter === "all" || topic.grade === physicsGradeFilter;
+    const matchType = physicsTypeFilter === "all" || topic.type === physicsTypeFilter;
+    if (!matchGrade || !matchType) {
+      return false;
+    }
+
+    if (!query) {
+      return true;
+    }
+
+    const haystack = [
+      topic.title,
+      topic.summary,
+      topic.formula || "",
+      topic.chapter,
+      ...(topic.tags || [])
+    ].join(" ").toLowerCase();
+    return haystack.includes(query);
+  });
+}
+
+function renderPhysicsMap(topics) {
+  if (!physicsMap) {
+    return;
+  }
+
+  const countByChapter = new Map();
+  topics.forEach((topic) => {
+    countByChapter.set(topic.chapter, (countByChapter.get(topic.chapter) || 0) + 1);
+  });
+
+  physicsMap.innerHTML = "";
+  physicsChapterOrder.forEach((chapter) => {
+    const count = countByChapter.get(chapter) || 0;
+    if (!count) {
+      return;
+    }
+    const card = document.createElement("article");
+    card.className = "physics-map-card";
+    card.innerHTML = `<h3>${chapter}</h3><p>${count} mục kiến thức phù hợp bộ lọc hiện tại.</p>`;
+    physicsMap.appendChild(card);
+  });
+}
+
+function renderPhysicsResults() {
+  if (!physicsResults) {
+    return;
+  }
+
+  const topics = getFilteredPhysicsTopics();
+  renderPhysicsMap(topics);
+  physicsResults.innerHTML = "";
+
+  if (!topics.length) {
+    physicsResults.innerHTML = "<div class=\"empty-state\">Không tìm thấy mục kiến thức phù hợp. Bạn thử đổi từ khóa hoặc bộ lọc.</div>";
+    return;
+  }
+
+  topics.forEach((topic) => {
+    const card = document.createElement("article");
+    card.className = "physics-card";
+
+    const tagsHtml = (topic.tags || [])
+      .map((tag) => `<span class=\"physics-tag\">${tag}</span>`)
+      .join("");
+
+    card.innerHTML = `
+      <p class="physics-meta">Lớp ${topic.grade} | ${topic.chapter} | ${physicsTypeLabels[topic.type] || topic.type}</p>
+      <h3>${topic.title}</h3>
+      <p>${topic.summary}</p>
+      ${topic.formula ? `<p class="physics-formula">${topic.formula}</p>` : ""}
+      <div class="physics-tags">${tagsHtml}</div>
+    `;
+    physicsResults.appendChild(card);
+  });
+}
+
+function setPhysicsGradeFilter(nextGrade) {
+  physicsGradeFilter = nextGrade;
+  physicsGradeButtons.forEach((button) => {
+    const isActive = button.dataset.grade === nextGrade;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
+  });
+  renderPhysicsResults();
+}
+
+function setPhysicsTypeFilter(nextType) {
+  physicsTypeFilter = nextType;
+  physicsTypeButtons.forEach((button) => {
+    const isActive = button.dataset.type === nextType;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
+  });
+  renderPhysicsResults();
 }
 
 function getCategoryCountMap() {
@@ -1933,9 +2189,44 @@ moduleTabs.forEach((tab) => {
   tab.addEventListener("click", () => switchModule(tab.dataset.module));
 });
 
+subjectButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    if (button.disabled) {
+      return;
+    }
+
+    if (button.dataset.subject === "physics") {
+      switchModule("physics");
+      return;
+    }
+
+    switchModule("reactions");
+  });
+});
+
 periodicQuickFilters.forEach((button) => {
   button.addEventListener("click", () => setPeriodicFamilyFilter(button.dataset.family || "all"));
 });
+
+physicsGradeButtons.forEach((button) => {
+  button.addEventListener("click", () => setPhysicsGradeFilter(button.dataset.grade || "all"));
+});
+
+physicsTypeButtons.forEach((button) => {
+  button.addEventListener("click", () => setPhysicsTypeFilter(button.dataset.type || "all"));
+});
+
+if (physicsSearchBtn) {
+  physicsSearchBtn.addEventListener("click", renderPhysicsResults);
+}
+
+if (physicsSearchInput) {
+  physicsSearchInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      renderPhysicsResults();
+    }
+  });
+}
 
 elementSearchBtn.addEventListener("click", () => findElement(elementSearchInput.value));
 elementSearchInput.addEventListener("keydown", (event) => {
@@ -1950,5 +2241,6 @@ displaceCheckBtn.addEventListener("click", checkDisplacementReaction);
 buildLegend();
 renderPeriodicTable();
 renderActivitySeries();
+renderPhysicsResults();
 setGradeFilter("all");
 showEmpty("Hãy nhập chất để bắt đầu tra cứu.");

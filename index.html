@@ -23,10 +23,10 @@
       <span class="brand-note">Phiên bản tra cứu dành cho học sinh THCS-THPT</span>
     </div>
     <div class="subject-switch" role="tablist" aria-label="Môn học">
-      <button class="subject active" type="button" aria-selected="true">Hóa Vô Cơ</button>
-      <button class="subject" type="button" disabled aria-selected="false">Hóa Hữu Cơ (sắp có)</button>
+      <button class="subject active" type="button" data-subject="chemistry" aria-selected="true">Hóa Vô Cơ</button>
+      <button class="subject" type="button" disabled data-subject="organic" aria-selected="false">Hóa Hữu Cơ (sắp có)</button>
       <button class="subject" type="button" disabled aria-selected="false">Toán (sắp có)</button>
-      <button class="subject" type="button" disabled aria-selected="false">Lý (sắp có)</button>
+      <button class="subject" type="button" data-subject="physics" aria-selected="false">Vật lý 8-9</button>
     </div>
 
     <div class="hero-features" aria-label="Tính năng nổi bật">
@@ -47,6 +47,7 @@
       <button class="module-tab" type="button" data-module="periodic" aria-selected="false">Bảng tuần hoàn</button>
       <button class="module-tab" type="button" data-module="activity" aria-selected="false">Dãy hoạt động hóa học</button>
       <button class="module-tab" type="button" data-module="practice" aria-selected="false">Bài tập</button>
+      <button class="module-tab" type="button" data-module="physics" aria-selected="false">Vật lý 8-9</button>
     </div>
   </header>
 
@@ -235,6 +236,38 @@
             </details>
           </article>
         </div>
+      </div>
+    </section>
+
+    <section class="module-panel is-hidden" id="module-physics" aria-labelledby="physicsTitle">
+      <div class="physics-layout">
+        <h2 id="physicsTitle">Kho kiến thức Vật lý 8-9</h2>
+        <p class="physics-intro">
+          Tra cứu theo chủ đề, công thức và dạng bài thay vì phương trình phản ứng.
+        </p>
+
+        <div class="physics-controls">
+          <div class="physics-filter-group" role="tablist" aria-label="Lọc theo lớp">
+            <button type="button" class="physics-grade-btn active" data-grade="all" aria-selected="true">Tất cả</button>
+            <button type="button" class="physics-grade-btn" data-grade="8" aria-selected="false">Lớp 8</button>
+            <button type="button" class="physics-grade-btn" data-grade="9" aria-selected="false">Lớp 9</button>
+          </div>
+
+          <div class="physics-filter-group" role="tablist" aria-label="Lọc theo loại nội dung">
+            <button type="button" class="physics-type-btn active" data-type="all" aria-selected="true">Tất cả nội dung</button>
+            <button type="button" class="physics-type-btn" data-type="theory" aria-selected="false">Lý thuyết</button>
+            <button type="button" class="physics-type-btn" data-type="formula" aria-selected="false">Công thức</button>
+            <button type="button" class="physics-type-btn" data-type="problem" aria-selected="false">Dạng bài</button>
+          </div>
+
+          <div class="search-row physics-search-row">
+            <input id="physicsSearchInput" type="text" placeholder="Ví dụ: định luật Ohm, công suất điện, áp suất chất lỏng" autocomplete="off" />
+            <button id="physicsSearchBtn" type="button" class="primary-btn">Tra cứu kiến thức</button>
+          </div>
+        </div>
+
+        <div class="physics-map" id="physicsMap"></div>
+        <div class="physics-results" id="physicsResults"></div>
       </div>
     </section>
   </main>

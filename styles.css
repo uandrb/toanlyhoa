@@ -221,7 +221,8 @@ main {
 .results-panel,
 .periodic-layout,
 .activity-layout,
-.practice-layout {
+.practice-layout,
+.physics-layout {
   border: 1px solid rgba(93, 110, 95, 0.18);
   border-radius: 22px;
   background: rgba(255, 255, 255, 0.9);
@@ -241,7 +242,8 @@ main {
 .results-panel h2,
 .periodic-layout h2,
 .activity-layout h2,
-.practice-layout h2 {
+.practice-layout h2,
+.physics-layout h2 {
   margin: 0;
   font-size: 1.25rem;
 }
@@ -894,6 +896,132 @@ input:focus-visible {
   line-height: 1.5;
 }
 
+.physics-layout {
+  padding: 20px;
+}
+
+.physics-intro {
+  margin: 8px 0 14px;
+  color: #34485b;
+}
+
+.physics-controls {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.physics-filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.physics-grade-btn,
+.physics-type-btn {
+  border: 1px solid #ccd9c3;
+  background: #fff;
+  color: #34495a;
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.physics-grade-btn.active,
+.physics-type-btn.active {
+  border-color: transparent;
+  background: linear-gradient(120deg, #2162b8, #1f7f92);
+  color: #fff;
+}
+
+.physics-search-row {
+  margin-top: 2px;
+}
+
+.physics-map {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.physics-map-card {
+  border: 1px solid #d9e3ea;
+  border-radius: 14px;
+  background: #f8fcff;
+  padding: 12px;
+}
+
+.physics-map-card h3 {
+  margin: 0;
+  font-size: 0.98rem;
+  color: #1f3954;
+}
+
+.physics-map-card p {
+  margin: 6px 0 0;
+  color: #45586d;
+  font-size: 0.9rem;
+}
+
+.physics-results {
+  display: grid;
+  gap: 10px;
+}
+
+.physics-card {
+  border: 1px solid #dde6ef;
+  border-radius: 14px;
+  background: #fff;
+  padding: 14px;
+}
+
+.physics-meta {
+  margin: 0 0 8px;
+  color: #4b5d72;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.physics-card h3 {
+  margin: 0;
+  font-size: 1.02rem;
+  color: #183149;
+}
+
+.physics-card p {
+  margin: 8px 0 0;
+  color: #2e4257;
+  line-height: 1.5;
+}
+
+.physics-formula {
+  margin-top: 8px;
+  border-radius: 10px;
+  background: #f2f8ff;
+  border: 1px solid #d8e6f7;
+  padding: 8px 10px;
+  color: #1f4d7f;
+  font-weight: 700;
+}
+
+.physics-tags {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.physics-tag {
+  border-radius: 999px;
+  background: #edf6f2;
+  color: #29564f;
+  padding: 4px 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
 @keyframes fade-slide {
   from {
     opacity: 0;
@@ -928,6 +1056,10 @@ input:focus-visible {
   .practice-grid {
     grid-template-columns: 1fr 1fr;
   }
+
+  .physics-map {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 @media (max-width: 840px) {
@@ -948,6 +1080,10 @@ input:focus-visible {
   }
 
   .practice-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .physics-map {
     grid-template-columns: 1fr;
   }
 
