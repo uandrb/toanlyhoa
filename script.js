@@ -1720,6 +1720,93 @@ function formatEquationText(text) {
   return formatChemicalText(text).replace(/->/g, "→");
 }
 
+const katexFormulaOverrides = {
+  "x thuộc Q <=> x = a/b, b != 0": "x \\in \\mathbb{Q} \\Leftrightarrow x = \\frac{a}{b},\\; b \\ne 0",
+  "a^m : a^n = a^(m-n), a != 0": "a^m : a^n = a^{m-n},\\; a \\ne 0",
+  "A/B ± C/D = (AD ± BC)/BD, voi B,D != 0": "\\frac{A}{B} \\pm \\frac{C}{D} = \\frac{AD \\pm BC}{BD},\\; B,D \\ne 0",
+  "C = 2*pi*r; S = pi*r^2": "C = 2\\pi r;\\; S = \\pi r^2",
+  "(sqrt(a))^2=a; sqrt(a^2)=|a|": "(\\sqrt{a})^2 = a;\\; \\sqrt{a^2} = |a|",
+  "1/(sqrt(a)-sqrt(b)) = (sqrt(a)+sqrt(b))/(a-b)": "\\frac{1}{\\sqrt{a}-\\sqrt{b}} = \\frac{\\sqrt{a}+\\sqrt{b}}{a-b}",
+  "sqrt(f(x)) = g(x) => f(x)=g(x)^2 va g(x)>=0": "\\sqrt{f(x)} = g(x) \\Rightarrow f(x) = g(x)^2\\text{ và }g(x) \\ge 0",
+  "x = (-b ± sqrt(b^2-4ac))/(2a)": "x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}",
+  "x^4-5x^2+4=0 dat t=x^2 => t^2-5t+4=0": "x^4 - 5x^2 + 4 = 0,\\; t = x^2 \\Rightarrow t^2 - 5t + 4 = 0",
+  "PA^2 = PB*PC": "PA^2 = PB \\cdot PC",
+  "AB/A'B' = AC/A'C' = BC/B'C' = k; S1/S2 = k^2": "\\frac{AB}{A'B'} = \\frac{AC}{A'C'} = \\frac{BC}{B'C'} = k;\\; \\frac{S_1}{S_2} = k^2",
+  "h^2=pq; b^2=ap; c^2=aq": "h^2 = pq;\\; b^2 = ap;\\; c^2 = aq",
+  "l=(alpha/360)*2*pi*r; S=(alpha/360)*pi*r^2": "l = \\frac{\\alpha}{360} \\cdot 2\\pi r;\\; S = \\frac{\\alpha}{360} \\cdot \\pi r^2",
+  "U1/U2 = N1/N2; Phao phi = I^2.R": "\\frac{U_1}{U_2} = \\frac{N_1}{N_2};\\; P_{\\text{hao phí}} = I^2R",
+  "Ảnh phóng đại phụ thuộc vào khoảng cách vật ảnh: M ≈ d'/d hoặc dùng mô hình thấu kính mỏng để xác định vị trí và kích thước ảnh.": "M \\approx \\frac{d'}{d}"
+};
+
+function escapeHtml(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function toKatexExpression(text) {
+  let expression = String(text || "").trim();
+  if (!expression) {
+    return "";
+  }
+
+  if (katexFormulaOverrides[expression]) {
+    return katexFormulaOverrides[expression];
+  }
+
+  expression = expression.replace(/=>|⇒/g, "\\Rightarrow");
+  expression = expression.replace(/\bdelta\b/gi, "\\Delta");
+  expression = expression.replace(/\bpi\b/gi, "\\pi");
+
+  let previous = "";
+  let iterations = 0;
+  while (expression.includes("sqrt(") && expression !== previous && iterations < 8) {
+    previous = expression;
+    expression = expression.replace(/sqrt\(([^()]+)\)/gi, (_, inner) => `\\sqrt{${inner}}`);
+    iterations += 1;
+  }
+
+  expression = expression.replace(/([A-Za-z0-9\)\]])\^([A-Za-z0-9]+)/g, "$1^{$2}");
+  expression = expression.replace(/!=/g, "\\ne ");
+  expression = expression.replace(/>=/g, "\\ge ");
+  expression = expression.replace(/<=/g, "\\le ");
+  expression = expression.replace(/\*/g, "\\cdot ");
+  expression = expression.replace(/\s+/g, " ").trim();
+
+  return expression;
+}
+
+function renderKatexFormula(element, formula, displayMode = false) {
+  if (!element || !formula) {
+    return;
+  }
+
+  if (window.katex && typeof window.katex.render === "function") {
+    element.innerHTML = "";
+    window.katex.render(toKatexExpression(formula), element, {
+      throwOnError: false,
+      strict: false,
+      displayMode
+    });
+    return;
+  }
+
+  element.textContent = formula;
+}
+
+function renderFormulaBlocks(root) {
+  if (!root) {
+    return;
+  }
+
+  root.querySelectorAll("[data-katex-formula]").forEach((node) => {
+    renderKatexFormula(node, node.dataset.katexFormula || "", node.dataset.displayMode === "true");
+  });
+}
+
 const substanceProfiles = {
   ZN: "chất rắn, kim loại màu xám bạc, khá bền, hóa trị II.",
   CU: "chất rắn, kim loại đỏ đồng, dẫn điện và dẫn nhiệt tốt, hóa trị I hoặc II.",
@@ -2389,6 +2476,7 @@ function renderOrganicTopics() {
     `;
 
     organicResults.appendChild(card);
+    renderFormulaBlocks(card);
   });
 }
 
@@ -2612,9 +2700,10 @@ function renderPhysicsResults() {
           <p>${memoryTip}</p>
         </div>
       </div>
-      ${topic.formula ? `<p class="physics-formula">${topic.formula}</p>` : ""}
+      ${topic.formula ? `<p class="physics-formula" data-katex-formula="${escapeHtml(topic.formula)}" data-display-mode="true"></p>` : ""}
       <div class="physics-tags">${tagsHtml}</div>
     `;
+    renderFormulaBlocks(card);
     physicsResults.appendChild(card);
   });
 }
@@ -3011,9 +3100,10 @@ function renderMathResults() {
           <p>${memoryTip}</p>
         </div>
       </div>
-      ${topic.formula ? `<p class="physics-formula">${topic.formula}</p>` : ""}
+      ${topic.formula ? `<p class="physics-formula" data-katex-formula="${escapeHtml(topic.formula)}" data-display-mode="true"></p>` : ""}
       <div class="physics-tags">${tagsHtml}</div>
     `;
+    renderFormulaBlocks(card);
     mathResults.appendChild(card);
   });
 

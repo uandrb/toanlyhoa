@@ -1241,7 +1241,8 @@ input:focus-visible {
   font-weight: 600;
 }
 
-.physics-formula {
+.physics-formula,
+.math-formula {
   margin-top: 12px;
   border-radius: 10px;
   background: #f2f8ff;
@@ -1249,6 +1250,8 @@ input:focus-visible {
   padding: 8px 10px;
   color: #1f4d7f;
   font-weight: 700;
+  overflow-x: auto;
+  text-align: center;
 }
 
 .physics-tags {
