@@ -1323,7 +1323,7 @@ function getReactionInsight(reaction) {
 
   return {
     type: "Phản ứng vô cơ",
-    condition: "Xem ghi chú đi kèm.",
+    condition: "Theo điều kiện chuẩn trong chương trình phổ thông (xem mục Ghi chú của phản ứng).",
     observation: reaction.note,
     caution: "Tuân thủ an toàn hóa chất khi thí nghiệm."
   };
@@ -1394,7 +1394,7 @@ function renderReactionCard(reaction) {
     productsRoot.appendChild(chip);
   });
 
-  fragment.querySelector(".reaction-note").textContent = reaction.note;
+  fragment.querySelector(".reaction-note").textContent = `Ghi chú: ${reaction.note}`;
 
   const detailList = document.createElement("ul");
   detailList.className = "reaction-detail-list";
