@@ -236,6 +236,27 @@
         </div>
 
         <div class="organic-results" id="organicResults"></div>
+
+        <section class="math-practice" aria-labelledby="organicPracticeTitle">
+          <h3 id="organicPracticeTitle">Bộ đề luyện tập Hóa Hữu Cơ</h3>
+          <p class="math-practice-intro">Luyện tập theo chương, mức độ và gợi ý phản ứng hóa học theo chuẩn SGK KHTN 9.</p>
+
+          <div class="physics-controls">
+            <div class="physics-filter-group" role="tablist" aria-label="Lọc đề Hóa Hữu Cơ theo mức độ">
+              <button type="button" class="organic-practice-level-btn active" data-level="all" aria-selected="true">Mọi mức độ</button>
+              <button type="button" class="organic-practice-level-btn" data-level="basic" aria-selected="false">Nhận biết</button>
+              <button type="button" class="organic-practice-level-btn" data-level="intermediate" aria-selected="false">Thông hiểu</button>
+              <button type="button" class="organic-practice-level-btn" data-level="advanced" aria-selected="false">Vận dụng</button>
+            </div>
+
+            <div class="search-row physics-search-row">
+              <select id="organicPracticeChapterSelect" aria-label="Chọn chương Hóa Hữu Cơ"></select>
+              <button id="organicPracticeRefreshBtn" type="button" class="primary-btn">Lọc đề luyện tập</button>
+            </div>
+          </div>
+
+          <div class="physics-results" id="organicPracticeResults"></div>
+        </section>
       </div>
     </section>
 
@@ -404,6 +425,7 @@
   <script src="chemistry-data.js"></script>
   <script src="physics-data.js"></script>
   <script src="physics-practice-data.js"></script>
+  <script src="organic-practice-data.js"></script>
   <script src="math-data.js"></script>
   <script src="math-practice-data.js"></script>
   <script src="script.js"></script>

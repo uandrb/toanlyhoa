@@ -186,6 +186,9 @@ const physicsPracticeSetsCurated = (window.PHYSICS_PRACTICE_DATA && Array.isArra
   ? window.PHYSICS_PRACTICE_DATA.sets
   : [];
 const physicsPracticeSets = physicsPracticeSetsCurated;
+const organicPracticeSets = (window.ORGANIC_PRACTICE_DATA && Array.isArray(window.ORGANIC_PRACTICE_DATA.sets))
+  ? window.ORGANIC_PRACTICE_DATA.sets
+  : [];
 
 const organicKnowledgeBase = [
   {
@@ -604,6 +607,11 @@ const mathPracticeLevelButtons = document.querySelectorAll(".math-practice-level
 const mathPracticeChapterSelect = document.getElementById("mathPracticeChapterSelect");
 const mathPracticeRefreshBtn = document.getElementById("mathPracticeRefreshBtn");
 
+const organicPracticeResults = document.getElementById("organicPracticeResults");
+const organicPracticeLevelButtons = document.querySelectorAll(".organic-practice-level-btn");
+const organicPracticeChapterSelect = document.getElementById("organicPracticeChapterSelect");
+const organicPracticeRefreshBtn = document.getElementById("organicPracticeRefreshBtn");
+
 const physicsPracticeResults = document.getElementById("physicsPracticeResults");
 const physicsPracticeGradeButtons = document.querySelectorAll(".physics-practice-grade-btn");
 const physicsPracticeLevelButtons = document.querySelectorAll(".physics-practice-level-btn");
@@ -632,6 +640,7 @@ let mathLessonCursor = 0;
 let mathCurrentTopicIds = [];
 let mathPracticeGradeFilter = "all";
 let mathPracticeLevelFilter = "all";
+let organicPracticeLevelFilter = "all";
 let physicsPracticeGradeFilter = "all";
 let physicsPracticeLevelFilter = "all";
 
@@ -2194,6 +2203,92 @@ function renderOrganicTopics() {
   });
 }
 
+function initOrganicPracticeChapterOptions() {
+  if (!organicPracticeChapterSelect) {
+    return;
+  }
+
+  organicPracticeChapterSelect.innerHTML = "";
+  const allOption = document.createElement("option");
+  allOption.value = "all";
+  allOption.textContent = "Tất cả chương";
+  organicPracticeChapterSelect.appendChild(allOption);
+
+  const uniqueChapters = [...new Set(organicPracticeSets.map((item) => item.chapter))];
+  uniqueChapters.forEach((chapter) => {
+    const option = document.createElement("option");
+    option.value = chapter;
+    option.textContent = chapter;
+    organicPracticeChapterSelect.appendChild(option);
+  });
+}
+
+function getFilteredOrganicPracticeSets() {
+  const selectedChapter = organicPracticeChapterSelect?.value || "all";
+  return organicPracticeSets.filter((item) => {
+    const matchLevel = organicPracticeLevelFilter === "all" || item.level === organicPracticeLevelFilter;
+    const matchChapter = selectedChapter === "all" || item.chapter === selectedChapter;
+    return matchLevel && matchChapter;
+  });
+}
+
+function renderOrganicPracticeSets() {
+  if (!organicPracticeResults) {
+    return;
+  }
+
+  const sets = getFilteredOrganicPracticeSets();
+  organicPracticeResults.innerHTML = "";
+
+  if (!sets.length) {
+    organicPracticeResults.innerHTML = "<div class=\"empty-state\">Chưa có bộ đề Hóa hữu cơ phù hợp bộ lọc hiện tại.</div>";
+    return;
+  }
+
+  sets.forEach((item) => {
+    const card = document.createElement("article");
+    card.className = "physics-card";
+
+    card.innerHTML = `
+      <p class="physics-meta">Lớp ${item.grade} | ${item.chapter} | ${mathProblemLevelLabels[item.level] || item.level}</p>
+      <h3>${item.title}</h3>
+      <div class="physics-detail-stack">
+        <div class="physics-detail-block">
+          <p class="physics-detail-label">Đề bài</p>
+          <p>${item.question}</p>
+        </div>
+        <div class="physics-detail-block">
+          <p class="physics-detail-label">Gợi ý</p>
+          <p>${item.hint}</p>
+        </div>
+        <div class="physics-detail-block">
+          <p class="physics-detail-label">Nguồn kiến thức</p>
+          <p>${item.sourceLesson || "SGK KHTN 9"}</p>
+        </div>
+      </div>
+      <div class="physics-detail-block">
+        <p class="physics-detail-label">Câu trả lời của em</p>
+        <textarea class="math-answer-input" rows="3" placeholder="Nhập cách làm hoặc đáp án chính của em..."></textarea>
+        <button type="button" class="math-check-btn">Chấm nhanh</button>
+        <p class="math-check-feedback"></p>
+      </div>
+      <details class="math-practice-answer">
+        <summary>Xem đáp án mẫu</summary>
+        <p>${item.answer}</p>
+      </details>
+    `;
+
+    const checkBtn = card.querySelector(".math-check-btn");
+    const answerInput = card.querySelector(".math-answer-input");
+    const feedback = card.querySelector(".math-check-feedback");
+    if (checkBtn && answerInput && feedback) {
+      checkBtn.addEventListener("click", () => applyQuickGrading(answerInput.value, item.expectedKeywords || [], feedback));
+    }
+
+    organicPracticeResults.appendChild(card);
+  });
+}
+
 function getFilteredPhysicsTopics() {
   const rawQuery = (physicsSearchInput?.value || "").trim();
   const queryTerms = expandPhysicsQueryTerms(rawQuery);
@@ -2807,6 +2902,16 @@ function setMathPracticeLevelFilter(nextLevel) {
   renderMathPracticeSets();
 }
 
+function setOrganicPracticeLevelFilter(nextLevel) {
+  organicPracticeLevelFilter = nextLevel;
+  organicPracticeLevelButtons.forEach((button) => {
+    const isActive = button.dataset.level === nextLevel;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
+  });
+  renderOrganicPracticeSets();
+}
+
 function setPhysicsPracticeGradeFilter(nextGrade) {
   physicsPracticeGradeFilter = nextGrade;
   physicsPracticeGradeButtons.forEach((button) => {
@@ -3171,6 +3276,18 @@ mathPracticeLevelButtons.forEach((button) => {
   button.addEventListener("click", () => setMathPracticeLevelFilter(button.dataset.level || "all"));
 });
 
+organicPracticeLevelButtons.forEach((button) => {
+  button.addEventListener("click", () => setOrganicPracticeLevelFilter(button.dataset.level || "all"));
+});
+
+if (organicPracticeChapterSelect) {
+  organicPracticeChapterSelect.addEventListener("change", renderOrganicPracticeSets);
+}
+
+if (organicPracticeRefreshBtn) {
+  organicPracticeRefreshBtn.addEventListener("click", renderOrganicPracticeSets);
+}
+
 physicsPracticeGradeButtons.forEach((button) => {
   button.addEventListener("click", () => setPhysicsPracticeGradeFilter(button.dataset.grade || "all"));
 });
@@ -3257,6 +3374,8 @@ buildLegend();
 renderPeriodicTable();
 renderActivitySeries();
 renderOrganicTopics();
+initOrganicPracticeChapterOptions();
+renderOrganicPracticeSets();
 renderPhysicsResults();
 initMathPracticeChapterOptions();
 initPhysicsPracticeChapterOptions();
