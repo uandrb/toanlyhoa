@@ -568,6 +568,30 @@ input:focus-visible {
   gap: 8px;
 }
 
+.periodic-quick-filters {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.periodic-quick-filter {
+  border: 1px solid #d1dcc8;
+  background: #fff;
+  color: #2d4450;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.periodic-quick-filter.active {
+  border-color: transparent;
+  background: linear-gradient(120deg, #1b8f67, #0b7a75);
+  color: #fff;
+}
+
 .periodic-legend {
   display: flex;
   flex-wrap: wrap;
@@ -639,6 +663,12 @@ input:focus-visible {
 
 .legend-chip.actinoid {
   background: #fff0f0;
+}
+
+.periodic-group-hint {
+  margin: 2px 0 10px;
+  color: #395167;
+  font-size: 0.9rem;
 }
 
 .periodic-grid {

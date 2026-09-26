@@ -379,6 +379,38 @@ const categoryLabels = {
   actinoid: "Actini"
 };
 
+const categoryDescriptions = {
+  alkali: "Hoạt động rất mạnh, dễ phản ứng với nước tạo bazơ và H2.",
+  alkaline: "Kim loại hoạt động mạnh, thường tạo hợp chất ion với hóa trị II.",
+  transition: "Có nhiều mức oxi hóa và tham gia nhiều phản ứng oxi hóa-khử.",
+  "post-transition": "Kim loại mềm hơn, tính kim loại yếu hơn nhóm chuyển tiếp.",
+  metalloid: "Mang tính chất trung gian giữa kim loại và phi kim.",
+  nonmetal: "Thường nhận electron hoặc dùng chung electron trong liên kết cộng hóa trị.",
+  halogen: "Phi kim hoạt động mạnh, thường tạo muối với kim loại.",
+  noble: "Rất kém hoạt động hóa học do lớp electron ngoài cùng bền vững.",
+  lanthanoid: "Nhóm đất hiếm phổ biến với trạng thái oxi hóa +3.",
+  actinoid: "Nhiều nguyên tố có tính phóng xạ, thường dùng trong lĩnh vực hạt nhân."
+};
+
+const periodicFamilyCategories = {
+  metal: new Set(["alkali", "alkaline", "transition", "post-transition", "lanthanoid", "actinoid"]),
+  nonmetal: new Set(["nonmetal", "halogen", "noble"]),
+  metalloid: new Set(["metalloid"])
+};
+
+function getElementCategoryKey(element) {
+  const base = element.category;
+  if (base === "nonmetal" && Number(element.group) === 17) {
+    return "halogen";
+  }
+
+  if (base === "transition" && [13, 14, 15, 16].includes(Number(element.group)) && Number(element.period) >= 4) {
+    return "post-transition";
+  }
+
+  return base;
+}
+
 const moduleTabs = document.querySelectorAll(".module-tab");
 const modulePanels = {
   reactions: document.getElementById("module-reactions"),
@@ -400,6 +432,8 @@ const quickTags = document.querySelectorAll(".tag");
 
 const periodicGrid = document.getElementById("periodicGrid");
 const periodicLegend = document.getElementById("periodicLegend");
+const periodicGroupHint = document.getElementById("periodicGroupHint");
+const periodicQuickFilters = document.querySelectorAll(".periodic-quick-filter");
 const elementResult = document.getElementById("elementResult");
 const elementSearchInput = document.getElementById("elementSearchInput");
 const elementSearchBtn = document.getElementById("elementSearchBtn");
@@ -416,6 +450,7 @@ const displaceResult = document.getElementById("displaceResult");
 let mode = "reactants";
 let gradeFilter = "all";
 let periodicCategoryFilter = "all";
+let periodicFamilyFilter = "all";
 
 function normalizeFormula(formula) {
   return formula.replace(/\s+/g, "").toUpperCase();
@@ -1630,10 +1665,36 @@ function switchModule(nextModule) {
   });
 }
 
+function getCategoryCountMap() {
+  const countMap = Object.fromEntries(Object.keys(categoryLabels).map((key) => [key, 0]));
+  periodicElements.forEach((element) => {
+    const category = getElementCategoryKey(element);
+    if (countMap[category] !== undefined) {
+      countMap[category] += 1;
+    }
+  });
+  return countMap;
+}
+
+function matchesFamilyFilter(category) {
+  if (periodicFamilyFilter === "all") {
+    return true;
+  }
+  return periodicFamilyCategories[periodicFamilyFilter]?.has(category) || false;
+}
+
+function setPeriodicGroupHint(message) {
+  if (periodicGroupHint) {
+    periodicGroupHint.textContent = message;
+  }
+}
+
 function applyPeriodicCategoryFilter() {
   const tiles = document.querySelectorAll(".element-tile");
   tiles.forEach((tile) => {
-    const matches = periodicCategoryFilter === "all" || tile.classList.contains(periodicCategoryFilter);
+    const matchesCategory = periodicCategoryFilter === "all" || tile.classList.contains(periodicCategoryFilter);
+    const matchesFamily = matchesFamilyFilter(tile.dataset.category || "");
+    const matches = matchesCategory && matchesFamily;
     tile.classList.toggle("dimmed", !matches);
   });
 
@@ -1642,31 +1703,70 @@ function applyPeriodicCategoryFilter() {
     chip.classList.toggle("active", isActive);
     chip.setAttribute("aria-pressed", String(isActive));
   });
+
+  periodicQuickFilters.forEach((button) => {
+    const isActive = button.dataset.family === periodicFamilyFilter;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
+  });
 }
 
 function setPeriodicCategoryFilter(categoryKey) {
   periodicCategoryFilter = categoryKey;
+  if (categoryKey === "all") {
+    setPeriodicGroupHint("Bấm một nhóm để tô sáng các nguyên tố tương ứng trong bảng.");
+  } else {
+    const label = categoryLabels[categoryKey] || categoryKey;
+    const desc = categoryDescriptions[categoryKey] || "";
+    setPeriodicGroupHint(`${label}: ${desc}`);
+  }
+  applyPeriodicCategoryFilter();
+}
+
+function setPeriodicFamilyFilter(familyKey) {
+  periodicFamilyFilter = familyKey;
+  if (familyKey === "all") {
+    setPeriodicGroupHint("Bộ lọc nhanh: hiển thị tất cả nguyên tố.");
+  } else if (familyKey === "metal") {
+    setPeriodicGroupHint("Bộ lọc nhanh: chỉ giữ các nguyên tố thuộc nhóm kim loại.");
+  } else if (familyKey === "nonmetal") {
+    setPeriodicGroupHint("Bộ lọc nhanh: chỉ giữ các nguyên tố phi kim và khí hiếm.");
+  } else {
+    setPeriodicGroupHint("Bộ lọc nhanh: chỉ giữ các nguyên tố á kim.");
+  }
   applyPeriodicCategoryFilter();
 }
 
 function buildLegend() {
   periodicLegend.innerHTML = "";
+  const categoryCount = getCategoryCountMap();
 
   const allChip = document.createElement("button");
   allChip.type = "button";
   allChip.className = "legend-chip all";
   allChip.dataset.category = "all";
-  allChip.textContent = "Tất cả nhóm";
+  allChip.textContent = `Tất cả nhóm (${periodicElements.length})`;
   allChip.addEventListener("click", () => setPeriodicCategoryFilter("all"));
+  allChip.addEventListener("mouseenter", () => setPeriodicGroupHint("Hiển thị toàn bộ nhóm nguyên tố trong bảng tuần hoàn."));
+  allChip.title = "Hiển thị toàn bộ nhóm nguyên tố trong bảng tuần hoàn.";
   periodicLegend.appendChild(allChip);
 
   Object.entries(categoryLabels).forEach(([key, label]) => {
+    const count = categoryCount[key] || 0;
+    if (count === 0) {
+      return;
+    }
+
     const chip = document.createElement("button");
     chip.type = "button";
     chip.className = `legend-chip ${key}`;
     chip.dataset.category = key;
-    chip.textContent = label;
+    const desc = categoryDescriptions[key] || "";
+    chip.textContent = `${label} (${count})`;
+    chip.title = desc;
+    chip.setAttribute("aria-label", `${label}. ${desc}`);
     chip.addEventListener("click", () => setPeriodicCategoryFilter(key));
+    chip.addEventListener("mouseenter", () => setPeriodicGroupHint(`${label}: ${desc}`));
     periodicLegend.appendChild(chip);
   });
 
@@ -1674,7 +1774,7 @@ function buildLegend() {
 }
 
 function renderElementDetail(element) {
-  const categoryName = categoryLabels[element.category] || "Khác";
+  const categoryName = categoryLabels[getElementCategoryKey(element)] || "Khác";
   const valence = element.valence || "Đang cập nhật";
   const molarMass = element.molarMass || "Đang cập nhật";
   const electronConfig = element.electronConfig || "Đang cập nhật";
@@ -1694,9 +1794,11 @@ function renderElementDetail(element) {
 function renderPeriodicTable() {
   periodicGrid.innerHTML = "";
   periodicElements.forEach((element) => {
+    const category = getElementCategoryKey(element);
     const tile = document.createElement("button");
     tile.type = "button";
-    tile.className = `element-tile ${element.category}`;
+    tile.className = `element-tile ${category}`;
+    tile.dataset.category = category;
     tile.dataset.symbol = element.symbol;
     tile.style.gridColumn = String(element.group || 3);
     tile.style.gridRow = String(element.period);
@@ -1829,6 +1931,10 @@ quickTags.forEach((tag) => {
 
 moduleTabs.forEach((tab) => {
   tab.addEventListener("click", () => switchModule(tab.dataset.module));
+});
+
+periodicQuickFilters.forEach((button) => {
+  button.addEventListener("click", () => setPeriodicFamilyFilter(button.dataset.family || "all"));
 });
 
 elementSearchBtn.addEventListener("click", () => findElement(elementSearchInput.value));
