@@ -321,6 +321,7 @@ const ionicCompoundMatrix = {
   KOH: { cation: "K", cationCharge: 1, anion: "OH", anionCharge: 1 },
   "Ba(OH)2": { cation: "Ba", cationCharge: 2, anion: "OH", anionCharge: 1 },
   "Ca(OH)2": { cation: "Ca", cationCharge: 2, anion: "OH", anionCharge: 1 },
+  "Fe(OH)2": { cation: "Fe", cationCharge: 2, anion: "OH", anionCharge: 1 },
   "Cu(OH)2": { cation: "Cu", cationCharge: 2, anion: "OH", anionCharge: 1 },
   NaCl: { cation: "Na", cationCharge: 1, anion: "Cl", anionCharge: 1 },
   KCl: { cation: "K", cationCharge: 1, anion: "Cl", anionCharge: 1 },
@@ -382,7 +383,8 @@ const moduleTabs = document.querySelectorAll(".module-tab");
 const modulePanels = {
   reactions: document.getElementById("module-reactions"),
   periodic: document.getElementById("module-periodic"),
-  activity: document.getElementById("module-activity")
+  activity: document.getElementById("module-activity"),
+  practice: document.getElementById("module-practice")
 };
 
 const form = document.getElementById("searchForm");
@@ -968,6 +970,12 @@ function inferMetalSaltDisplacement(freeMetal, saltFormula) {
     return null;
   }
 
+  // In aqueous solution, these metals react with water first,
+  // so a direct one-step metal displacement is not the dominant classroom model.
+  if (activeMetalsWithWater.has(freeMetal)) {
+    return null;
+  }
+
   if (!isMetalSymbol(salt.cation) || salt.cation === freeMetal || salt.cation === "H") {
     return null;
   }
@@ -1433,6 +1441,38 @@ function buildIndirectPathways(queryTerms) {
   const right = canonicalizeTerm(rightRaw);
   const leftUp = normalizeFormula(left);
   const rightUp = normalizeFormula(right);
+
+  const waterReactiveMetal = activeMetalsWithWater.has(left) ? left : (activeMetalsWithWater.has(right) ? right : "");
+  const saltCandidate = waterReactiveMetal
+    ? (waterReactiveMetal === left ? right : left)
+    : "";
+  const saltInfo = saltCandidate ? getIonicCompoundInfo(saltCandidate) : null;
+
+  if (waterReactiveMetal && saltInfo && isMetalSymbol(saltInfo.cation)) {
+    const hydroxide = commonMetalValence[waterReactiveMetal] === 1
+      ? `${waterReactiveMetal}OH`
+      : `${waterReactiveMetal}(OH)${commonMetalValence[waterReactiveMetal]}`;
+    const step1 = inferMetalWaterReaction(waterReactiveMetal);
+    const step2 = inferDoubleReplacementPrecipitation(hydroxide, canonicalizeTerm(saltCandidate));
+
+    if (step1 && step2) {
+      const precipitates = step2.products.filter((formula) => {
+        const info = getIonicCompoundInfo(formula);
+        return info ? isLikelyInsoluble(info.cation, info.anion) : false;
+      });
+
+      return [
+        {
+          title: `${waterReactiveMetal} + ${canonicalizeTerm(saltCandidate)} trong dung dịch nước`,
+          steps: [step1.equation, step2.equation],
+          conclusion: `Trong dung dịch nước, ${waterReactiveMetal} phản ứng trước với nước tạo ${hydroxide}, sau đó ${hydroxide} phản ứng trao đổi với ${canonicalizeTerm(saltCandidate)}.`,
+          note: precipitates.length
+            ? `Sản phẩm kết tủa ưu tiên quan sát: ${precipitates.join(", ")}.`
+            : "Cần kiểm tra độ tan sản phẩm theo bảng tính tan để kết luận hiện tượng."
+        }
+      ];
+    }
+  }
 
   const metal = veryReactiveMetalsInWater.has(left) ? left : (veryReactiveMetalsInWater.has(right) ? right : "");
   const acid = acidFormingAnions[leftUp] ? leftUp : (acidFormingAnions[rightUp] ? rightUp : "");

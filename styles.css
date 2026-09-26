@@ -220,7 +220,8 @@ main {
 .search-panel,
 .results-panel,
 .periodic-layout,
-.activity-layout {
+.activity-layout,
+.practice-layout {
   border: 1px solid rgba(93, 110, 95, 0.18);
   border-radius: 22px;
   background: rgba(255, 255, 255, 0.9);
@@ -239,7 +240,8 @@ main {
 .search-panel h2,
 .results-panel h2,
 .periodic-layout h2,
-.activity-layout h2 {
+.activity-layout h2,
+.practice-layout h2 {
   margin: 0;
   font-size: 1.25rem;
 }
@@ -742,6 +744,57 @@ input:focus-visible {
   line-height: 1.45;
 }
 
+.practice-layout {
+  padding: 20px;
+}
+
+.practice-intro {
+  margin: 8px 0 14px;
+  color: #344457;
+}
+
+.practice-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.practice-card {
+  border: 1px solid #dee6d5;
+  border-radius: 16px;
+  background: #fff;
+  padding: 14px;
+}
+
+.practice-card h3 {
+  margin: 0 0 10px;
+  font-size: 1rem;
+}
+
+.practice-card ol {
+  margin: 0;
+  padding-left: 18px;
+  color: #2f4050;
+  line-height: 1.5;
+}
+
+.practice-card details {
+  margin-top: 10px;
+  border-top: 1px dashed #d9e2d2;
+  padding-top: 8px;
+}
+
+.practice-card summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: #1f6158;
+}
+
+.practice-card p {
+  color: #324456;
+  line-height: 1.5;
+}
+
 @keyframes fade-slide {
   from {
     opacity: 0;
@@ -772,6 +825,10 @@ input:focus-visible {
   .activity-grid {
     grid-template-columns: 1fr 1fr;
   }
+
+  .practice-grid {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 @media (max-width: 840px) {
@@ -788,6 +845,10 @@ input:focus-visible {
   }
 
   .activity-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .practice-grid {
     grid-template-columns: 1fr;
   }
 
