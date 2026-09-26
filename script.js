@@ -927,6 +927,11 @@ function buildFormulaVariants(term) {
     variants.add(normalizeFormula(diatomicMap[normalized]));
   }
 
+  if (normalized === "O" || normalized === "O2") {
+    variants.add("O");
+    variants.add("O2");
+  }
+
   return [...variants];
 }
 
@@ -1235,7 +1240,8 @@ function inferFromElementMatrix(left, right) {
     }
   }
 
-  if (leftClass === "metal_element" && rightNorm === "O2" && elementInferenceMatrix.metalRules.includes("metal_plus_oxygen")) {
+  const oxygenLikeRight = rightNorm === "O" || rightNorm === "O2";
+  if (leftClass === "metal_element" && oxygenLikeRight && elementInferenceMatrix.metalRules.includes("metal_plus_oxygen")) {
     const reaction = inferMetalOxygenReaction(left);
     if (reaction) {
       results.push(reaction);
@@ -1724,8 +1730,16 @@ const katexFormulaOverrides = {
   "x thuộc Q <=> x = a/b, b != 0": "x \\in \\mathbb{Q} \\Leftrightarrow x = \\frac{a}{b},\\; b \\ne 0",
   "a^m : a^n = a^(m-n), a != 0": "a^m : a^n = a^{m-n},\\; a \\ne 0",
   "A/B ± C/D = (AD ± BC)/BD, voi B,D != 0": "\\frac{A}{B} \\pm \\frac{C}{D} = \\frac{AD \\pm BC}{BD},\\; B,D \\ne 0",
+  "A/B + C/D = (AD + BC)/BD, voi B,D != 0": "\\frac{A}{B} + \\frac{C}{D} = \\frac{AD + BC}{BD},\\; B,D \\ne 0",
   "C = 2*pi*r; S = pi*r^2": "C = 2\\pi r;\\; S = \\pi r^2",
   "(sqrt(a))^2=a; sqrt(a^2)=|a|": "(\\sqrt{a})^2 = a;\\; \\sqrt{a^2} = |a|",
+  "x thuộc Q <=> x = a/b, b != 0": "x \\in \\mathbb{Q} \\Leftrightarrow x = \\frac{a}{b},\\; b \\ne 0",
+  "a^m * a^n = a^(m+n); a^m / a^n = a^(m-n)": "a^m \\cdot a^n = a^{m+n};\\; a^m / a^n = a^{m-n}",
+  "x = (-b ± sqrt(b^2-4ac))/(2a)": "x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}",
+  "P(A) = n(A)/n(Omega)": "P(A) = \\frac{n(A)}{n(\\Omega)}",
+  "x̄ = (x1+x2+...+xn)/n; x̄ = sum(x_i*f_i)/sum(f_i)": "\\bar{x} = \\frac{x_1 + x_2 + \dots + x_n}{n};\\; \\bar{x} = \\frac{\\sum x_i f_i}{\\sum f_i}",
+  "sin a = a/c; cos a = b/c; tan a = a/b": "\\sin a = \\frac{a}{c};\\; \\cos a = \\frac{b}{c};\\; \\tan a = \\frac{a}{b}",
+  "l=(alpha/360)*2*pi*r; S=(alpha/360)*pi*r^2": "l = \\frac{\\alpha}{360} \\cdot 2\\pi r;\\; S = \\frac{\\alpha}{360} \\cdot \\pi r^2",
   "1/(sqrt(a)-sqrt(b)) = (sqrt(a)+sqrt(b))/(a-b)": "\\frac{1}{\\sqrt{a}-\\sqrt{b}} = \\frac{\\sqrt{a}+\\sqrt{b}}{a-b}",
   "sqrt(f(x)) = g(x) => f(x)=g(x)^2 va g(x)>=0": "\\sqrt{f(x)} = g(x) \\Rightarrow f(x) = g(x)^2\\text{ và }g(x) \\ge 0",
   "x = (-b ± sqrt(b^2-4ac))/(2a)": "x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}",
@@ -1758,8 +1772,18 @@ function toKatexExpression(text) {
   }
 
   expression = expression.replace(/=>|⇒/g, "\\Rightarrow");
+  expression = expression.replace(/<=>|⇔/g, "\\Leftrightarrow");
+  expression = expression.replace(/\bthuoc\b/gi, "\\in");
+  expression = expression.replace(/\bkhong\b/gi, "\\ne");
   expression = expression.replace(/\bdelta\b/gi, "\\Delta");
   expression = expression.replace(/\bpi\b/gi, "\\pi");
+  expression = expression.replace(/\bQ\b/g, "\\mathbb{Q}");
+  expression = expression.replace(/\bR\b/g, "\\mathbb{R}");
+  expression = expression.replace(/\bN\b/g, "\\mathbb{N}");
+  expression = expression.replace(/\bZ\b/g, "\\mathbb{Z}");
+
+  expression = expression.replace(/\s*\/\s*/g, "/");
+  expression = expression.replace(/([A-Za-z0-9\)\]\}]+)\/([A-Za-z0-9\(\[\{]+)/g, (_, numerator, denominator) => `\\frac{${numerator}}{${denominator}}`);
 
   let previous = "";
   let iterations = 0;
