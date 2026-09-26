@@ -25,6 +25,21 @@
       <button class="subject" type="button" disabled aria-selected="false">Lý (sắp có)</button>
     </div>
 
+    <div class="hero-features" aria-label="Tính năng nổi bật">
+      <div class="hero-feature">
+        <span class="feature-kicker">Nhanh</span>
+        <strong>Tra cứu theo chất phản ứng</strong>
+      </div>
+      <div class="hero-feature">
+        <span class="feature-kicker">Dễ học</span>
+        <strong>Lọc theo lớp 8-9, 10-12, nâng cao</strong>
+      </div>
+      <div class="hero-feature">
+        <span class="feature-kicker">Liên tục</span>
+        <strong>Phản ứng phổ biến và suy luận nâng cao</strong>
+      </div>
+    </div>
+
     <div class="module-nav" role="tablist" aria-label="Nội dung Hóa Vô Cơ">
       <button class="module-tab active" type="button" data-module="reactions" aria-selected="true">Phản ứng hóa học</button>
       <button class="module-tab" type="button" data-module="periodic" aria-selected="false">Bảng tuần hoàn</button>
@@ -163,7 +178,10 @@
 
   <template id="reactionCardTemplate">
     <article class="reaction-card">
-      <p class="reaction-equation"></p>
+      <div class="reaction-toolbar">
+        <p class="reaction-equation"></p>
+        <button type="button" class="copy-btn" aria-label="Sao chép phương trình">Sao chép</button>
+      </div>
       <p class="reaction-level"></p>
       <p class="reaction-origin"></p>
       <div class="reaction-flow">

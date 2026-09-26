@@ -1174,6 +1174,31 @@ function formatEquationText(text) {
   return formatChemicalText(text).replace(/->/g, "→");
 }
 
+async function copyEquationToClipboard(text) {
+  const safeText = String(text).replace(/<[^>]*>/g, "");
+
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(safeText);
+      return true;
+    }
+
+    const helper = document.createElement("textarea");
+    helper.value = safeText;
+    helper.setAttribute("readonly", "");
+    helper.style.position = "fixed";
+    helper.style.left = "-9999px";
+    document.body.appendChild(helper);
+    helper.select();
+    const ok = document.execCommand("copy");
+    document.body.removeChild(helper);
+    return ok;
+  } catch (error) {
+    console.error("Copy failed:", error);
+    return false;
+  }
+}
+
 function getReactionInsight(reaction) {
   if (reaction.source !== "curated") {
     return {
@@ -1256,6 +1281,21 @@ function buildReactionKey(reaction) {
 function renderReactionCard(reaction) {
   const fragment = cardTemplate.content.cloneNode(true);
   fragment.querySelector(".reaction-equation").innerHTML = formatEquationText(reaction.equation);
+
+  const copyBtn = fragment.querySelector(".copy-btn");
+  copyBtn.dataset.copyText = reaction.equation;
+  copyBtn.addEventListener("click", async () => {
+    const ok = await copyEquationToClipboard(reaction.equation);
+    if (ok) {
+      copyBtn.textContent = "Đã sao chép";
+      copyBtn.classList.add("copied");
+      window.setTimeout(() => {
+        copyBtn.textContent = "Sao chép";
+        copyBtn.classList.remove("copied");
+      }, 1200);
+    }
+  });
+
   const levelNode = fragment.querySelector(".reaction-level");
   levelNode.classList.add(reaction.level);
   levelNode.textContent = reactionLevels[reaction.level] || "Lớp 10-12";

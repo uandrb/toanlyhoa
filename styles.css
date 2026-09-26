@@ -303,11 +303,42 @@ input:focus-visible {
   animation: pop-in 0.45s ease both;
 }
 
+.reaction-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
 .reaction-equation {
   margin: 0;
   font-family: "IBM Plex Serif", serif;
   font-size: 1.1rem;
   color: #1f2830;
+  flex: 1;
+}
+
+.copy-btn {
+  border: 1px solid #d7e1d5;
+  background: #f6faf3;
+  color: #234c3b;
+  border-radius: 10px;
+  padding: 7px 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.copy-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(44, 70, 60, 0.08);
+}
+
+.copy-btn.copied {
+  background: #ecfff0;
+  border-color: #bae0c1;
+  color: #19643d;
 }
 
 .reaction-level {
