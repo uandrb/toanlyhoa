@@ -129,6 +129,35 @@ h1 {
   line-height: 1.42;
 }
 
+.organic-layout {
+  display: grid;
+  gap: 18px;
+}
+
+.organic-header {
+  display: grid;
+  gap: 8px;
+}
+
+.organic-intro {
+  margin: 0;
+  color: var(--muted);
+  max-width: 840px;
+  line-height: 1.6;
+}
+
+.organics-search-row,
+.organic-search-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.organic-results {
+  display: grid;
+  gap: 16px;
+}
+
 .subject-switch {
   display: flex;
   flex-wrap: wrap;
@@ -922,7 +951,12 @@ input:focus-visible {
 }
 
 .physics-grade-btn,
-.physics-type-btn {
+.physics-type-btn,
+.math-grade-btn,
+.math-type-btn,
+.math-level-btn,
+.math-practice-grade-btn,
+.math-practice-level-btn {
   border: 1px solid #ccd9c3;
   background: #fff;
   color: #34495a;
@@ -933,10 +967,123 @@ input:focus-visible {
 }
 
 .physics-grade-btn.active,
-.physics-type-btn.active {
+.physics-type-btn.active,
+.math-grade-btn.active,
+.math-type-btn.active,
+.math-level-btn.active,
+.math-practice-grade-btn.active,
+.math-practice-level-btn.active {
   border-color: transparent;
   background: linear-gradient(120deg, #2162b8, #1f7f92);
   color: #fff;
+}
+
+.math-lesson-nav {
+  border: 1px solid #d9e3ea;
+  background: #f8fcff;
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0 0 12px;
+}
+
+.math-nav-btn {
+  border: 1px solid #ccd9c3;
+  background: #fff;
+  color: #264a67;
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.math-nav-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.math-lesson-indicator {
+  margin: 0;
+  color: #35526c;
+  font-weight: 700;
+  text-align: center;
+}
+
+.math-active-lesson {
+  border-color: #2b6bb6;
+  box-shadow: 0 0 0 2px rgba(43, 107, 182, 0.15);
+}
+
+.math-practice {
+  margin-top: 14px;
+  border: 1px solid #d9e3ea;
+  border-radius: 14px;
+  background: #fcfeff;
+  padding: 14px;
+}
+
+.math-practice h3 {
+  margin: 0;
+  color: #1f3954;
+}
+
+.math-practice-intro {
+  margin: 6px 0 10px;
+  color: #445f78;
+}
+
+#mathPracticeChapterSelect {
+  border: 1px solid #ccd9c3;
+  border-radius: 10px;
+  padding: 8px 10px;
+  font: inherit;
+  color: #2c3e50;
+  background: #fff;
+}
+
+.math-practice-answer {
+  margin-top: 8px;
+}
+
+.math-practice-answer summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: #215f8e;
+}
+
+.math-practice-answer p {
+  margin: 8px 0 0;
+}
+
+.math-answer-input {
+  width: 100%;
+  border: 1px solid #c8d6e2;
+  border-radius: 10px;
+  padding: 8px 10px;
+  font: inherit;
+  color: #2c3e50;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.math-check-btn {
+  margin-top: 8px;
+  border: 1px solid #b8cce1;
+  background: #f4f9ff;
+  color: #1f5f92;
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.math-check-feedback {
+  margin: 8px 0 0;
+  color: #304f66;
+  font-size: 0.94rem;
 }
 
 .physics-search-row {

@@ -178,6 +178,24 @@ window.PHYSICS_DATA = {
       tags: ["công suất", "W", "kW"]
     },
     {
+      id: "p8-mechanical-energy",
+      grade: "8",
+      chapter: "Cơ học",
+      type: "theory",
+      title: "Cơ năng, động năng và thế năng",
+      summary: "Cơ năng là năng lượng của vật do chuyển động hoặc vị trí của vật so với mốc.",
+      explanation: "Một vật có thể có động năng khi chuyển động và có thế năng khi ở vị trí cao hoặc bị biến dạng đàn hồi. Trong nhiều quá trình, động năng và thế năng chuyển hóa qua lại với nhau.",
+      keyPoints: [
+        "Động năng gắn với vận tốc chuyển động của vật.",
+        "Thế năng hấp dẫn tăng khi vật ở vị trí cao hơn mốc.",
+        "Thế năng đàn hồi xuất hiện khi vật đàn hồi bị biến dạng.",
+        "Cơ năng có thể chuyển hóa giữa động năng và thế năng."
+      ],
+      example: "Ví dụ: quả bóng ném lên cao có động năng lớn lúc rời tay, lên cao thì động năng giảm và thế năng tăng.",
+      memoryTip: "Mẹo nhớ: chạy nhanh thì nhiều động năng; đứng cao thì nhiều thế năng.",
+      tags: ["cơ năng", "động năng", "thế năng", "chuyển hóa năng lượng"]
+    },
+    {
       id: "p8-density",
       grade: "8",
       chapter: "Cơ học",
@@ -477,6 +495,25 @@ window.PHYSICS_DATA = {
       tags: ["cảm ứng điện từ", "máy phát điện", "từ thông"]
     },
     {
+      id: "p9-transformer",
+      grade: "9",
+      chapter: "Điện từ học",
+      type: "formula",
+      title: "Máy biến thế và truyền tải điện năng",
+      summary: "Máy biến thế dùng cảm ứng điện từ để tăng hoặc giảm hiệu điện thế xoay chiều.",
+      explanation: "Trong truyền tải điện năng đi xa, người ta thường tăng hiệu điện thế để giảm hao phí trên đường dây, sau đó hạ áp khi đưa vào sử dụng dân dụng.",
+      keyPoints: [
+        "Máy biến thế hoạt động với dòng điện xoay chiều.",
+        "Tỉ số điện áp tỉ lệ với tỉ số số vòng dây cuộn thứ cấp và sơ cấp.",
+        "Tăng điện áp truyền tải giúp giảm cường độ dòng điện và giảm hao phí nhiệt.",
+        "Điện lưới dân dụng cần hạ áp để đảm bảo an toàn và phù hợp thiết bị."
+      ],
+      formula: "U1/U2 = N1/N2; Phao phi = I^2.R",
+      example: "Ví dụ: điện từ nhà máy được nâng lên hàng trăm kV để truyền xa rồi hạ xuống 220V trước khi vào hộ gia đình.",
+      memoryTip: "Mẹo nhớ: truyền xa thì tăng áp, dùng trong nhà thì hạ áp.",
+      tags: ["máy biến thế", "truyền tải điện", "hao phí", "điện áp"]
+    },
+    {
       id: "p9-light-line",
       grade: "9",
       chapter: "Quang học",
@@ -528,6 +565,78 @@ window.PHYSICS_DATA = {
       tags: ["khúc xạ", "chiết suất", "môi trường"]
     },
     {
+      id: "p9-white-light",
+      grade: "9",
+      chapter: "Quang học",
+      type: "theory",
+      title: "Ánh sáng trắng và ánh sáng màu",
+      summary: "Ánh sáng trắng là hỗn hợp của nhiều ánh sáng màu; ánh sáng đơn sắc chỉ có một màu xác định.",
+      explanation: "Ánh sáng từ Mặt Trời hoặc đèn trắng thường là ánh sáng trắng. Khi đi qua các hệ quang học phù hợp, ánh sáng trắng có thể tách thành nhiều dải màu khác nhau.",
+      keyPoints: [
+        "Ánh sáng trắng chứa nhiều thành phần màu.",
+        "Ánh sáng đơn sắc có một màu xác định và không bị phân tích thêm bởi lăng kính thông thường.",
+        "Màu sắc ta thấy phụ thuộc vào ánh sáng chiếu tới và khả năng phản xạ/hấp thụ của vật.",
+        "Dải màu cơ bản thường quan sát gồm đỏ, cam, vàng, lục, lam, chàm, tím."
+      ],
+      example: "Ví dụ: đèn LED trắng phát ra ánh sáng trắng nên khi chiếu vào vật có nhiều màu khác nhau ta vẫn thấy vật có màu riêng của nó.",
+      memoryTip: "Mẹo nhớ: trắng là hỗn hợp nhiều màu, đơn sắc là chỉ một màu.",
+      tags: ["ánh sáng trắng", "ánh sáng màu", "đơn sắc", "quang phổ"]
+    },
+    {
+      id: "p9-dispersion-light",
+      grade: "9",
+      chapter: "Quang học",
+      type: "theory",
+      title: "Tán sắc ánh sáng",
+      summary: "Tán sắc là hiện tượng ánh sáng trắng bị phân tách thành nhiều màu khi đi qua lăng kính.",
+      explanation: "Khi qua lăng kính, các thành phần màu trong ánh sáng trắng bị lệch với góc khác nhau do chiết suất của môi trường phụ thuộc màu sắc (bước sóng). Vì vậy xuất hiện dải quang phổ từ đỏ đến tím.",
+      keyPoints: [
+        "Tán sắc thường quan sát rõ với lăng kính thủy tinh.",
+        "Màu tím lệch nhiều hơn màu đỏ trong cùng điều kiện.",
+        "Hiện tượng cầu vồng trong tự nhiên liên quan đến tán sắc ánh sáng Mặt Trời trong giọt nước.",
+        "Tán sắc chứng minh ánh sáng trắng là hỗn hợp nhiều ánh sáng màu."
+      ],
+      example: "Ví dụ: chiếu chùm sáng trắng hẹp qua lăng kính, trên màn chắn thu được dải nhiều màu liên tiếp.",
+      memoryTip: "Mẹo nhớ: lăng kính tách trắng thành 7 màu, tím lệch nhiều hơn đỏ.",
+      tags: ["tán sắc ánh sáng", "lăng kính", "quang phổ", "cầu vồng"]
+    },
+    {
+      id: "p9-color-filters",
+      grade: "9",
+      chapter: "Quang học",
+      type: "theory",
+      title: "Sự trộn ánh sáng màu và kính lọc màu",
+      summary: "Các ánh sáng màu khi chồng lên nhau có thể tạo màu mới; kính lọc màu chỉ truyền ánh sáng cùng màu của nó.",
+      explanation: "Trong trộn màu ánh sáng, các màu cơ bản cộng hợp theo quy tắc khác với trộn màu sơn. Kính lọc màu cho qua tốt nhất ánh sáng cùng màu và hấp thụ nhiều thành phần màu khác.",
+      keyPoints: [
+        "Trộn ánh sáng đỏ và lục có thể cho vàng (trong mô hình cộng hợp).",
+        "Kính lọc màu đỏ truyền ánh sáng đỏ mạnh hơn các màu khác.",
+        "Vật nhìn qua kính lọc có thể tối đi nếu màu vật không phù hợp.",
+        "Cần phân biệt trộn ánh sáng và trộn chất màu (mực/sơn)."
+      ],
+      example: "Ví dụ: đặt tấm lọc đỏ trước nguồn sáng trắng sẽ thu được chùm sáng thiên đỏ đi qua.",
+      memoryTip: "Mẹo nhớ: kính lọc màu nào thì ưu tiên cho màu đó đi qua.",
+      tags: ["trộn ánh sáng", "kính lọc màu", "màu sắc", "quang học"]
+    },
+    {
+      id: "p9-color-objects",
+      grade: "9",
+      chapter: "Quang học",
+      type: "theory",
+      title: "Màu sắc các vật dưới ánh sáng trắng và ánh sáng màu",
+      summary: "Màu vật quan sát được phụ thuộc vào ánh sáng chiếu tới và khả năng phản xạ của vật.",
+      explanation: "Một vật có màu nào là do nó phản xạ mạnh ánh sáng màu đó và hấp thụ phần lớn các màu còn lại. Khi thay đổi nguồn sáng chiếu, màu quan sát của vật có thể thay đổi.",
+      keyPoints: [
+        "Vật đỏ dưới ánh sáng trắng phản xạ mạnh thành phần đỏ.",
+        "Vật trắng phản xạ nhiều thành phần màu, vật đen hấp thụ nhiều ánh sáng.",
+        "Chiếu ánh sáng xanh vào vật đỏ có thể làm vật trông tối hơn.",
+        "Màu nhìn thấy là kết quả của tương tác nguồn sáng và vật."
+      ],
+      example: "Ví dụ: áo đỏ dưới đèn xanh lam thường trông sẫm hơn vì thiếu thành phần đỏ để phản xạ.",
+      memoryTip: "Mẹo nhớ: vật hiện màu gì là do phản xạ màu đó, không chỉ do bản thân vật.",
+      tags: ["màu sắc vật", "phản xạ ánh sáng", "ánh sáng trắng", "ánh sáng màu"]
+    },
+    {
       id: "p9-lens",
       grade: "9",
       chapter: "Quang học",
@@ -560,6 +669,42 @@ window.PHYSICS_DATA = {
       example: "Ví dụ: khi vật đặt ngoài tiêu điểm của thấu kính hội tụ, ảnh thu được là ảnh thật ngược chiều và có thể lớn hơn vật.",
       memoryTip: "Mẹo nhớ: trước tiêu điểm thì ảnh ảo, sau tiêu điểm thường ảnh thật; với thấu kính phân kỳ thì luôn ảnh ảo, cùng chiều và nhỏ hơn vật.",
       tags: ["dựng hình", "tia đặc biệt", "trục chính"]
+    },
+    {
+      id: "p9-prism-problem",
+      grade: "9",
+      chapter: "Quang học",
+      type: "problem",
+      title: "Dạng bài nhận biết tán sắc qua lăng kính",
+      summary: "Bài tập thường yêu cầu xác định thứ tự màu, mức độ lệch và giải thích hiện tượng tán sắc.",
+      explanation: "Trong dạng bài này, học sinh cần nhận diện bản chất: mỗi ánh sáng màu có chiết suất khác nhau trong thủy tinh, nên góc lệch khác nhau. Kết quả là chùm tia trắng tách thành dải màu.",
+      keyPoints: [
+        "Thứ tự màu trong quang phổ thường từ đỏ đến tím.",
+        "Tím lệch nhiều hơn đỏ khi qua lăng kính.",
+        "Ánh sáng đơn sắc không tiếp tục tách thành dải nhiều màu trong cùng điều kiện.",
+        "Lập luận cần gắn với chiết suất phụ thuộc màu sắc."
+      ],
+      example: "Ví dụ: đề bài hỏi tia nào lệch nhiều hơn giữa đỏ và tím, đáp án là tia tím.",
+      memoryTip: "Mẹo nhớ: bài lăng kính thì nhớ ngay 'tím lệch nhiều - đỏ lệch ít'.",
+      tags: ["dạng bài quang học", "lăng kính", "tán sắc", "quang phổ"]
+    },
+    {
+      id: "p9-eye-defects",
+      grade: "9",
+      chapter: "Quang học",
+      type: "theory",
+      title: "Mắt cận, mắt viễn và cách khắc phục",
+      summary: "Mắt cận nhìn xa kém, mắt viễn nhìn gần kém; khắc phục bằng thấu kính phù hợp.",
+      explanation: "Ở mắt cận, ảnh của vật ở xa rơi trước võng mạc; còn ở mắt viễn, ảnh của vật gần rơi sau võng mạc. Dùng thấu kính phân kỳ cho mắt cận và thấu kính hội tụ cho mắt viễn để đưa ảnh về đúng võng mạc.",
+      keyPoints: [
+        "Mắt cận thường đeo kính phân kỳ.",
+        "Mắt viễn thường đeo kính hội tụ.",
+        "Điều tiết mắt là sự thay đổi tiêu cự thủy tinh thể để nhìn rõ ở các khoảng cách khác nhau.",
+        "Giữ khoảng cách học tập hợp lý giúp bảo vệ mắt."
+      ],
+      example: "Ví dụ: học sinh cận nhìn bảng mờ ở xa nhưng nhìn sách gần rõ hơn.",
+      memoryTip: "Mẹo nhớ: cận đi với phân kỳ, viễn đi với hội tụ.",
+      tags: ["mắt cận", "mắt viễn", "kính phân kỳ", "kính hội tụ", "điều tiết"]
     },
     {
       id: "p8-friction",

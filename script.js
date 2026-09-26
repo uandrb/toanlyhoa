@@ -67,14 +67,337 @@ const symbolAliases = {
 const physicsKnowledgeBase = (window.PHYSICS_DATA && Array.isArray(window.PHYSICS_DATA.knowledgeBase))
   ? window.PHYSICS_DATA.knowledgeBase
   : [];
+const mathKnowledgeBaseRaw = (window.MATH_DATA && Array.isArray(window.MATH_DATA.knowledgeBase))
+  ? window.MATH_DATA.knowledgeBase
+  : [];
 const physicsChapterOrder = (window.PHYSICS_DATA && Array.isArray(window.PHYSICS_DATA.chapterOrder))
   ? window.PHYSICS_DATA.chapterOrder
   : ["Cơ học", "Nhiệt học", "Điện học", "Điện từ học", "Quang học"];
+const mathChapterOrder = (window.MATH_DATA && Array.isArray(window.MATH_DATA.chapterOrder))
+  ? window.MATH_DATA.chapterOrder
+  : ["Số học", "Đại số", "Hình học"];
 const physicsTypeLabels = {
   theory: "Lý thuyết",
   formula: "Công thức",
   problem: "Dạng bài"
 };
+const physicsSynonymMap = {
+  "dinh luat ohm": ["ohm", "u=i.r", "i=u/r", "dien tro"],
+  "cong suat dien": ["p=u.i", "dien nang", "cong suat"],
+  "hieu dien the": ["dien ap", "voltage", "v"],
+  "cuong do dong dien": ["am pe", "ampe", "current", "i"],
+  "noi tiep song song": ["mach noi tiep", "mach song song", "equivalent resistance"],
+  "luc day archimedes": ["luc noi", "day acsimet", "fa=d.v"],
+  "ap suat chat long": ["p=d.h", "do sau", "ap suat nuoc"],
+  "khuc xa": ["khuc xa anh sang", "refractive", "tia khuc xa"],
+  "phan xa": ["phan xa anh sang", "goc toi", "goc phan xa"],
+  "thau kinh": ["hoi tu", "phan ki", "lens"],
+  "tan sac anh sang": ["tan sac", "lang kinh", "quang pho", "cau vong"],
+  "anh sang trang": ["anh sang mau", "don sac", "7 mau"],
+  "kinh loc mau": ["loc do", "loc luc", "loc lam", "truyen mau"],
+  "mau sac vat": ["phan xa mau", "vat den", "vat trang"],
+  "tat khuc xa": ["khuc xa", "goc lech", "chiet suat"],
+  "cam ung dien tu": ["induction", "tu thong", "dong dien cam ung"],
+  "nang luong nhiet": ["nhiet nang", "nhiet luong", "q=m.c.delta t"]
+};
+const subjectTypeLabels = {
+  theory: "Lý thuyết",
+  formula: "Công thức",
+  problem: "Dạng bài"
+};
+const mathProblemLevelLabels = {
+  all: "Mọi mức độ",
+  basic: "Nhận biết",
+  intermediate: "Thông hiểu",
+  advanced: "Vận dụng"
+};
+
+const mathProblemLevelById = {
+  "math8-proportion": "basic",
+  "math8-percent-application": "intermediate",
+  "math8-factorization": "intermediate",
+  "math8-word-problems-equation": "intermediate",
+  "math9-equation-radical": "advanced",
+  "math9-direct-inverse-proportion": "basic",
+  "math9-line-graph-intersection": "intermediate",
+  "math9-systems-linear": "intermediate",
+  "math9-equation-by-substitution": "advanced",
+  "math9-word-problems-system": "intermediate",
+  "math9-geometry-proof-strategy": "advanced",
+  "math9-combined-probability-problem": "advanced"
+};
+
+const mathSynonymMap = {
+  "phuong trinh bac nhat": ["pt bac 1", "linear equation", "ax+b=0", "pt tuyen tinh"],
+  "phuong trinh bac hai": ["pt bac 2", "quadratic", "ax^2+bx+c=0", "delta"],
+  "he phuong trinh": ["he 2 an", "phuong phap the", "cong dai so"],
+  "hang dang thuc": ["dang nho", "binh phuong tong", "hieu hai binh phuong"],
+  "phan tich nhan tu": ["nhan tu chung", "nhom hang tu", "factorization"],
+  "ham so bac nhat": ["y=ax+b", "do thi duong thang", "he so goc"],
+  "luong giac": ["sin cos tan", "ti so luong giac", "tam giac vuong"],
+  "pythagoras": ["dinh ly pytago", "canh huyen", "tam giac vuong"],
+  "dong dang": ["tam giac dong dang", "ti so dong dang"],
+  "tu giac noi tiep": ["goc noi tiep", "duong tron", "goc o tam"],
+  "xac suat": ["khong gian mau", "bien co", "probability"],
+  "thong ke": ["tan so", "tan suat", "trung binh", "trung vi", "mot"],
+  "can bac hai": ["can thuc", "rut gon can", "lien hop"],
+  "phan so": ["so huu ti", "quy dong", "rut gon"],
+  "ti le": ["ti le thuan", "ti le nghich", "day ti so bang nhau"]
+};
+
+const mathLessonCounters = {};
+const mathKnowledgeBase = mathKnowledgeBaseRaw.map((topic) => {
+  const chapterKey = `${topic.grade}-${topic.chapter}`;
+  const nextOrder = (mathLessonCounters[chapterKey] || 0) + 1;
+  mathLessonCounters[chapterKey] = nextOrder;
+
+  const generatedLesson = `SGK Toán ${topic.grade} - ${topic.chapter} - Bài ${nextOrder}: ${topic.title}`;
+  const defaultLevel = topic.type === "problem"
+    ? (mathProblemLevelById[topic.id] || "intermediate")
+    : "all";
+
+  return {
+    ...topic,
+    lesson: topic.lesson || generatedLesson,
+    level: topic.level || defaultLevel,
+    aliases: Array.isArray(topic.aliases) ? topic.aliases : []
+  };
+});
+
+const physicsLessonCounters = {};
+const physicsKnowledgeBaseEnhanced = physicsKnowledgeBase.map((topic) => {
+  const chapterKey = `${topic.grade}-${topic.chapter}`;
+  const nextOrder = (physicsLessonCounters[chapterKey] || 0) + 1;
+  physicsLessonCounters[chapterKey] = nextOrder;
+
+  return {
+    ...topic,
+    lesson: topic.lesson || `SGK Vật lý ${topic.grade} - ${topic.chapter} - Bài ${nextOrder}: ${topic.title}`,
+    aliases: Array.isArray(topic.aliases) ? topic.aliases : []
+  };
+});
+const mathPracticeSetsCurated = (window.MATH_PRACTICE_DATA && Array.isArray(window.MATH_PRACTICE_DATA.sets))
+  ? window.MATH_PRACTICE_DATA.sets
+  : [];
+const mathPracticeSets = mathPracticeSetsCurated.length
+  ? mathPracticeSetsCurated
+  : buildMathPracticeSets(mathKnowledgeBase);
+const physicsPracticeSetsCurated = (window.PHYSICS_PRACTICE_DATA && Array.isArray(window.PHYSICS_PRACTICE_DATA.sets))
+  ? window.PHYSICS_PRACTICE_DATA.sets
+  : [];
+const physicsPracticeSets = physicsPracticeSetsCurated;
+
+const organicKnowledgeBase = [
+  {
+    id: "organic-metan",
+    title: "Metan",
+    chapter: "Hiđrocacbon",
+    grade: "9",
+    type: "theory",
+    formula: "CH4",
+    summary: "Metan là hiđrocacbon no đầu tiên, có thành phần đơn giản nhất và cháy tạo CO2 và H2O.",
+    explanation: "Metan là hợp chất hữu cơ đơn giản nhất thuộc dãy ankan. Trong phân tử metan, mỗi nguyên tử C liên kết với 4 nguyên tử H, nên metan là một hiđrocacbon no.",
+    keyPoints: [
+      "Metan có công thức phân tử CH4.",
+      "Là khí không màu, không mùi, nhẹ hơn không khí.",
+      "Metan cháy tỏa nhiều nhiệt: CH4 + 2O2 -> CO2 + 2H2O.",
+      "Được dùng làm nhiên liệu và nguyên liệu sản xuất hóa chất."
+    ],
+    tags: ["metan", "ankan", "nhiên liệu", "CH4"],
+    aliases: ["methane", "ch4", "metan co 4 hydro"],
+    lesson: "SGK KHTN 9 - Hiđrocacbon no"
+  },
+  {
+    id: "organic-ethene",
+    title: "Etilen",
+    chapter: "Hiđrocacbon",
+    grade: "9",
+    type: "theory",
+    formula: "C2H4",
+    summary: "Etilen là hiđrocacbon không no, có liên kết đôi và có vai trò quan trọng trong công nghiệp thực phẩm và hóa chất.",
+    explanation: "Etilen thuộc dãy anken, có công thức C2H4. Liên kết đôi giữa 2 nguyên tử cacbon làm etilen phản ứng cộng dễ hơn metan.",
+    keyPoints: [
+      "Etilen có công thức C2H4.",
+      "Có liên kết đôi C=C nên dễ tham gia phản ứng cộng.",
+      "Dùng để chế tạo nhựa PE và kích thích chín trái cây.",
+      "Phương trình cộng brom: C2H4 + Br2 -> C2H4Br2."
+    ],
+    tags: ["etilen", "anken", "nhựa", "C2H4"],
+    aliases: ["ethylene", "etan", "etilen chua", "co 2 carbon"],
+    lesson: "SGK KHTN 9 - Etilen"
+  },
+  {
+    id: "organic-acetylene",
+    title: "Axetilen",
+    chapter: "Hiđrocacbon",
+    grade: "9",
+    type: "formula",
+    formula: "C2H2",
+    summary: "Axetilen là hiđrocacbon không no có liên kết ba, cháy sáng mạnh và được dùng hàn cắt kim loại.",
+    explanation: "Axetilen thuộc dãy ankin. Liên kết ba giữa 2 nguyên tử cacbon khiến axetilen rất dễ cháy và tỏa nhiều nhiệt.",
+    keyPoints: [
+      "Axetilen có công thức C2H2.",
+      "Liên kết ba C≡C làm phân tử rất dễ cháy.",
+      "Bình đèn xì có thành phần axetilen và oxi để tạo ngọn lửa nóng.",
+      "Phản ứng cháy: 2C2H2 + 5O2 -> 4CO2 + 2H2O."
+    ],
+    tags: ["axetilen", "ankin", "hàn cắt", "C2H2"],
+    aliases: ["acetylene", "c2h2", "axetilen hàn"],
+    lesson: "SGK KHTN 9 - Axetilen"
+  },
+  {
+    id: "organic-benzen",
+    title: "Benzen",
+    chapter: "Hiđrocacbon",
+    grade: "9",
+    type: "theory",
+    formula: "C6H6",
+    summary: "Benzen là hiđrocacbon thơm, có vòng 6 nguyên tử cacbon và tính chất đặc trưng của hợp chất thơm.",
+    explanation: "Benzen chứa vòng benzen với 6 nguyên tử cacbon tạo thành mạch vòng. Vì có liên kết π delocalized nên benzen ổn định hơn so với anken đơn giản.",
+    keyPoints: [
+      "Benzen có công thức C6H6.",
+      "Là hydrocarbon thơm, thường dùng làm dung môi và nguyên liệu công nghiệp.",
+      "Không dễ tham gia phản ứng cộng như anken, nhưng có phản ứng thế.",
+      "Cấu trúc vòng benzen là đặc trưng của hợp chất thơm."
+    ],
+    tags: ["benzen", "thơm", "vòng 6", "C6H6"],
+    aliases: ["benzene", "vong benzen", "hợp chất thơm"],
+    lesson: "SGK KHTN 9 - Dãy đồng đẳng benzen"
+  },
+  {
+    id: "organic-ethanol",
+    title: "Rượu etylic",
+    chapter: "Dẫn xuất hydrocarbon",
+    grade: "9",
+    type: "theory",
+    formula: "C2H5OH",
+    summary: "Rượu etylic là một rượu đơn chức, có tính chất dễ bay hơi và có thể lên men.",
+    explanation: "Rượu etylic chứa nhóm -OH liên kết với nguyên tử carbon của gốc etyl. Đây là hợp chất hữu cơ phổ biến trong công nghiệp và đời sống.",
+    keyPoints: [
+      "Công thức phân tử C2H5OH.",
+      "Rượu etylic tan trong nước, có tính lỏng dễ bay hơi.",
+      "Phản ứng với axit axetic tạo este: C2H5OH + CH3COOH -> CH3COOC2H5 + H2O.",
+      "Có thể lên men từ tinh bột hoặc đường."
+    ],
+    tags: ["rượu etylic", "ethyl alcohol", "C2H5OH"],
+    aliases: ["etanol", "ruou etylic", "alcohol"],
+    lesson: "SGK KHTN 9 - Rượu"
+  },
+  {
+    id: "organic-acetic-acid",
+    title: "Axit axetic",
+    chapter: "Dẫn xuất hydrocarbon",
+    grade: "9",
+    type: "formula",
+    formula: "CH3COOH",
+    summary: "Axit axetic là axit hữu cơ đơn chức, có vị chua và là nguyên liệu chính để sản xuất este.",
+    explanation: "Axit axetic có nhóm chức -COOH, nên là một axit hữu cơ. Nó là thành phần chính của giấm ăn và có tính chất axit rõ rệt.",
+    keyPoints: [
+      "Công thức CH3COOH.",
+      "Là axit hữu cơ có vị chua và làm quỳ tím đổi đỏ.",
+      "Phản ứng với rượu tạo etyl axetat (mùi thơm).",
+      "Dùng làm gia vị và nguyên liệu công nghiệp."
+    ],
+    tags: ["axit axetic", "giấm", "-COOH", "CH3COOH"],
+    aliases: ["acetic acid", "giam", "axit etanoic"],
+    lesson: "SGK KHTN 9 - Axit cacboxylic"
+  },
+  {
+    id: "organic-ethyl-acetate",
+    title: "Etyl axetat",
+    chapter: "Dẫn xuất hydrocarbon",
+    grade: "9",
+    type: "problem",
+    formula: "CH3COOC2H5",
+    summary: "Etyl axetat là một este có mùi thơm dễ chịu, thường được dùng làm dung môi và hương liệu.",
+    explanation: "Este là sản phẩm của phản ứng giữa axit và rượu. Etyl axetat gồm gốc etyl và gốc axetat, có mùi thơm đặc trưng.",
+    keyPoints: [
+      "Este có công thức CH3COOC2H5.",
+      "Phản ứng ester hóa: axit + rượu -> este + nước.",
+      "Mùi thơm của trái cây và dầu hoa quả thường liên quan đến este.",
+      "Có tính chất dễ bay hơi và dùng làm dung môi."
+    ],
+    tags: ["este", "ethyl acetate", "mùi thơm", "CH3COOC2H5"],
+    aliases: ["pi chi", "ester", "etyl acetat"],
+    lesson: "SGK KHTN 9 - Este"
+  },
+  {
+    id: "organic-sugar-glucose",
+    title: "Glucose",
+    chapter: "Hợp chất thiên nhiên",
+    grade: "9",
+    type: "theory",
+    formula: "C6H12O6",
+    summary: "Glucose là đường đơn có vai trò cung cấp năng lượng cho tế bào và được tìm thấy trong hầu hết các loại hoa quả.",
+    explanation: "Glucose thuộc nhóm carbohydrate, là monosaccharide. Nó dễ tan trong nước và là nguồn năng lượng quan trọng cho cơ thể sống.",
+    keyPoints: [
+      "Glucose có công thức C6H12O6.",
+      "Là đường đơn, dùng trực tiếp làm nhiên liệu tế bào.",
+      "Chuyển hóa thành CO2 và H2O để giải phóng năng lượng.",
+      "Được tìm thấy trong nước ép trái cây và mạch máu của thực vật."
+    ],
+    tags: ["glucose", "đường đơn", "C6H12O6", "năng lượng"],
+    aliases: ["glicozo", "glucozo", "duong mo"],
+    lesson: "SGK KHTN 9 - Carbohydrate"
+  },
+  {
+    id: "organic-sucrose",
+    title: "Saccarozơ",
+    chapter: "Hợp chất thiên nhiên",
+    grade: "9",
+    type: "formula",
+    formula: "C12H22O11",
+    summary: "Saccarozơ là đường mía, đường củ cải và là loại đường đôi rất quen thuộc trong đời sống.",
+    explanation: "Saccarozơ là một disaccharide, được cấu tạo từ glucose và fructose. Khi thủy phân, nó tạo ra hai loại đường đơn có thể được tế bào sử dụng.",
+    keyPoints: [
+      "Công thức C12H22O11.",
+      "Là đường đôi, tan tốt trong nước.",
+      "Saccarozơ là nguyên liệu chính để sản xuất đường ăn.",
+      "Có thể thủy phân thành glucose và fructose."
+    ],
+    tags: ["saccarozơ", "đường mía", "C12H22O11"],
+    aliases: ["sucrose", "duong mia", "duong san"],
+    lesson: "SGK KHTN 9 - Đường"
+  },
+  {
+    id: "organic-starch",
+    title: "Tinh bột",
+    chapter: "Hợp chất thiên nhiên",
+    grade: "9",
+    type: "problem",
+    formula: "(C6H10O5)n",
+    summary: "Tinh bột là polisaccharide dự trữ năng lượng của thực vật và là nguồn tinh bột trong thực phẩm chính của con người.",
+    explanation: "Tinh bột tồn tại dưới dạng hạt trong các loại lương thực như gạo, khoai, ngô. Khi thủy phân, tinh bột tạo thành glucose.",
+    keyPoints: [
+      "Tinh bột có công thức chung (C6H10O5)n.",
+      "Là polisaccharide dự trữ năng lượng ở thực vật.",
+      "Thủy phân tinh bột sẽ tạo glucose.",
+      "Iot làm cho tinh bột chuyển màu xanh tím."
+    ],
+    tags: ["tinh bột", "polisacarit", "gạo", "(C6H10O5)n"],
+    aliases: ["starch", "tinhbot", "gao"],
+    lesson: "SGK KHTN 9 - Tinh bột"
+  },
+  {
+    id: "organic-protein",
+    title: "Protein",
+    chapter: "Hợp chất thiên nhiên",
+    grade: "9",
+    type: "theory",
+    formula: "-",
+    summary: "Protein là hợp chất hữu cơ quan trọng cấu thành tế bào và tham gia hầu hết các quá trình sinh học.",
+    explanation: "Protein là polypeptide được tạo thành từ các amino acid. Chúng có vai trò cấu trúc, xúc tác và vận chuyển trong cơ thể sống.",
+    keyPoints: [
+      "Protein là hợp chất cao phân tử có nhiều amino acid.",
+      "Có vai trò cấu trúc và xúc tác trong tế bào.",
+      "Dễ biến tính dưới nhiệt độ cao hoặc axit mạnh.",
+      "Có trong thịt, sữa, trứng, đậu nành."
+    ],
+    tags: ["protein", "amino acid", "tế bào"],
+    aliases: ["proteins", "chất đạm", "protein trong thực phẩm"],
+    lesson: "SGK KHTN 9 - Protein"
+  }
+];
 
 const periodicElements = (window.PERIODIC_ELEMENTS || []).filter((element) => element.z <= 118);
 const veryReactiveMetalsInWater = new Set(["K", "Na", "Li", "Rb", "Cs"]);
@@ -230,6 +553,8 @@ const modulePanels = {
   periodic: document.getElementById("module-periodic"),
   activity: document.getElementById("module-activity"),
   practice: document.getElementById("module-practice"),
+  organic: document.getElementById("module-organic"),
+  math: document.getElementById("module-math"),
   physics: document.getElementById("module-physics")
 };
 
@@ -259,6 +584,31 @@ const physicsMap = document.getElementById("physicsMap");
 const physicsResults = document.getElementById("physicsResults");
 const physicsGradeButtons = document.querySelectorAll(".physics-grade-btn");
 const physicsTypeButtons = document.querySelectorAll(".physics-type-btn");
+const organicSearchInput = document.getElementById("organicSearchInput");
+const organicSearchBtn = document.getElementById("organicSearchBtn");
+const organicResults = document.getElementById("organicResults");
+const mathSearchInput = document.getElementById("mathSearchInput");
+const mathSearchBtn = document.getElementById("mathSearchBtn");
+const mathMap = document.getElementById("mathMap");
+const mathResults = document.getElementById("mathResults");
+const mathGradeButtons = document.querySelectorAll(".math-grade-btn");
+const mathTypeButtons = document.querySelectorAll(".math-type-btn");
+const mathLevelButtons = document.querySelectorAll(".math-level-btn");
+const mathPrevLessonBtn = document.getElementById("mathPrevLessonBtn");
+const mathNextLessonBtn = document.getElementById("mathNextLessonBtn");
+const mathLessonIndicator = document.getElementById("mathLessonIndicator");
+
+const mathPracticeResults = document.getElementById("mathPracticeResults");
+const mathPracticeGradeButtons = document.querySelectorAll(".math-practice-grade-btn");
+const mathPracticeLevelButtons = document.querySelectorAll(".math-practice-level-btn");
+const mathPracticeChapterSelect = document.getElementById("mathPracticeChapterSelect");
+const mathPracticeRefreshBtn = document.getElementById("mathPracticeRefreshBtn");
+
+const physicsPracticeResults = document.getElementById("physicsPracticeResults");
+const physicsPracticeGradeButtons = document.querySelectorAll(".physics-practice-grade-btn");
+const physicsPracticeLevelButtons = document.querySelectorAll(".physics-practice-level-btn");
+const physicsPracticeChapterSelect = document.getElementById("physicsPracticeChapterSelect");
+const physicsPracticeRefreshBtn = document.getElementById("physicsPracticeRefreshBtn");
 
 const activitySeriesRoot = document.getElementById("activitySeries");
 const acidMetalInput = document.getElementById("acidMetalInput");
@@ -275,6 +625,15 @@ let periodicCategoryFilter = "all";
 let periodicFamilyFilter = "all";
 let physicsGradeFilter = "all";
 let physicsTypeFilter = "all";
+let mathGradeFilter = "all";
+let mathTypeFilter = "all";
+let mathProblemLevelFilter = "all";
+let mathLessonCursor = 0;
+let mathCurrentTopicIds = [];
+let mathPracticeGradeFilter = "all";
+let mathPracticeLevelFilter = "all";
+let physicsPracticeGradeFilter = "all";
+let physicsPracticeLevelFilter = "all";
 
 function normalizeFormula(formula) {
   return formula.replace(/\s+/g, "").toUpperCase();
@@ -283,6 +642,253 @@ function normalizeFormula(formula) {
 function canonicalizeTerm(term) {
   const compact = normalizeFormula(term).replace(/[^A-Z0-9]/g, "");
   return symbolAliases[compact] || term.trim();
+}
+
+function normalizeSearchText(text) {
+  return String(text || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/[^a-z0-9^+\-*/=().,;\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function expandMathQueryTerms(rawQuery) {
+  const normalizedQuery = normalizeSearchText(rawQuery);
+  if (!normalizedQuery) {
+    return [];
+  }
+
+  const expanded = new Set(
+    normalizedQuery
+      .split(/[\s,;]+/)
+      .map((token) => token.trim())
+      .filter(Boolean)
+  );
+  expanded.add(normalizedQuery);
+
+  Object.entries(mathSynonymMap).forEach(([baseTerm, aliases]) => {
+    const normalizedVariants = [baseTerm, ...aliases].map((value) => normalizeSearchText(value));
+    if (normalizedVariants.some((variant) => variant && normalizedQuery.includes(variant))) {
+      normalizedVariants.forEach((variant) => {
+        if (variant) {
+          expanded.add(variant);
+        }
+      });
+    }
+  });
+
+  return [...expanded].filter((term) => term.length >= 2);
+}
+
+function scoreMathTopic(topic, queryTerms, rawQuery) {
+  if (!rawQuery) {
+    return 0;
+  }
+
+  const normalizedQuery = normalizeSearchText(rawQuery);
+  const titleText = normalizeSearchText(topic.title);
+  const summaryText = normalizeSearchText(topic.summary || "");
+  const explanationText = normalizeSearchText(topic.explanation || "");
+  const formulaText = normalizeSearchText(topic.formula || "");
+  const lessonText = normalizeSearchText(topic.lesson || "");
+  const tagsText = normalizeSearchText((topic.tags || []).join(" "));
+  const aliasesText = normalizeSearchText((topic.aliases || []).join(" "));
+
+  let score = 0;
+
+  if (titleText === normalizedQuery) {
+    score += 120;
+  }
+  if (titleText.includes(normalizedQuery)) {
+    score += 70;
+  }
+  if (lessonText.includes(normalizedQuery)) {
+    score += 35;
+  }
+
+  queryTerms.forEach((term) => {
+    if (titleText.includes(term)) {
+      score += 16;
+    }
+    if (aliasesText.includes(term)) {
+      score += 14;
+    }
+    if (formulaText.includes(term)) {
+      score += 12;
+    }
+    if (tagsText.includes(term)) {
+      score += 10;
+    }
+    if (summaryText.includes(term)) {
+      score += 8;
+    }
+    if (explanationText.includes(term)) {
+      score += 6;
+    }
+    if (lessonText.includes(term)) {
+      score += 4;
+    }
+  });
+
+  if (topic.type === "problem") {
+    score += 2;
+  }
+
+  return score;
+}
+
+function expandPhysicsQueryTerms(rawQuery) {
+  const normalizedQuery = normalizeSearchText(rawQuery);
+  if (!normalizedQuery) {
+    return [];
+  }
+
+  const expanded = new Set(
+    normalizedQuery
+      .split(/[\s,;]+/)
+      .map((token) => token.trim())
+      .filter(Boolean)
+  );
+  expanded.add(normalizedQuery);
+
+  Object.entries(physicsSynonymMap).forEach(([baseTerm, aliases]) => {
+    const normalizedVariants = [baseTerm, ...aliases].map((value) => normalizeSearchText(value));
+    if (normalizedVariants.some((variant) => variant && normalizedQuery.includes(variant))) {
+      normalizedVariants.forEach((variant) => {
+        if (variant) {
+          expanded.add(variant);
+        }
+      });
+    }
+  });
+
+  return [...expanded].filter((term) => term.length >= 2);
+}
+
+function scorePhysicsTopic(topic, queryTerms, rawQuery) {
+  if (!rawQuery) {
+    return 0;
+  }
+
+  const normalizedQuery = normalizeSearchText(rawQuery);
+  const titleText = normalizeSearchText(topic.title);
+  const summaryText = normalizeSearchText(topic.summary || "");
+  const explanationText = normalizeSearchText(topic.explanation || "");
+  const formulaText = normalizeSearchText(topic.formula || "");
+  const lessonText = normalizeSearchText(topic.lesson || "");
+  const tagsText = normalizeSearchText((topic.tags || []).join(" "));
+  const aliasesText = normalizeSearchText((topic.aliases || []).join(" "));
+
+  let score = 0;
+  if (titleText === normalizedQuery) {
+    score += 120;
+  }
+  if (titleText.includes(normalizedQuery)) {
+    score += 70;
+  }
+  if (lessonText.includes(normalizedQuery)) {
+    score += 30;
+  }
+
+  queryTerms.forEach((term) => {
+    if (titleText.includes(term)) {
+      score += 16;
+    }
+    if (aliasesText.includes(term)) {
+      score += 14;
+    }
+    if (formulaText.includes(term)) {
+      score += 12;
+    }
+    if (tagsText.includes(term)) {
+      score += 10;
+    }
+    if (summaryText.includes(term)) {
+      score += 8;
+    }
+    if (explanationText.includes(term)) {
+      score += 6;
+    }
+  });
+
+  if (topic.type === "formula") {
+    score += 1;
+  }
+
+  return score;
+}
+
+function buildMathPracticeSets(topics) {
+  const result = [];
+  const grades = ["8", "9"];
+
+  grades.forEach((grade) => {
+    mathChapterOrder.forEach((chapter) => {
+      const chapterTopics = topics.filter((topic) => topic.grade === grade && topic.chapter === chapter);
+      if (!chapterTopics.length) {
+        return;
+      }
+
+      const problemTopics = chapterTopics.filter((topic) => topic.type === "problem");
+      const formulaTopics = chapterTopics.filter((topic) => topic.type === "formula");
+      const theoryTopics = chapterTopics.filter((topic) => topic.type === "theory");
+
+      const baseBasic = problemTopics[0] || theoryTopics[0] || chapterTopics[0];
+      const baseIntermediate = formulaTopics[0] || problemTopics[0] || chapterTopics[0];
+      const baseAdvanced = problemTopics[1] || problemTopics[0] || formulaTopics[0] || chapterTopics[0];
+
+      const createSet = (level, baseTopic) => {
+        if (!baseTopic) {
+          return;
+        }
+
+        const isBasic = level === "basic";
+        const isIntermediate = level === "intermediate";
+        const levelTitle = mathProblemLevelLabels[level] || level;
+
+        const question = isBasic
+          ? `Nêu khái niệm cốt lõi và 2 ý cần nhớ của chủ đề "${baseTopic.title}". Sau đó cho 1 ví dụ ngắn liên quan ${chapter.toLowerCase()}.`
+          : isIntermediate
+            ? `Giải bài tập mức ${levelTitle.toLowerCase()} thuộc "${baseTopic.title}" và trình bày từng bước biến đổi.`
+            : `Giải bài toán vận dụng tổng hợp từ chủ đề "${baseTopic.title}", nêu rõ chiến lược chọn phương pháp và kiểm tra kết quả.`;
+
+        const hint = isBasic
+          ? `Đọc phần "Điểm cần nhớ" và "Mẹo ghi nhớ" của bài ${baseTopic.lesson}.`
+          : isIntermediate
+            ? `Sử dụng công thức: ${baseTopic.formula || "chọn công thức/chứng minh phù hợp"}.`
+            : `Kết hợp ít nhất 2 ý trong chương ${chapter} lớp ${grade}; ưu tiên lập luận và kiểm tra điều kiện.`;
+
+        const answer = isBasic
+          ? `Đáp án mẫu: học sinh trình bày đúng khái niệm, nêu ít nhất 2 ý trong keyPoints và 1 ví dụ đúng ngữ cảnh chủ đề ${baseTopic.title}.`
+          : isIntermediate
+            ? `Đáp án mẫu: bài giải đúng quy trình, sử dụng công thức/chứng minh phù hợp, kết luận rõ ràng và có thử lại.`
+            : `Đáp án mẫu: có phân tích đề, chọn phương pháp hợp lý, biến đổi chính xác và đánh giá tính hợp lý của đáp số.`;
+
+        result.push({
+          id: `practice-${grade}-${chapter}-${level}`,
+          grade,
+          chapter,
+          level,
+          title: `Đề ${levelTitle}: ${baseTopic.title}`,
+          sourceTopicId: baseTopic.id,
+          sourceLesson: baseTopic.lesson,
+          question,
+          hint,
+          answer,
+          tags: ["luyện tập", chapter, `lớp ${grade}`, levelTitle]
+        });
+      };
+
+      createSet("basic", baseBasic);
+      createSet("intermediate", baseIntermediate);
+      createSet("advanced", baseAdvanced);
+    });
+  });
+
+  return result;
 }
 
 function parseQuery(queryText) {
@@ -1485,14 +2091,16 @@ function switchModule(nextModule) {
   });
 
   Object.entries(modulePanels).forEach(([key, panel]) => {
-    panel.classList.toggle("is-hidden", key !== nextModule);
+    if (panel) {
+      panel.classList.toggle("is-hidden", key !== nextModule);
+    }
   });
 
   if (moduleNav) {
-    moduleNav.classList.toggle("is-hidden", nextModule === "physics");
+    moduleNav.classList.toggle("is-hidden", nextModule === "physics" || nextModule === "math" || nextModule === "organic");
   }
 
-  const subjectKey = nextModule === "physics" ? "physics" : "chemistry";
+  const subjectKey = nextModule === "physics" ? "physics" : nextModule === "math" ? "math" : nextModule === "organic" ? "organic" : "chemistry";
   subjectButtons.forEach((button) => {
     const isActive = button.dataset.subject === subjectKey;
     button.classList.toggle("active", isActive);
@@ -1500,29 +2108,141 @@ function switchModule(nextModule) {
   });
 }
 
-function getFilteredPhysicsTopics() {
-  const query = (physicsSearchInput?.value || "").trim().toLowerCase();
+function getFilteredOrganicTopics() {
+  const rawQuery = (organicSearchInput?.value || "").trim();
+  if (!rawQuery) {
+    return organicKnowledgeBase;
+  }
 
-  return physicsKnowledgeBase.filter((topic) => {
+  const normalizedQuery = normalizeSearchText(rawQuery);
+  const queryTerms = normalizedQuery
+    .split(/[\s,;]+/)
+    .map((token) => token.trim())
+    .filter(Boolean);
+
+  return [...organicKnowledgeBase]
+    .map((topic) => {
+      const haystack = [
+        topic.title,
+        topic.summary,
+        topic.explanation,
+        topic.formula,
+        topic.lesson,
+        ...(topic.tags || []),
+        ...(topic.aliases || [])
+      ].join(" ");
+      const normalizedHaystack = normalizeSearchText(haystack);
+      const matchScore = queryTerms.reduce((total, term) => total + (normalizedHaystack.includes(normalizeSearchText(term)) ? 1 : 0), 0);
+      return { topic, score: matchScore + (normalizedHaystack.includes(normalizedQuery) ? 2 : 0) };
+    })
+    .filter(({ score }) => score > 0)
+    .sort((a, b) => b.score - a.score)
+    .map(({ topic }) => topic);
+}
+
+function renderOrganicTopics() {
+  if (!organicResults) {
+    return;
+  }
+
+  const topics = getFilteredOrganicTopics();
+  organicResults.innerHTML = "";
+
+  if (!topics.length) {
+    organicResults.innerHTML = "<div class=\"empty-state\">Không tìm thấy chủ đề Hóa hữu cơ phù hợp. Hãy thử: metan, etilen, rượu etylic, axit axetic, protein.</div>";
+    return;
+  }
+
+  topics.forEach((topic) => {
+    const card = document.createElement("article");
+    card.className = "physics-card";
+
+    const keyPointsHtml = (topic.keyPoints || [])
+      .map((point) => `<li>${point}</li>`)
+      .join("");
+
+    const tagsHtml = (topic.tags || [])
+      .map((tag) => `<span class=\"physics-tag\">${tag}</span>`)
+      .join("");
+
+    const formulaHtml = topic.formula && topic.formula !== "-"
+      ? `<p class="physics-formula">${topic.formula}</p>`
+      : "";
+
+    card.innerHTML = `
+      <p class="physics-meta">Lớp ${topic.grade} | ${topic.chapter} | ${subjectTypeLabels[topic.type] || topic.type}</p>
+      <h3>${topic.title}</h3>
+      <div class="physics-detail-stack">
+        <div class="physics-detail-block">
+          <p class="physics-detail-label">Khái niệm</p>
+          <p>${topic.summary}</p>
+        </div>
+        <div class="physics-detail-block">
+          <p class="physics-detail-label">Giải thích</p>
+          <p>${topic.explanation}</p>
+        </div>
+        <div class="physics-detail-block">
+          <p class="physics-detail-label">Điểm cần nhớ</p>
+          <ul class="physics-bullets">${keyPointsHtml}</ul>
+        </div>
+      </div>
+      ${formulaHtml}
+      <div class="physics-tags">${tagsHtml}</div>
+    `;
+
+    organicResults.appendChild(card);
+  });
+}
+
+function getFilteredPhysicsTopics() {
+  const rawQuery = (physicsSearchInput?.value || "").trim();
+  const queryTerms = expandPhysicsQueryTerms(rawQuery);
+
+  const filtered = physicsKnowledgeBaseEnhanced.filter((topic) => {
     const matchGrade = physicsGradeFilter === "all" || topic.grade === physicsGradeFilter;
     const matchType = physicsTypeFilter === "all" || topic.type === physicsTypeFilter;
     if (!matchGrade || !matchType) {
       return false;
     }
 
-    if (!query) {
+    if (!rawQuery) {
       return true;
     }
 
     const haystack = [
       topic.title,
       topic.summary,
+      topic.explanation || "",
       topic.formula || "",
       topic.chapter,
-      ...(topic.tags || [])
-    ].join(" ").toLowerCase();
-    return haystack.includes(query);
+      topic.lesson || "",
+      ...(topic.tags || []),
+      ...(topic.aliases || [])
+    ].join(" ");
+    const normalizedHaystack = normalizeSearchText(haystack);
+    return queryTerms.some((term) => normalizedHaystack.includes(term));
   });
+
+  return filtered
+    .map((topic, index) => ({
+      topic,
+      index,
+      score: scorePhysicsTopic(topic, queryTerms, rawQuery)
+    }))
+    .sort((a, b) => {
+      const scoreDelta = b.score - a.score;
+      if (scoreDelta !== 0) {
+        return scoreDelta;
+      }
+
+      const chapterDelta = physicsChapterOrder.indexOf(a.topic.chapter) - physicsChapterOrder.indexOf(b.topic.chapter);
+      if (chapterDelta !== 0) {
+        return chapterDelta;
+      }
+
+      return a.index - b.index;
+    })
+    .map((entry) => entry.topic);
 }
 
 function renderPhysicsMap(topics) {
@@ -1582,6 +2302,7 @@ function renderPhysicsResults() {
       ? topic.examples
       : (topic.example ? [topic.example] : []);
     const memoryTip = topic.memoryTip || `Mẹo nhớ: hãy nối ${topic.title.toLowerCase()} với mẫu câu hỏi thường gặp trong phần ${topic.chapter}.`;
+    const lessonHtml = topic.lesson ? `<div class="physics-detail-block"><p class="physics-detail-label">Bài học SGK</p><p>${topic.lesson}</p></div>` : "";
 
     const bulletsHtml = keyPoints.map((point) => `<li>${point}</li>`).join("");
     const examplesHtml = examples.length
@@ -1596,6 +2317,7 @@ function renderPhysicsResults() {
           <p class="physics-detail-label">Khái niệm</p>
           <p>${explanation}</p>
         </div>
+        ${lessonHtml}
         <div class="physics-detail-block">
           <p class="physics-detail-label">Điểm cần nhớ</p>
           <ul class="physics-bullets">${bulletsHtml}</ul>
@@ -1611,6 +2333,498 @@ function renderPhysicsResults() {
     `;
     physicsResults.appendChild(card);
   });
+}
+
+function getFilteredMathTopics() {
+  const rawQuery = (mathSearchInput?.value || "").trim();
+  const queryTerms = expandMathQueryTerms(rawQuery);
+
+  const filtered = mathKnowledgeBase.filter((topic) => {
+    const matchGrade = mathGradeFilter === "all" || topic.grade === mathGradeFilter;
+    const matchType = mathTypeFilter === "all" || topic.type === mathTypeFilter;
+    const matchProblemLevel = mathProblemLevelFilter === "all"
+      || topic.type !== "problem"
+      || topic.level === mathProblemLevelFilter;
+
+    if (!matchGrade || !matchType || !matchProblemLevel) {
+      return false;
+    }
+
+    if (!rawQuery) {
+      return true;
+    }
+
+    const typeLabel = subjectTypeLabels[topic.type] || topic.type;
+    const levelLabel = topic.type === "problem" ? (mathProblemLevelLabels[topic.level] || "") : "";
+    const haystack = [
+      topic.title,
+      topic.summary,
+      topic.explanation || "",
+      topic.formula || "",
+      topic.chapter,
+      topic.lesson || "",
+      typeLabel,
+      levelLabel,
+      ...(topic.tags || []),
+      ...(topic.aliases || [])
+    ].join(" ");
+    const normalizedHaystack = normalizeSearchText(haystack);
+    return queryTerms.some((term) => normalizedHaystack.includes(term));
+  });
+
+  return filtered
+    .map((topic, index) => ({
+      topic,
+      index,
+      score: scoreMathTopic(topic, queryTerms, rawQuery)
+    }))
+    .sort((a, b) => {
+      const scoreDelta = b.score - a.score;
+      if (scoreDelta !== 0) {
+        return scoreDelta;
+      }
+
+      const chapterDelta = mathChapterOrder.indexOf(a.topic.chapter) - mathChapterOrder.indexOf(b.topic.chapter);
+      if (chapterDelta !== 0) {
+        return chapterDelta;
+      }
+
+      return a.index - b.index;
+    })
+    .map((entry) => entry.topic);
+}
+
+function renderMathMap(topics) {
+  if (!mathMap) {
+    return;
+  }
+
+  const countByChapter = new Map();
+  topics.forEach((topic) => {
+    countByChapter.set(topic.chapter, (countByChapter.get(topic.chapter) || 0) + 1);
+  });
+
+  mathMap.innerHTML = "";
+  mathChapterOrder.forEach((chapter) => {
+    const count = countByChapter.get(chapter) || 0;
+    if (!count) {
+      return;
+    }
+    const card = document.createElement("article");
+    card.className = "physics-map-card";
+    card.innerHTML = `<h3>${chapter}</h3><p>${count} mục kiến thức phù hợp bộ lọc hiện tại.</p>`;
+    mathMap.appendChild(card);
+  });
+}
+
+function updateMathLessonNavigator(total) {
+  const safeTotal = Math.max(total, 0);
+  if (!safeTotal) {
+    if (mathLessonIndicator) {
+      mathLessonIndicator.textContent = "Không có bài phù hợp";
+    }
+    if (mathPrevLessonBtn) {
+      mathPrevLessonBtn.disabled = true;
+    }
+    if (mathNextLessonBtn) {
+      mathNextLessonBtn.disabled = true;
+    }
+    return;
+  }
+
+  if (mathLessonIndicator) {
+    mathLessonIndicator.textContent = `Bài ${mathLessonCursor + 1}/${safeTotal}`;
+  }
+
+  if (mathPrevLessonBtn) {
+    mathPrevLessonBtn.disabled = mathLessonCursor <= 0;
+  }
+  if (mathNextLessonBtn) {
+    mathNextLessonBtn.disabled = mathLessonCursor >= safeTotal - 1;
+  }
+}
+
+function focusCurrentMathLesson() {
+  const cards = [...(mathResults?.querySelectorAll(".physics-card") || [])];
+  cards.forEach((card, idx) => {
+    card.classList.toggle("math-active-lesson", idx === mathLessonCursor);
+  });
+
+  const activeCard = cards[mathLessonCursor];
+  if (activeCard) {
+    activeCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+}
+
+function initMathPracticeChapterOptions() {
+  if (!mathPracticeChapterSelect) {
+    return;
+  }
+
+  mathPracticeChapterSelect.innerHTML = "";
+  const allOption = document.createElement("option");
+  allOption.value = "all";
+  allOption.textContent = "Tất cả chương";
+  mathPracticeChapterSelect.appendChild(allOption);
+
+  mathChapterOrder.forEach((chapter) => {
+    const option = document.createElement("option");
+    option.value = chapter;
+    option.textContent = chapter;
+    mathPracticeChapterSelect.appendChild(option);
+  });
+}
+
+function initPhysicsPracticeChapterOptions() {
+  if (!physicsPracticeChapterSelect) {
+    return;
+  }
+
+  physicsPracticeChapterSelect.innerHTML = "";
+  const allOption = document.createElement("option");
+  allOption.value = "all";
+  allOption.textContent = "Tất cả chương";
+  physicsPracticeChapterSelect.appendChild(allOption);
+
+  physicsChapterOrder.forEach((chapter) => {
+    const option = document.createElement("option");
+    option.value = chapter;
+    option.textContent = chapter;
+    physicsPracticeChapterSelect.appendChild(option);
+  });
+}
+
+function getFilteredMathPracticeSets() {
+  const selectedChapter = mathPracticeChapterSelect?.value || "all";
+  return mathPracticeSets.filter((item) => {
+    const matchGrade = mathPracticeGradeFilter === "all" || item.grade === mathPracticeGradeFilter;
+    const matchLevel = mathPracticeLevelFilter === "all" || item.level === mathPracticeLevelFilter;
+    const matchChapter = selectedChapter === "all" || item.chapter === selectedChapter;
+    return matchGrade && matchLevel && matchChapter;
+  });
+}
+
+function getFilteredPhysicsPracticeSets() {
+  const selectedChapter = physicsPracticeChapterSelect?.value || "all";
+  return physicsPracticeSets.filter((item) => {
+    const matchGrade = physicsPracticeGradeFilter === "all" || item.grade === physicsPracticeGradeFilter;
+    const matchLevel = physicsPracticeLevelFilter === "all" || item.level === physicsPracticeLevelFilter;
+    const matchChapter = selectedChapter === "all" || item.chapter === selectedChapter;
+    return matchGrade && matchLevel && matchChapter;
+  });
+}
+
+function renderMathPracticeSets() {
+  if (!mathPracticeResults) {
+    return;
+  }
+
+  const sets = getFilteredMathPracticeSets();
+  mathPracticeResults.innerHTML = "";
+
+  if (!sets.length) {
+    mathPracticeResults.innerHTML = "<div class=\"empty-state\">Chưa có bộ đề phù hợp bộ lọc hiện tại.</div>";
+    return;
+  }
+
+  sets.forEach((item) => {
+    const card = document.createElement("article");
+    card.className = "physics-card";
+
+    const tagsHtml = (item.tags || [])
+      .map((tag) => `<span class=\"physics-tag\">${tag}</span>`)
+      .join("");
+
+    card.innerHTML = `
+      <p class="physics-meta">Lớp ${item.grade} | ${item.chapter} | ${mathProblemLevelLabels[item.level] || item.level}</p>
+      <h3>${item.title}</h3>
+      <div class="physics-detail-stack">
+        <div class="physics-detail-block">
+          <p class="physics-detail-label">Đề bài</p>
+          <p>${item.question}</p>
+        </div>
+        <div class="physics-detail-block">
+          <p class="physics-detail-label">Gợi ý</p>
+          <p>${item.hint}</p>
+        </div>
+        <div class="physics-detail-block">
+          <p class="physics-detail-label">Nguồn kiến thức</p>
+          <p>${item.sourceLesson}</p>
+        </div>
+      </div>
+      <div class="physics-detail-block">
+        <p class="physics-detail-label">Câu trả lời của em</p>
+        <textarea class="math-answer-input" rows="3" placeholder="Nhập cách làm hoặc đáp án chính của em..."></textarea>
+        <button type="button" class="math-check-btn">Chấm nhanh</button>
+        <p class="math-check-feedback"></p>
+      </div>
+      <details class="math-practice-answer">
+        <summary>Xem đáp án mẫu</summary>
+        <p>${item.answer}</p>
+      </details>
+      <div class="physics-tags">${tagsHtml}</div>
+    `;
+
+    const checkBtn = card.querySelector(".math-check-btn");
+    const answerInput = card.querySelector(".math-answer-input");
+    const feedback = card.querySelector(".math-check-feedback");
+    if (checkBtn && answerInput && feedback) {
+      checkBtn.addEventListener("click", () => applyQuickGrading(answerInput.value, item.expectedKeywords || [], feedback));
+    }
+
+    mathPracticeResults.appendChild(card);
+  });
+}
+
+function renderPhysicsPracticeSets() {
+  if (!physicsPracticeResults) {
+    return;
+  }
+
+  const sets = getFilteredPhysicsPracticeSets();
+  physicsPracticeResults.innerHTML = "";
+
+  if (!sets.length) {
+    physicsPracticeResults.innerHTML = "<div class=\"empty-state\">Chưa có bộ đề phù hợp bộ lọc hiện tại.</div>";
+    return;
+  }
+
+  sets.forEach((item) => {
+    const card = document.createElement("article");
+    card.className = "physics-card";
+
+    const tagsHtml = ["luyện tập", item.chapter, `lớp ${item.grade}`, mathProblemLevelLabels[item.level] || item.level]
+      .map((tag) => `<span class=\"physics-tag\">${tag}</span>`)
+      .join("");
+
+    card.innerHTML = `
+      <p class="physics-meta">Lớp ${item.grade} | ${item.chapter} | ${mathProblemLevelLabels[item.level] || item.level}</p>
+      <h3>${item.title}</h3>
+      <div class="physics-detail-stack">
+        <div class="physics-detail-block">
+          <p class="physics-detail-label">Đề bài</p>
+          <p>${item.question}</p>
+        </div>
+        <div class="physics-detail-block">
+          <p class="physics-detail-label">Gợi ý</p>
+          <p>${item.hint}</p>
+        </div>
+        <div class="physics-detail-block">
+          <p class="physics-detail-label">Nguồn kiến thức</p>
+          <p>${item.sourceLesson || "SGK Vật lý 8-9"}</p>
+        </div>
+      </div>
+      <div class="physics-detail-block">
+        <p class="physics-detail-label">Câu trả lời của em</p>
+        <textarea class="math-answer-input" rows="3" placeholder="Nhập cách làm hoặc đáp án chính của em..."></textarea>
+        <button type="button" class="math-check-btn">Chấm nhanh</button>
+        <p class="math-check-feedback"></p>
+      </div>
+      <details class="math-practice-answer">
+        <summary>Xem đáp án mẫu</summary>
+        <p>${item.answer}</p>
+      </details>
+      <div class="physics-tags">${tagsHtml}</div>
+    `;
+
+    const checkBtn = card.querySelector(".math-check-btn");
+    const answerInput = card.querySelector(".math-answer-input");
+    const feedback = card.querySelector(".math-check-feedback");
+    if (checkBtn && answerInput && feedback) {
+      checkBtn.addEventListener("click", () => applyQuickGrading(answerInput.value, item.expectedKeywords || [], feedback));
+    }
+
+    physicsPracticeResults.appendChild(card);
+  });
+}
+
+function applyQuickGrading(userAnswer, expectedKeywords, feedbackNode) {
+  const userText = normalizeSearchText(userAnswer);
+  const expected = expectedKeywords.map((key) => normalizeSearchText(key));
+  if (!userText) {
+    feedbackNode.textContent = "Bạn chưa nhập câu trả lời để chấm.";
+    return;
+  }
+
+  const matched = expected.filter((key) => key && userText.includes(key));
+  const ratio = expected.length ? (matched.length / expected.length) : 0;
+  if (ratio >= 0.65) {
+    feedbackNode.textContent = `Kết quả: Tốt (${matched.length}/${expected.length} ý chính khớp). Bạn có thể đối chiếu thêm đáp án mẫu để hoàn thiện trình bày.`;
+  } else if (ratio >= 0.35) {
+    feedbackNode.textContent = `Kết quả: Đạt một phần (${matched.length}/${expected.length} ý chính). Gợi ý: bổ sung các ý còn thiếu rồi chấm lại.`;
+  } else {
+    feedbackNode.textContent = "Kết quả: Chưa đạt. Hãy xem gợi ý và đáp án mẫu, sau đó viết lại lời giải theo từng bước.";
+  }
+}
+
+function renderMathResults() {
+  if (!mathResults) {
+    return;
+  }
+
+  const topics = getFilteredMathTopics();
+  renderMathMap(topics);
+  mathResults.innerHTML = "";
+
+  if (!topics.length) {
+    mathCurrentTopicIds = [];
+    mathLessonCursor = 0;
+    updateMathLessonNavigator(0);
+    mathResults.innerHTML = "<div class=\"empty-state\">Không tìm thấy mục kiến thức phù hợp. Bạn thử đổi từ khóa hoặc bộ lọc.</div>";
+    return;
+  }
+
+  mathCurrentTopicIds = topics.map((topic) => topic.id);
+  mathLessonCursor = Math.max(0, Math.min(mathLessonCursor, mathCurrentTopicIds.length - 1));
+  updateMathLessonNavigator(mathCurrentTopicIds.length);
+
+  topics.forEach((topic, index) => {
+    const card = document.createElement("article");
+    card.className = "physics-card";
+    card.dataset.topicId = topic.id;
+    card.classList.toggle("math-active-lesson", index === mathLessonCursor);
+    card.addEventListener("click", () => {
+      mathLessonCursor = index;
+      updateMathLessonNavigator(mathCurrentTopicIds.length);
+      focusCurrentMathLesson();
+    });
+
+    const tagsHtml = (topic.tags || [])
+      .map((tag) => `<span class=\"physics-tag\">${tag}</span>`)
+      .join("");
+
+    const explanation = topic.explanation || topic.summary || `Nội dung ${topic.title} thuộc phần ${topic.chapter}.`;
+    const keyPoints = Array.isArray(topic.keyPoints) && topic.keyPoints.length
+      ? topic.keyPoints
+      : [
+        topic.summary || `Khái niệm trọng tâm của ${topic.title}.`,
+        topic.formula ? `Công thức liên quan: ${topic.formula}` : `Hãy ghi nhớ đặc điểm chính của ${topic.title}.`,
+        `Mẹo ôn tập: liên hệ ${topic.title.toLowerCase()} với dạng bài thường gặp.`
+      ];
+    const example = topic.example || "";
+    const memoryTip = topic.memoryTip || `Mẹo nhớ: hãy nối ${topic.title.toLowerCase()} với phép suy luận và dạng bài có liên quan.`;
+    const problemLevel = topic.type === "problem" ? (mathProblemLevelLabels[topic.level] || "Dạng bài") : "";
+    const bulletsHtml = keyPoints.map((point) => `<li>${point}</li>`).join("");
+    const exampleHtml = example ? `<div class="physics-detail-block"><p class="physics-detail-label">Ví dụ</p><p class="physics-example">${example}</p></div>` : "";
+    const lessonHtml = topic.lesson ? `<div class="physics-detail-block"><p class="physics-detail-label">Bài học SGK</p><p>${topic.lesson}</p></div>` : "";
+
+    card.innerHTML = `
+      <p class="physics-meta">Lớp ${topic.grade} | ${topic.chapter} | ${subjectTypeLabels[topic.type] || topic.type}${problemLevel ? ` | ${problemLevel}` : ""}</p>
+      <h3>${topic.title}</h3>
+      <div class="physics-detail-stack">
+        <div class="physics-detail-block">
+          <p class="physics-detail-label">Khái niệm</p>
+          <p>${explanation}</p>
+        </div>
+        ${lessonHtml}
+        <div class="physics-detail-block">
+          <p class="physics-detail-label">Điểm cần nhớ</p>
+          <ul class="physics-bullets">${bulletsHtml}</ul>
+        </div>
+        ${exampleHtml}
+        <div class="physics-detail-block">
+          <p class="physics-detail-label">Mẹo ghi nhớ</p>
+          <p>${memoryTip}</p>
+        </div>
+      </div>
+      ${topic.formula ? `<p class="physics-formula">${topic.formula}</p>` : ""}
+      <div class="physics-tags">${tagsHtml}</div>
+    `;
+    mathResults.appendChild(card);
+  });
+
+  focusCurrentMathLesson();
+}
+
+function setMathGradeFilter(nextGrade) {
+  mathGradeFilter = nextGrade;
+  mathLessonCursor = 0;
+  mathGradeButtons.forEach((button) => {
+    const isActive = button.dataset.grade === nextGrade;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
+  });
+  renderMathResults();
+}
+
+function setMathTypeFilter(nextType) {
+  mathTypeFilter = nextType;
+  mathLessonCursor = 0;
+  mathTypeButtons.forEach((button) => {
+    const isActive = button.dataset.type === nextType;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
+  });
+  renderMathResults();
+}
+
+function setMathProblemLevelFilter(nextLevel) {
+  mathProblemLevelFilter = nextLevel;
+  mathLessonCursor = 0;
+  mathLevelButtons.forEach((button) => {
+    const isActive = button.dataset.level === nextLevel;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
+  });
+  renderMathResults();
+}
+
+function goToPreviousMathLesson() {
+  if (!mathCurrentTopicIds.length || mathLessonCursor <= 0) {
+    return;
+  }
+  mathLessonCursor -= 1;
+  updateMathLessonNavigator(mathCurrentTopicIds.length);
+  focusCurrentMathLesson();
+}
+
+function goToNextMathLesson() {
+  if (!mathCurrentTopicIds.length || mathLessonCursor >= mathCurrentTopicIds.length - 1) {
+    return;
+  }
+  mathLessonCursor += 1;
+  updateMathLessonNavigator(mathCurrentTopicIds.length);
+  focusCurrentMathLesson();
+}
+
+function setMathPracticeGradeFilter(nextGrade) {
+  mathPracticeGradeFilter = nextGrade;
+  mathPracticeGradeButtons.forEach((button) => {
+    const isActive = button.dataset.grade === nextGrade;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
+  });
+  renderMathPracticeSets();
+}
+
+function setMathPracticeLevelFilter(nextLevel) {
+  mathPracticeLevelFilter = nextLevel;
+  mathPracticeLevelButtons.forEach((button) => {
+    const isActive = button.dataset.level === nextLevel;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
+  });
+  renderMathPracticeSets();
+}
+
+function setPhysicsPracticeGradeFilter(nextGrade) {
+  physicsPracticeGradeFilter = nextGrade;
+  physicsPracticeGradeButtons.forEach((button) => {
+    const isActive = button.dataset.grade === nextGrade;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
+  });
+  renderPhysicsPracticeSets();
+}
+
+function setPhysicsPracticeLevelFilter(nextLevel) {
+  physicsPracticeLevelFilter = nextLevel;
+  physicsPracticeLevelButtons.forEach((button) => {
+    const isActive = button.dataset.level === nextLevel;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
+  });
+  renderPhysicsPracticeSets();
 }
 
 function setPhysicsGradeFilter(nextGrade) {
@@ -1912,6 +3126,16 @@ subjectButtons.forEach((button) => {
       return;
     }
 
+    if (button.dataset.subject === "math") {
+      switchModule("math");
+      return;
+    }
+
+    if (button.dataset.subject === "organic") {
+      switchModule("organic");
+      return;
+    }
+
     switchModule("reactions");
   });
 });
@@ -1923,10 +3147,73 @@ periodicQuickFilters.forEach((button) => {
 physicsGradeButtons.forEach((button) => {
   button.addEventListener("click", () => setPhysicsGradeFilter(button.dataset.grade || "all"));
 });
-
 physicsTypeButtons.forEach((button) => {
   button.addEventListener("click", () => setPhysicsTypeFilter(button.dataset.type || "all"));
 });
+
+mathGradeButtons.forEach((button) => {
+  button.addEventListener("click", () => setMathGradeFilter(button.dataset.grade || "all"));
+});
+
+mathTypeButtons.forEach((button) => {
+  button.addEventListener("click", () => setMathTypeFilter(button.dataset.type || "all"));
+});
+
+mathLevelButtons.forEach((button) => {
+  button.addEventListener("click", () => setMathProblemLevelFilter(button.dataset.level || "all"));
+});
+
+mathPracticeGradeButtons.forEach((button) => {
+  button.addEventListener("click", () => setMathPracticeGradeFilter(button.dataset.grade || "all"));
+});
+
+mathPracticeLevelButtons.forEach((button) => {
+  button.addEventListener("click", () => setMathPracticeLevelFilter(button.dataset.level || "all"));
+});
+
+physicsPracticeGradeButtons.forEach((button) => {
+  button.addEventListener("click", () => setPhysicsPracticeGradeFilter(button.dataset.grade || "all"));
+});
+
+physicsPracticeLevelButtons.forEach((button) => {
+  button.addEventListener("click", () => setPhysicsPracticeLevelFilter(button.dataset.level || "all"));
+});
+
+if (mathPracticeChapterSelect) {
+  mathPracticeChapterSelect.addEventListener("change", renderMathPracticeSets);
+}
+
+if (mathPracticeRefreshBtn) {
+  mathPracticeRefreshBtn.addEventListener("click", renderMathPracticeSets);
+}
+
+if (physicsPracticeChapterSelect) {
+  physicsPracticeChapterSelect.addEventListener("change", renderPhysicsPracticeSets);
+}
+
+if (physicsPracticeRefreshBtn) {
+  physicsPracticeRefreshBtn.addEventListener("click", renderPhysicsPracticeSets);
+}
+
+if (mathPrevLessonBtn) {
+  mathPrevLessonBtn.addEventListener("click", goToPreviousMathLesson);
+}
+
+if (mathNextLessonBtn) {
+  mathNextLessonBtn.addEventListener("click", goToNextMathLesson);
+}
+
+if (organicSearchBtn) {
+  organicSearchBtn.addEventListener("click", renderOrganicTopics);
+}
+
+if (organicSearchInput) {
+  organicSearchInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      renderOrganicTopics();
+    }
+  });
+}
 
 if (physicsSearchBtn) {
   physicsSearchBtn.addEventListener("click", renderPhysicsResults);
@@ -1936,6 +3223,22 @@ if (physicsSearchInput) {
   physicsSearchInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
       renderPhysicsResults();
+    }
+  });
+}
+
+if (mathSearchBtn) {
+  mathSearchBtn.addEventListener("click", () => {
+    mathLessonCursor = 0;
+    renderMathResults();
+  });
+}
+
+if (mathSearchInput) {
+  mathSearchInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      mathLessonCursor = 0;
+      renderMathResults();
     }
   });
 }
@@ -1953,6 +3256,12 @@ displaceCheckBtn.addEventListener("click", checkDisplacementReaction);
 buildLegend();
 renderPeriodicTable();
 renderActivitySeries();
+renderOrganicTopics();
 renderPhysicsResults();
+initMathPracticeChapterOptions();
+initPhysicsPracticeChapterOptions();
+renderMathResults();
+renderMathPracticeSets();
+renderPhysicsPracticeSets();
 setGradeFilter("all");
 showEmpty("Hãy nhập chất để bắt đầu tra cứu.");

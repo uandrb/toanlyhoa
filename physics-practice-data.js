@@ -1,0 +1,203 @@
+window.PHYSICS_PRACTICE_DATA = {
+  sets: [
+    {
+      id: "p8-cohoc-basic-01",
+      grade: "8",
+      chapter: "Cơ học",
+      level: "basic",
+      title: "Đề Nhận biết: Vận tốc",
+      sourceTopicId: "p8-speed",
+      sourceLesson: "SGK Vật lý 8 - Cơ học - Vận tốc",
+      question: "Một xe đi được quãng đường 90 km trong 2 giờ. Tính vận tốc của xe.",
+      hint: "Dùng công thức v = s/t.",
+      answer: "v = 90/2 = 45 km/h.",
+      expectedKeywords: ["v=s/t", "90", "2", "45", "km/h"]
+    },
+    {
+      id: "p8-cohoc-intermediate-01",
+      grade: "8",
+      chapter: "Cơ học",
+      level: "intermediate",
+      title: "Đề Thông hiểu: Áp suất chất lỏng",
+      sourceTopicId: "p8-pressure-liquid",
+      sourceLesson: "SGK Vật lý 8 - Cơ học - Áp suất chất lỏng",
+      question: "Một điểm trong nước ở độ sâu h = 3 m. Biết trọng lượng riêng của nước d = 10000 N/m3. Tính áp suất tại điểm đó.",
+      hint: "Dùng p = d.h.",
+      answer: "p = 10000 x 3 = 30000 Pa.",
+      expectedKeywords: ["p=d.h", "10000", "3", "30000", "pa"]
+    },
+    {
+      id: "p8-cohoc-advanced-01",
+      grade: "8",
+      chapter: "Cơ học",
+      level: "advanced",
+      title: "Đề Vận dụng: Lực đẩy Archimedes và điều kiện nổi",
+      sourceTopicId: "p8-archimedes",
+      sourceLesson: "SGK Vật lý 8 - Cơ học - Lực đẩy Archimedes",
+      question: "Một vật có thể tích phần chìm 0.02 m3 trong nước (d = 10000 N/m3). Tính lực đẩy Archimedes và kết luận vật nổi hay chìm nếu trọng lượng vật là 180 N.",
+      hint: "Tính FA = d.V rồi so với trọng lượng P của vật.",
+      answer: "FA = 10000 x 0.02 = 200 N. Vì FA > P (200 > 180), vật nổi.",
+      expectedKeywords: ["fa=d.v", "200", "180", "fa>p", "noi"]
+    },
+
+    {
+      id: "p8-nhiethoc-basic-01",
+      grade: "8",
+      chapter: "Nhiệt học",
+      level: "basic",
+      title: "Đề Nhận biết: Nhiệt lượng",
+      sourceTopicId: "p8-heat-quantity",
+      sourceLesson: "SGK Vật lý 8 - Nhiệt học - Nhiệt lượng",
+      question: "Viết công thức tính nhiệt lượng và nêu ý nghĩa các đại lượng trong công thức.",
+      hint: "Q = m.c.delta t.",
+      answer: "Công thức Q = m.c.delta t, trong đó m là khối lượng, c là nhiệt dung riêng, delta t là độ tăng/giảm nhiệt độ.",
+      expectedKeywords: ["q=m.c", "delta t", "khoi luong", "nhiet dung rieng"]
+    },
+    {
+      id: "p8-nhiethoc-intermediate-01",
+      grade: "8",
+      chapter: "Nhiệt học",
+      level: "intermediate",
+      title: "Đề Thông hiểu: Cân bằng nhiệt",
+      sourceTopicId: "p8-thermal-balance",
+      sourceLesson: "SGK Vật lý 8 - Nhiệt học - Cân bằng nhiệt",
+      question: "Trong hệ kín, vật A tỏa 1200 J thì vật B thu bao nhiêu nhiệt lượng? Nêu nguyên lý dùng để tính.",
+      hint: "Qtỏa = Qthu.",
+      answer: "Vật B thu 1200 J vì theo nguyên lý cân bằng nhiệt: Qtỏa = Qthu.",
+      expectedKeywords: ["qtoa=qthu", "1200", "he kin", "can bang nhiet"]
+    },
+    {
+      id: "p8-nhiethoc-advanced-01",
+      grade: "8",
+      chapter: "Nhiệt học",
+      level: "advanced",
+      title: "Đề Vận dụng: Nở vì nhiệt trong kỹ thuật",
+      sourceTopicId: "p8-heat-expansion",
+      sourceLesson: "SGK Vật lý 8 - Nhiệt học - Nở vì nhiệt",
+      question: "Giải thích vì sao giữa các thanh ray đường sắt phải để khe hở và nêu rủi ro nếu không để khe hở.",
+      hint: "Liên hệ quy luật nở ra khi nóng lên.",
+      answer: "Kim loại nở ra khi nóng. Nếu không có khe hở, ray bị dồn nén có thể cong vênh hoặc nứt gãy, gây mất an toàn chạy tàu.",
+      expectedKeywords: ["no vi nhiet", "kim loai no", "khe ho", "cong venh", "an toan"]
+    },
+
+    {
+      id: "p9-dienhoc-basic-01",
+      grade: "9",
+      chapter: "Điện học",
+      level: "basic",
+      title: "Đề Nhận biết: Định luật Ohm",
+      sourceTopicId: "p9-ohm",
+      sourceLesson: "SGK Vật lý 9 - Điện học - Định luật Ohm",
+      question: "Cho U = 12V, R = 4 ohm. Tính cường độ dòng điện I.",
+      hint: "Dùng I = U/R.",
+      answer: "I = 12/4 = 3 A.",
+      expectedKeywords: ["i=u/r", "12", "4", "3", "a"]
+    },
+    {
+      id: "p9-dienhoc-intermediate-01",
+      grade: "9",
+      chapter: "Điện học",
+      level: "intermediate",
+      title: "Đề Thông hiểu: Công suất điện",
+      sourceTopicId: "p9-electric-power",
+      sourceLesson: "SGK Vật lý 9 - Điện học - Công suất điện",
+      question: "Một bàn là hoạt động ở U = 220V, I = 2A. Tính công suất điện của bàn là.",
+      hint: "Dùng P = U.I.",
+      answer: "P = 220 x 2 = 440 W.",
+      expectedKeywords: ["p=u.i", "220", "2", "440", "w"]
+    },
+    {
+      id: "p9-dienhoc-advanced-01",
+      grade: "9",
+      chapter: "Điện học",
+      level: "advanced",
+      title: "Đề Vận dụng: Điện năng tiêu thụ",
+      sourceTopicId: "p9-electric-work",
+      sourceLesson: "SGK Vật lý 9 - Điện học - Điện năng và công của dòng điện",
+      question: "Một nồi cơm điện công suất 700W hoạt động liên tục trong 2 giờ. Tính điện năng tiêu thụ theo kWh.",
+      hint: "A = P.t, đổi W sang kW trước khi tính kWh.",
+      answer: "700W = 0.7kW. Điện năng tiêu thụ A = 0.7 x 2 = 1.4 kWh.",
+      expectedKeywords: ["a=p.t", "0.7", "2", "1.4", "kwh"]
+    },
+
+    {
+      id: "p9-dientu-basic-01",
+      grade: "9",
+      chapter: "Điện từ học",
+      level: "basic",
+      title: "Đề Nhận biết: Nam châm và từ trường",
+      sourceTopicId: "p9-magnet",
+      sourceLesson: "SGK Vật lý 9 - Điện từ học - Nam châm",
+      question: "Nêu hai đặc điểm của từ trường xung quanh nam châm thẳng.",
+      hint: "Nhớ về cực từ và đường sức từ.",
+      answer: "Từ trường mạnh hơn gần hai cực từ; đường sức từ đi ra từ cực Bắc và đi vào cực Nam ở bên ngoài nam châm.",
+      expectedKeywords: ["cuc bac", "cuc nam", "duong suc tu", "manh gan cuc"]
+    },
+    {
+      id: "p9-dientu-intermediate-01",
+      grade: "9",
+      chapter: "Điện từ học",
+      level: "intermediate",
+      title: "Đề Thông hiểu: Cảm ứng điện từ",
+      sourceTopicId: "p9-induction",
+      sourceLesson: "SGK Vật lý 9 - Điện từ học - Cảm ứng điện từ",
+      question: "Điều kiện để xuất hiện dòng điện cảm ứng trong cuộn dây là gì?",
+      hint: "Liên hệ sự biến thiên từ thông.",
+      answer: "Dòng điện cảm ứng xuất hiện khi từ thông qua mạch kín biến thiên theo thời gian.",
+      expectedKeywords: ["tu thong", "bien thien", "mach kin", "dong dien cam ung"]
+    },
+    {
+      id: "p9-dientu-advanced-01",
+      grade: "9",
+      chapter: "Điện từ học",
+      level: "advanced",
+      title: "Đề Vận dụng: Máy biến thế trong truyền tải điện",
+      sourceTopicId: "p9-transformer",
+      sourceLesson: "SGK Vật lý 9 - Điện từ học - Máy biến thế",
+      question: "Vì sao khi truyền tải điện năng đi xa người ta tăng hiệu điện thế?",
+      hint: "Liên hệ hao phí nhiệt Phao phi = I^2.R.",
+      answer: "Với cùng công suất truyền tải, tăng hiệu điện thế sẽ giảm cường độ dòng điện I, từ đó giảm hao phí trên đường dây do hao phí tỉ lệ I^2.R.",
+      expectedKeywords: ["tang hieu dien the", "giam i", "hao phi", "i^2.r"]
+    },
+
+    {
+      id: "p9-quanghoc-basic-01",
+      grade: "9",
+      chapter: "Quang học",
+      level: "basic",
+      title: "Đề Nhận biết: Định luật phản xạ ánh sáng",
+      sourceTopicId: "p9-reflection",
+      sourceLesson: "SGK Vật lý 9 - Quang học - Phản xạ ánh sáng",
+      question: "Phát biểu định luật phản xạ ánh sáng.",
+      hint: "Nhắc đến mặt phẳng tới và quan hệ giữa góc tới, góc phản xạ.",
+      answer: "Tia phản xạ nằm trong mặt phẳng tới và góc phản xạ bằng góc tới.",
+      expectedKeywords: ["mat phang toi", "goc phan xa", "goc toi", "bang nhau"]
+    },
+    {
+      id: "p9-quanghoc-intermediate-01",
+      grade: "9",
+      chapter: "Quang học",
+      level: "intermediate",
+      title: "Đề Thông hiểu: Tán sắc ánh sáng",
+      sourceTopicId: "p9-dispersion-light",
+      sourceLesson: "SGK Vật lý 9 - Quang học - Tán sắc ánh sáng",
+      question: "Giải thích vì sao khi chiếu ánh sáng trắng qua lăng kính lại thu được dải màu từ đỏ đến tím.",
+      hint: "Nêu sự phụ thuộc chiết suất theo màu (bước sóng).",
+      answer: "Do chiết suất của lăng kính với từng ánh sáng màu là khác nhau nên các màu bị lệch góc khác nhau. Vì vậy ánh sáng trắng bị tách thành dải màu từ đỏ đến tím.",
+      expectedKeywords: ["chiet suat", "khac nhau", "lang kinh", "tach", "do den tim"]
+    },
+    {
+      id: "p9-quanghoc-advanced-01",
+      grade: "9",
+      chapter: "Quang học",
+      level: "advanced",
+      title: "Đề Vận dụng: Bài toán lăng kính và thứ tự màu",
+      sourceTopicId: "p9-prism-problem",
+      sourceLesson: "SGK Vật lý 9 - Quang học - Dạng bài lăng kính",
+      question: "Qua lăng kính, tia đỏ và tia tím tia nào lệch nhiều hơn? Hãy giải thích bằng kiến thức tán sắc.",
+      hint: "Nhớ quy tắc lệch màu trong lăng kính.",
+      answer: "Tia tím lệch nhiều hơn tia đỏ vì chiết suất của lăng kính đối với tia tím lớn hơn tia đỏ.",
+      expectedKeywords: ["tia tim", "lech nhieu hon", "tia do", "chiet suat lon hon"]
+    }
+  ]
+};

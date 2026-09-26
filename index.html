@@ -14,32 +14,15 @@
 
   <header class="hero">
     <p class="eyebrow">Nền tảng học tập</p>
-    <h1>Tra cứu phản ứng Hóa Vô Cơ</h1>
-    <p class="hero-subtitle">
-      Tìm nhanh phương trình hóa học giữa các chất, hoặc tra cứu ngược từ chất tạo thành.
-    </p>
     <div class="brand-strip" aria-label="Thông tin thương hiệu">
       <span class="brand-pill">Luyện Thi Nhanh</span>
       <span class="brand-note">Phiên bản tra cứu dành cho học sinh THCS-THPT</span>
     </div>
     <div class="subject-switch" role="tablist" aria-label="Môn học">
       <button class="subject active" type="button" data-subject="chemistry" aria-selected="true">Hóa Vô Cơ</button>
-      <button class="subject" type="button" disabled data-subject="organic" aria-selected="false">Hóa Hữu Cơ (sắp có)</button>
-      <button class="subject" type="button" disabled aria-selected="false">Toán (sắp có)</button>
+      <button class="subject" type="button" data-subject="organic" aria-selected="false">Hóa Hữu Cơ</button>
+      <button class="subject" type="button" data-subject="math" aria-selected="false">Toán 8-9</button>
       <button class="subject" type="button" data-subject="physics" aria-selected="false">Vật lý 8-9</button>
-    </div>
-
-    <div class="hero-features" aria-label="Tính năng nổi bật">
-      <div class="hero-feature">
-        <span class="feature-kicker">Nhanh</span>
-        <strong>Tra cứu theo chất phản ứng</strong>
-        <p>Nhập chất cần tìm và nhận phương trình ngay.</p>
-      </div>
-      <div class="hero-feature">
-        <span class="feature-kicker">Rõ ràng</span>
-        <strong>Lọc theo cấp độ học</strong>
-        <p>Tách riêng lớp 8-9, 10-12 và phần nâng cao.</p>
-      </div>
     </div>
 
     <div class="module-nav" id="moduleNav" role="tablist" aria-label="Nội dung Hóa Vô Cơ">
@@ -238,6 +221,96 @@
       </div>
     </section>
 
+    <section class="module-panel is-hidden" id="module-organic" aria-labelledby="organicTitle">
+      <div class="organic-layout">
+        <div class="organic-header">
+          <h2 id="organicTitle">Hóa Hữu Cơ – KHTN lớp 9</h2>
+          <p class="organic-intro">
+            Tóm tắt trọng tâm theo SGK KHTN 9: hợp chất hữu cơ, hydrocarbon, rượu, axit cacboxylic, este và ứng dụng trong đời sống.
+          </p>
+        </div>
+
+        <div class="search-row organic-search-row">
+          <input id="organicSearchInput" type="text" placeholder="Ví dụ: metan, etilen, axit axetic, rượu etylic" autocomplete="off" />
+          <button id="organicSearchBtn" type="button" class="primary-btn">Tìm chủ đề</button>
+        </div>
+
+        <div class="organic-results" id="organicResults"></div>
+      </div>
+    </section>
+
+    <section class="module-panel is-hidden" id="module-math" aria-labelledby="mathTitle">
+      <div class="physics-layout">
+        <h2 id="mathTitle">Kho kiến thức Toán 8-9</h2>
+        <p class="physics-intro">
+          Tra cứu theo chủ đề, công thức và dạng bài Toán lớp 8-9 theo cấu trúc học tập rõ ràng.
+        </p>
+
+        <div class="physics-controls">
+          <div class="physics-filter-group" role="tablist" aria-label="Lọc theo lớp">
+            <button type="button" class="math-grade-btn active" data-grade="all" aria-selected="true">Tất cả</button>
+            <button type="button" class="math-grade-btn" data-grade="8" aria-selected="false">Lớp 8</button>
+            <button type="button" class="math-grade-btn" data-grade="9" aria-selected="false">Lớp 9</button>
+          </div>
+
+          <div class="physics-filter-group" role="tablist" aria-label="Lọc theo loại nội dung">
+            <button type="button" class="math-type-btn active" data-type="all" aria-selected="true">Tất cả nội dung</button>
+            <button type="button" class="math-type-btn" data-type="theory" aria-selected="false">Lý thuyết</button>
+            <button type="button" class="math-type-btn" data-type="formula" aria-selected="false">Công thức</button>
+            <button type="button" class="math-type-btn" data-type="problem" aria-selected="false">Dạng bài</button>
+          </div>
+
+          <div class="physics-filter-group" role="tablist" aria-label="Lọc mức độ dạng bài Toán">
+            <button type="button" class="math-level-btn active" data-level="all" aria-selected="true">Mọi mức độ</button>
+            <button type="button" class="math-level-btn" data-level="basic" aria-selected="false">Nhận biết</button>
+            <button type="button" class="math-level-btn" data-level="intermediate" aria-selected="false">Thông hiểu</button>
+            <button type="button" class="math-level-btn" data-level="advanced" aria-selected="false">Vận dụng</button>
+          </div>
+
+          <div class="search-row physics-search-row">
+            <input id="mathSearchInput" type="text" placeholder="Ví dụ: phương trình bậc nhất, định lý Pythagoras, hệ phương trình" autocomplete="off" />
+            <button id="mathSearchBtn" type="button" class="primary-btn">Tra cứu kiến thức</button>
+          </div>
+        </div>
+
+        <div class="math-lesson-nav" aria-label="Điều hướng bài học Toán">
+          <button id="mathPrevLessonBtn" type="button" class="math-nav-btn">Bài trước</button>
+          <p id="mathLessonIndicator" class="math-lesson-indicator">Bài 1/1</p>
+          <button id="mathNextLessonBtn" type="button" class="math-nav-btn">Bài tiếp theo</button>
+        </div>
+
+        <div class="physics-map" id="mathMap"></div>
+        <div class="physics-results" id="mathResults"></div>
+
+        <section class="math-practice" aria-labelledby="mathPracticeTitle">
+          <h3 id="mathPracticeTitle">Bộ đề luyện tập theo chương và mức độ</h3>
+          <p class="math-practice-intro">Chọn lớp, chương và mức độ để lấy đề luyện tập nhanh theo định hướng SGK.</p>
+
+          <div class="physics-controls">
+            <div class="physics-filter-group" role="tablist" aria-label="Lọc đề theo lớp">
+              <button type="button" class="math-practice-grade-btn active" data-grade="all" aria-selected="true">Tất cả lớp</button>
+              <button type="button" class="math-practice-grade-btn" data-grade="8" aria-selected="false">Lớp 8</button>
+              <button type="button" class="math-practice-grade-btn" data-grade="9" aria-selected="false">Lớp 9</button>
+            </div>
+
+            <div class="physics-filter-group" role="tablist" aria-label="Lọc đề theo mức độ">
+              <button type="button" class="math-practice-level-btn active" data-level="all" aria-selected="true">Mọi mức độ</button>
+              <button type="button" class="math-practice-level-btn" data-level="basic" aria-selected="false">Nhận biết</button>
+              <button type="button" class="math-practice-level-btn" data-level="intermediate" aria-selected="false">Thông hiểu</button>
+              <button type="button" class="math-practice-level-btn" data-level="advanced" aria-selected="false">Vận dụng</button>
+            </div>
+
+            <div class="search-row physics-search-row">
+              <select id="mathPracticeChapterSelect" aria-label="Chọn chương Toán để luyện tập"></select>
+              <button id="mathPracticeRefreshBtn" type="button" class="primary-btn">Lọc đề luyện tập</button>
+            </div>
+          </div>
+
+          <div class="physics-results" id="mathPracticeResults"></div>
+        </section>
+      </div>
+    </section>
+
     <section class="module-panel is-hidden" id="module-physics" aria-labelledby="physicsTitle">
       <div class="physics-layout">
         <h2 id="physicsTitle">Kho kiến thức Vật lý 8-9</h2>
@@ -267,6 +340,33 @@
 
         <div class="physics-map" id="physicsMap"></div>
         <div class="physics-results" id="physicsResults"></div>
+
+        <section class="math-practice" aria-labelledby="physicsPracticeTitle">
+          <h3 id="physicsPracticeTitle">Bộ đề luyện tập Vật lý theo chương và mức độ</h3>
+          <p class="math-practice-intro">Ưu tiên các đề Điện học và Quang học, có gợi ý và chấm nhanh theo ý chính.</p>
+
+          <div class="physics-controls">
+            <div class="physics-filter-group" role="tablist" aria-label="Lọc đề Vật lý theo lớp">
+              <button type="button" class="physics-practice-grade-btn active" data-grade="all" aria-selected="true">Tất cả lớp</button>
+              <button type="button" class="physics-practice-grade-btn" data-grade="8" aria-selected="false">Lớp 8</button>
+              <button type="button" class="physics-practice-grade-btn" data-grade="9" aria-selected="false">Lớp 9</button>
+            </div>
+
+            <div class="physics-filter-group" role="tablist" aria-label="Lọc đề Vật lý theo mức độ">
+              <button type="button" class="physics-practice-level-btn active" data-level="all" aria-selected="true">Mọi mức độ</button>
+              <button type="button" class="physics-practice-level-btn" data-level="basic" aria-selected="false">Nhận biết</button>
+              <button type="button" class="physics-practice-level-btn" data-level="intermediate" aria-selected="false">Thông hiểu</button>
+              <button type="button" class="physics-practice-level-btn" data-level="advanced" aria-selected="false">Vận dụng</button>
+            </div>
+
+            <div class="search-row physics-search-row">
+              <select id="physicsPracticeChapterSelect" aria-label="Chọn chương Vật lý để luyện tập"></select>
+              <button id="physicsPracticeRefreshBtn" type="button" class="primary-btn">Lọc đề luyện tập</button>
+            </div>
+          </div>
+
+          <div class="physics-results" id="physicsPracticeResults"></div>
+        </section>
       </div>
     </section>
   </main>
@@ -303,6 +403,9 @@
   <script src="periodic-data.js"></script>
   <script src="chemistry-data.js"></script>
   <script src="physics-data.js"></script>
+  <script src="physics-practice-data.js"></script>
+  <script src="math-data.js"></script>
+  <script src="math-practice-data.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
