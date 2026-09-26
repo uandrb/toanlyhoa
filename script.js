@@ -415,6 +415,7 @@ const displaceResult = document.getElementById("displaceResult");
 
 let mode = "reactants";
 let gradeFilter = "all";
+let periodicCategoryFilter = "all";
 
 function normalizeFormula(formula) {
   return formula.replace(/\s+/g, "").toUpperCase();
@@ -1629,14 +1630,47 @@ function switchModule(nextModule) {
   });
 }
 
+function applyPeriodicCategoryFilter() {
+  const tiles = document.querySelectorAll(".element-tile");
+  tiles.forEach((tile) => {
+    const matches = periodicCategoryFilter === "all" || tile.classList.contains(periodicCategoryFilter);
+    tile.classList.toggle("dimmed", !matches);
+  });
+
+  document.querySelectorAll(".legend-chip").forEach((chip) => {
+    const isActive = chip.dataset.category === periodicCategoryFilter;
+    chip.classList.toggle("active", isActive);
+    chip.setAttribute("aria-pressed", String(isActive));
+  });
+}
+
+function setPeriodicCategoryFilter(categoryKey) {
+  periodicCategoryFilter = categoryKey;
+  applyPeriodicCategoryFilter();
+}
+
 function buildLegend() {
   periodicLegend.innerHTML = "";
+
+  const allChip = document.createElement("button");
+  allChip.type = "button";
+  allChip.className = "legend-chip all";
+  allChip.dataset.category = "all";
+  allChip.textContent = "Tất cả nhóm";
+  allChip.addEventListener("click", () => setPeriodicCategoryFilter("all"));
+  periodicLegend.appendChild(allChip);
+
   Object.entries(categoryLabels).forEach(([key, label]) => {
-    const chip = document.createElement("span");
+    const chip = document.createElement("button");
+    chip.type = "button";
     chip.className = `legend-chip ${key}`;
+    chip.dataset.category = key;
     chip.textContent = label;
+    chip.addEventListener("click", () => setPeriodicCategoryFilter(key));
     periodicLegend.appendChild(chip);
   });
+
+  applyPeriodicCategoryFilter();
 }
 
 function renderElementDetail(element) {
@@ -1676,6 +1710,8 @@ function renderPeriodicTable() {
 
     periodicGrid.appendChild(tile);
   });
+
+  applyPeriodicCategoryFilter();
 }
 
 function findElement(queryText) {

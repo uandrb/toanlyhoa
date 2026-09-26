@@ -581,6 +581,64 @@ input:focus-visible {
   font-size: 0.8rem;
   font-weight: 600;
   border: 1px solid transparent;
+  background: #fff;
+  color: #33414f;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+}
+
+.legend-chip:hover {
+  transform: translateY(-1px);
+}
+
+.legend-chip.active {
+  border-color: #2a7c72;
+  box-shadow: 0 6px 14px rgba(15, 79, 73, 0.15);
+}
+
+.legend-chip.all {
+  background: #f5f8ff;
+  border-color: #d6e0f2;
+}
+
+.legend-chip.alkali {
+  background: #fff2ea;
+}
+
+.legend-chip.alkaline {
+  background: #fff9e9;
+}
+
+.legend-chip.transition {
+  background: #edf8ff;
+}
+
+.legend-chip.post-transition {
+  background: #f1f5ff;
+}
+
+.legend-chip.metalloid {
+  background: #f5f8de;
+}
+
+.legend-chip.nonmetal {
+  background: #e8fff3;
+}
+
+.legend-chip.halogen {
+  background: #eff0ff;
+}
+
+.legend-chip.noble {
+  background: #f4ecff;
+}
+
+.legend-chip.lanthanoid {
+  background: #fff4f8;
+}
+
+.legend-chip.actinoid {
+  background: #fff0f0;
 }
 
 .periodic-grid {
@@ -625,6 +683,11 @@ input:focus-visible {
 .element-tile.active {
   border-color: #159088;
   box-shadow: 0 4px 14px rgba(13, 100, 97, 0.18);
+}
+
+.element-tile.dimmed {
+  opacity: 0.28;
+  filter: grayscale(0.18);
 }
 
 .element-tile.alkali {
