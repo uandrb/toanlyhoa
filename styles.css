@@ -95,7 +95,7 @@ h1 {
 .hero-features {
   margin-top: 18px;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
 }
 
@@ -776,7 +776,7 @@ input:focus-visible {
 
 @media (max-width: 840px) {
   .hero-features {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
 
   .periodic-top-row {
