@@ -303,6 +303,87 @@ window.BIOLOGY_DATA = {
       tags: ["lai phân tích", "kiểu gen", "nâng cao"],
       aliases: ["test cross", "advanced genetics"],
       lesson: "SGK Sinh học 9 - Di truyền học nâng cao"
+    },
+    {
+      id: "bio9-organ-system-overview",
+      grade: "9",
+      chapter: "Sinh học cơ thể",
+      type: "theory",
+      title: "Cấp độ tổ chức của cơ thể sống",
+      summary: "Cơ thể sống được tổ chức từ tế bào, mô, cơ quan, hệ cơ quan và cơ thể hoàn chỉnh.",
+      explanation: "Mỗi cấp độ tổ chức có chức năng riêng nhưng liên kết chặt chẽ với nhau. Các tế bào cùng loại tạo mô, các mô tạo cơ quan, các cơ quan hợp thành hệ cơ quan và các hệ cơ quan phối hợp trong cơ thể.",
+      keyPoints: [
+        "Tế bào là đơn vị cấu tạo nhỏ nhất",
+        "Mô gồm nhiều tế bào giống nhau cùng chức năng",
+        "Cơ quan và hệ cơ quan giúp hoạt động sống hiệu quả hơn"
+      ],
+      formula: "Tế bào → Mô → Cơ quan → Hệ cơ quan → Cơ thể",
+      example: "Ví dụ: tế bào cơ, mô cơ, cơ bắp, hệ cơ và cơ thể người đều thể hiện cấp độ tổ chức sống.",
+      memoryTip: "Mẹo nhớ: càng lên cao, càng có sự phối hợp chặt chẽ giữa các thành phần.",
+      tags: ["cấp độ tổ chức", "mô", "cơ quan"],
+      aliases: ["organization levels", "body organization"],
+      lesson: "SGK Sinh học 9 - Cấu tạo cơ thể"
+    },
+    {
+      id: "bio9-enzyme-metabolism",
+      grade: "9",
+      chapter: "Sinh học cơ thể",
+      type: "theory",
+      title: "Enzyme và chuyển hóa chất",
+      summary: "Enzyme là chất xúc tác sinh học giúp các phản ứng trong tế bào diễn ra nhanh và hiệu quả hơn.",
+      explanation: "Enzyme không làm thay đổi lượng sản phẩm cuối cùng nhưng làm tăng tốc độ phản ứng bằng cách hạ năng lượng hoạt hóa. Nhiệt độ và pH có ảnh hưởng lớn đến hoạt tính của enzyme.",
+      keyPoints: [
+        "Enzyme là chất xúc tác sinh học",
+        "Enzyme làm tăng tốc độ phản ứng",
+        "Nhiệt độ và pH ảnh hưởng đến hoạt tính enzyme"
+      ],
+      formula: "Enzyme + chất nền → sản phẩm + enzyme",
+      example: "Ví dụ: amylase trong nước bọt giúp phân giải tinh bột thành đường đơn.",
+      memoryTip: "Mẹo nhớ: enzyme giống như 'thợ sửa' giúp phản ứng diễn ra nhanh hơn.",
+      tags: ["enzyme", "chuyển hóa", "tinh bột"],
+      aliases: ["enzyme metabolism", "catalyst"],
+      lesson: "SGK Sinh học 9 - Enzyme"
+    },
+    {
+      id: "bio9-plant-transport",
+      grade: "9",
+      chapter: "Sinh học thực vật",
+      type: "theory",
+      title: "Vận chuyển nước và ion khoáng ở thực vật",
+      summary: "Nước và ion khoáng đi từ rễ lên thân và lá nhờ lực hút, sự thoát hơi nước và mạch dẫn.",
+      explanation: "Rễ hấp thụ nước và muối khoáng từ đất. Nước được vận chuyển qua mạch gỗ lên lá nhờ áp suất rễ và lực hút do thoát hơi nước. Quá trình này giúp cây giữ đủ nước và cung cấp chất dinh dưỡng.",
+      keyPoints: [
+        "Rễ hấp thụ nước và ion khoáng",
+        "Mạch gỗ vận chuyển nước lên lá",
+        "Thoát hơi nước thúc đẩy quá trình hút nước"
+      ],
+      formula: "Rễ → mạch gỗ → thân → lá",
+      example: "Ví dụ: khi trời nắng, cây thoát hơi nước mạnh hơn nên hút nước từ đất tăng lên.",
+      memoryTip: "Mẹo nhớ: rễ hút, lá thở, mạch gỗ vận chuyển.",
+      tags: ["vận chuyển nước", "mạch gỗ", "rễ"],
+      aliases: ["plant transport", "water transport"],
+      lesson: "SGK Sinh học 9 - Vận chuyển nước ở thực vật"
+    },
+    {
+      id: "bio9-biodiversity",
+      grade: "9",
+      chapter: "Sinh thái học",
+      type: "theory",
+      level: "advanced",
+      title: "Đa dạng sinh học và bảo vệ môi trường",
+      summary: "Đa dạng sinh học là sự phong phú của các loài, gen và hệ sinh thái, cần được bảo vệ để duy trì sự ổn định của môi trường.",
+      explanation: "Chúng ta cần bảo vệ đa dạng sinh học vì mỗi loài đều đóng vai trò nhất định trong chuỗi thức ăn, vòng tuần hoàn vật chất và sự cân bằng sinh thái. Sự suy giảm đa dạng sinh học có thể gây mất ổn định môi trường và ảnh hưởng đến con người.",
+      keyPoints: [
+        "Đa dạng sinh học bao gồm loài, gen và hệ sinh thái",
+        "Mỗi loài có vai trò trong hệ sinh thái",
+        "Bảo vệ môi trường là bảo vệ sự sống của con người"
+      ],
+      formula: "Đa dạng sinh học = loài + gen + môi trường sống",
+      example: "Ví dụ: rừng nhiệt đới là nơi có lượng loài sinh vật rất phong phú, cần được bảo tồn.",
+      memoryTip: "Mẹo nhớ: sự phong phú của tự nhiên là tài sản chung của tất cả mọi người.",
+      tags: ["đa dạng sinh học", "bảo tồn", "môi trường"],
+      aliases: ["biodiversity", "environment protection"],
+      lesson: "SGK Sinh học 9 - Bảo vệ môi trường và đa dạng sinh học"
     }
   ],
   practiceSets: [
@@ -374,10 +455,45 @@ window.BIOLOGY_DATA = {
       title: "Đề Nhận biết: Sinh sản ở động vật",
       question: "Nêu sự khác nhau giữa sinh sản hữu tính và sinh sản vô tính ở động vật.",
       hint: "Một có giao tử, một không cần giao tử.",
-      answer: "Sinh sản hữu tính cần sự kết hợp giữa giao tử đực và giao tử cái tạo hợp tử. Sinh sản vô tính không cần giao tử, cá thể mới được tạo ra từ một cơ thể mẹ, thường giống hệt cơ thể gốc."
-      ,
+      answer: "Sinh sản hữu tính cần sự kết hợp giữa giao tử đực và giao tử cái tạo hợp tử. Sinh sản vô tính không cần giao tử, cá thể mới được tạo ra từ một cơ thể mẹ, thường giống hệt cơ thể gốc.",
       expectedKeywords: ["giao tử", "hợp tử", "không cần giao tử", "giống hệt"],
       sourceLesson: "SGK Sinh học 9 - Sinh sản ở động vật"
+    },
+    {
+      id: "bio9-practice-07",
+      grade: "9",
+      chapter: "Sinh học cơ thể",
+      level: "basic",
+      title: "Đề Nhận biết: Cấp độ tổ chức sống",
+      question: "Hãy sắp xếp các cấp độ tổ chức sống theo thứ tự từ thấp đến cao: cơ thể, mô, tế bào, hệ cơ quan, cơ quan.",
+      hint: "Hãy bắt đầu từ đơn vị nhỏ nhất.",
+      answer: "Tế bào → mô → cơ quan → hệ cơ quan → cơ thể.",
+      expectedKeywords: ["tế bào", "mô", "cơ quan", "hệ cơ quan", "cơ thể"],
+      sourceLesson: "SGK Sinh học 9 - Cấu tạo cơ thể"
+    },
+    {
+      id: "bio9-practice-08",
+      grade: "9",
+      chapter: "Sinh học thực vật",
+      level: "intermediate",
+      title: "Đề Thông hiểu: Vận chuyển nước ở thực vật",
+      question: "Tại sao khi trời nắng, cây thường hút nước mạnh hơn và có thể bị héo nếu thiếu nước?",
+      hint: "Hãy liên hệ đến thoát hơi nước và hấp thụ nước từ đất.",
+      answer: "Khi trời nắng, cây thoát hơi nước mạnh hơn để làm mát lá và tạo lực hút nước từ rễ lên thân và lá. Nếu thiếu nước trong đất hoặc không đủ rễ hấp thụ, cây sẽ mất nước và héo.",
+      expectedKeywords: ["thoát hơi nước", "hút nước", "rễ", "héo"],
+      sourceLesson: "SGK Sinh học 9 - Vận chuyển nước ở thực vật"
+    },
+    {
+      id: "bio9-practice-09",
+      grade: "9",
+      chapter: "Sinh thái học",
+      level: "advanced",
+      title: "Đề Vận dụng: Bảo vệ đa dạng sinh học",
+      question: "Nêu ít nhất 3 nguyên nhân khiến đa dạng sinh học bị giảm sút và 2 biện pháp bảo tồn hiệu quả.",
+      hint: "Đa dạng sinh học bị ảnh hưởng bởi con người và môi trường.",
+      answer: "Nguyên nhân gồm phá rừng, ô nhiễm môi trường, săn bắt quá mức và biến đổi khí hậu. Biện pháp gồm bảo vệ môi trường sống, trồng cây và lập khu bảo tồn, đồng thời quản lý khai thác tài nguyên hợp lý.",
+      expectedKeywords: ["phá rừng", "ô nhiễm", "săn bắt", "bảo tồn", "trồng cây"],
+      sourceLesson: "SGK Sinh học 9 - Bảo vệ môi trường"
     }
   ]
 };

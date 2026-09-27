@@ -286,6 +286,66 @@ window.CS_DATA = {
       tags: ["AI", "đạo đức", "dữ liệu", "nâng cao"],
       aliases: ["ethical AI", "responsible AI"],
       lesson: "SGK Khoa học máy tính 9 - AI và đạo đức"
+    },
+    {
+      id: "cs9-software-life-cycle",
+      grade: "9",
+      chapter: "Tin học cơ bản",
+      type: "theory",
+      title: "Vòng đời phần mềm",
+      summary: "Phát triển phần mềm gồm nhiều giai đoạn: phân tích, thiết kế, lập trình, kiểm thử và bảo trì.",
+      explanation: "Một phần mềm tốt không chỉ chạy được mà còn cần được thiết kế rõ ràng, kiểm thử kỹ lưỡng và bảo trì liên tục. Mỗi giai đoạn có mục đích riêng để đảm bảo chất lượng.",
+      keyPoints: [
+        "Phân tích nhu cầu xác định vấn đề cần giải quyết",
+        "Thiết kế mô tả cấu trúc và chức năng",
+        "Kiểm thử và bảo trì đảm bảo phần mềm ổn định"
+      ],
+      formula: "Nhu cầu → Thiết kế → Lập trình → Kiểm thử → Bảo trì",
+      example: "Ví dụ: khi xây dựng ứng dụng học tập, ta cần xác định mục đích trước khi viết code.",
+      memoryTip: "Mẹo nhớ: phần mềm cần đi từ ý tưởng đến sử dụng bền vững.",
+      tags: ["phần mềm", "thiết kế", "bảo trì"],
+      aliases: ["software lifecycle", "SDLC"],
+      lesson: "SGK Khoa học máy tính 9 - Phát triển phần mềm"
+    },
+    {
+      id: "cs9-sorting",
+      grade: "9",
+      chapter: "Thuật toán và lập trình",
+      type: "theory",
+      title: "Sắp xếp dữ liệu",
+      summary: "Sắp xếp là thao tác đặt các phần tử theo trật tự hợp lý như tăng dần hoặc giảm dần.",
+      explanation: "Trong nhiều bài toán, việc sắp xếp dữ liệu giúp tìm kiếm dễ hơn, dễ xử lý dữ liệu và trình bày thông tin rõ ràng. Có nhiều cách sắp xếp như chèn, đổi chỗ, chọn và xếp chồng.",
+      keyPoints: [
+        "Sắp xếp có thể tăng hoặc giảm dần",
+        "Sắp xếp giúp tìm kiếm và xử lý dữ liệu dễ hơn",
+        "Mỗi thuật toán sắp xếp có ưu điểm và thời gian khác nhau"
+      ],
+      formula: "Dữ liệu ban đầu → Sắp xếp → Dữ liệu có trật tự",
+      example: "Ví dụ: sắp xếp tên học sinh trong danh sách lớp theo thứ tự bảng chữ cái.",
+      memoryTip: "Mẹo nhớ: sắp xếp làm dữ liệu dễ đọc và dễ xử lý hơn.",
+      tags: ["sắp xếp", "thuật toán", "dữ liệu"],
+      aliases: ["sorting", "order data"],
+      lesson: "SGK Khoa học máy tính 9 - Sắp xếp dữ liệu"
+    },
+    {
+      id: "cs9-digital-ethics",
+      grade: "9",
+      chapter: "An toàn thông tin",
+      type: "theory",
+      title: "Đạo đức số và quyền riêng tư",
+      summary: "Khi sử dụng Internet, cần tôn trọng quyền riêng tư, tránh chia sẻ thông tin nhạy cảm và không xâm phạm người khác.",
+      explanation: "Thông tin cá nhân như số điện thoại, địa chỉ, hình ảnh, mật khẩu cần được bảo vệ. Việc lộ thông tin có thể dẫn tới trộm cắp tài khoản, quấy rối hoặc lừa đảo trực tuyến.",
+      keyPoints: [
+        "Không chia sẻ mật khẩu cho người khác",
+        "Cẩn trọng với link lạ và ứng dụng không rõ nguồn",
+        "Bảo vệ dữ liệu cá nhân là nghĩa vụ số"
+      ],
+      formula: "Bảo mật dữ liệu = bảo vệ danh tính + tránh lừa đảo + tôn trọng người khác",
+      example: "Ví dụ: không đăng ảnh, số điện thoại hoặc địa chỉ nhà quá rộng rãi trên mạng xã hội.",
+      memoryTip: "Mẹo nhớ: mạng là nơi bạn cần giữ bí mật như trong đời thực.",
+      tags: ["quyền riêng tư", "đạo đức số", "an toàn"],
+      aliases: ["digital ethics", "privacy"],
+      lesson: "SGK Khoa học máy tính 9 - Đạo đức số"
     }
   ],
   practiceSets: [
@@ -360,6 +420,42 @@ window.CS_DATA = {
       answer: "AI làm việc dựa trên dữ liệu, nên nếu dữ liệu không rõ ràng, sai lệch hoặc không minh bạch, kết quả có thể gây sai lệch, phân biệt đối xử hoặc xâm phạm quyền riêng tư. Vì vậy, cần dùng AI có trách nhiệm, kiểm tra dữ liệu và bảo vệ thông tin cá nhân.",
       expectedKeywords: ["đạo đức", "dữ liệu", "quyền riêng tư", "sai lệch"],
       sourceLesson: "SGK Khoa học máy tính 9 - AI và dữ liệu"
+    },
+    {
+      id: "cs9-practice-07",
+      grade: "9",
+      chapter: "Tin học cơ bản",
+      level: "basic",
+      title: "Đề Nhận biết: Vòng đời phần mềm",
+      question: "Hãy nêu các giai đoạn chính trong phát triển một phần mềm và vai trò của từng giai đoạn.",
+      hint: "Có giai đoạn phân tích, thiết kế, lập trình, kiểm thử, bảo trì.",
+      answer: "Phần mềm được phát triển qua các giai đoạn: phân tích nhu cầu, thiết kế, lập trình, kiểm thử và bảo trì. Mỗi giai đoạn giúp xác định vấn đề, tạo kế hoạch, viết code và đảm bảo phần mềm hoạt động ổn định lâu dài.",
+      expectedKeywords: ["phân tích", "thiết kế", "lập trình", "kiểm thử", "bảo trì"],
+      sourceLesson: "SGK Khoa học máy tính 9 - Phát triển phần mềm"
+    },
+    {
+      id: "cs9-practice-08",
+      grade: "9",
+      chapter: "Thuật toán và lập trình",
+      level: "intermediate",
+      title: "Đề Thông hiểu: Sắp xếp dữ liệu",
+      question: "Vì sao cần sắp xếp dữ liệu trước khi tìm kiếm hoặc xử lý thông tin?",
+      hint: "Hãy liên hệ đến hiệu quả, sự rõ ràng và dễ quản lý.",
+      answer: "Sắp xếp dữ liệu giúp tổ chức thông tin theo trật tự thuận tiện, làm cho việc tìm kiếm, so sánh hoặc xử lý nhanh và hiệu quả hơn. Khi dữ liệu đã có trật tự, các thuật toán xử lý cũng dễ tối ưu hơn.",
+      expectedKeywords: ["sắp xếp", "tìm kiếm", "hiệu quả", "trật tự"],
+      sourceLesson: "SGK Khoa học máy tính 9 - Sắp xếp dữ liệu"
+    },
+    {
+      id: "cs9-practice-09",
+      grade: "9",
+      chapter: "An toàn thông tin",
+      level: "advanced",
+      title: "Đề Vận dụng: Bình an trên mạng",
+      question: "Nêu 4 hành vi an toàn cần thực hiện khi sử dụng Internet để bảo vệ bản thân.",
+      hint: "Đừng chia sẻ quá nhiều, không tin link lạ, bảo vệ tài khoản và cẩn trọng với hình ảnh cá nhân.",
+      answer: "Các hành vi cần làm gồm: dùng mật khẩu mạnh và khác nhau cho từng tài khoản, kích hoạt xác thực hai lớp, không mở link hoặc tệp lạ, không chia sẻ quá nhiều thông tin cá nhân trên mạng và cập nhật phần mềm thường xuyên.",
+      expectedKeywords: ["mật khẩu mạnh", "xác thực hai lớp", "link lạ", "thông tin cá nhân"],
+      sourceLesson: "SGK Khoa học máy tính 9 - An toàn thông tin"
     }
   ]
 };
