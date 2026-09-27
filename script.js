@@ -2914,15 +2914,15 @@ function createMathGraphRow(config = { type: "line", a: 1, b: 0, c: 0 }) {
     <div class="graph-field-row">
       <label class="graph-field">
         <span>a</span>
-        <input type="number" class="graph-param" data-param="a" value="${Number(config.a ?? 1).toFixed(1).replace(/\.0$/, "")}" step="0.1" />
+        <input type="number" class="graph-param" data-param="a" value="${Number(config.a ?? 1).toFixed(1).replace(/\.0$/, "")}" step="0.1" inputmode="decimal" />
       </label>
       <label class="graph-field">
         <span>b</span>
-        <input type="number" class="graph-param" data-param="b" value="${Number(config.b ?? 0).toFixed(1).replace(/\.0$/, "")}" step="0.1" />
+        <input type="number" class="graph-param" data-param="b" value="${Number(config.b ?? 0).toFixed(1).replace(/\.0$/, "")}" step="0.1" inputmode="decimal" />
       </label>
       <label class="graph-field">
         <span>c</span>
-        <input type="number" class="graph-param" data-param="c" value="${Number(config.c ?? 0).toFixed(1).replace(/\.0$/, "")}" step="0.1" />
+        <input type="number" class="graph-param" data-param="c" value="${Number(config.c ?? 0).toFixed(1).replace(/\.0$/, "")}" step="0.1" inputmode="decimal" />
       </label>
     </div>
     <button type="button" class="graph-remove-btn">Xoá</button>
@@ -2937,9 +2937,20 @@ function createMathGraphRow(config = { type: "line", a: 1, b: 0, c: 0 }) {
     }
   });
 
+  const scheduleMathGraphRedraw = () => {
+    if (window.requestAnimationFrame) {
+      window.requestAnimationFrame(() => renderMathGraph());
+      return;
+    }
+    renderMathGraph();
+  };
+
   row.querySelectorAll(".graph-type-select, .graph-param").forEach((input) => {
-    input.addEventListener("input", renderMathGraph);
-    input.addEventListener("change", renderMathGraph);
+    input.addEventListener("input", scheduleMathGraphRedraw);
+    input.addEventListener("change", scheduleMathGraphRedraw);
+    input.addEventListener("keyup", scheduleMathGraphRedraw);
+    input.addEventListener("blur", scheduleMathGraphRedraw);
+    input.addEventListener("touchend", scheduleMathGraphRedraw, { passive: true });
   });
 
   return row;
@@ -3061,35 +3072,18 @@ function renderMathGraph() {
   }
 
   const rows = getMathGraphRowsData();
-  if (!rows.length) {
-    mathGraphCanvas.innerHTML = "";
-    applyMathGraphTransform();
-    return;
-  }
 
   const width = 720;
   const height = 420;
   const padding = 32;
   const xMin = -10;
   const xMax = 10;
+  const yMin = -10;
+  const yMax = 10;
   const sampleStep = 0.18;
 
-  const allYValues = [];
-  rows.forEach(({ type, a, b, c }) => {
-    for (let x = xMin; x <= xMax; x += sampleStep) {
-      const y = evaluateMathGraphValue(type, x, a, b, c);
-      if (Number.isFinite(y)) {
-        allYValues.push(y);
-      }
-    }
-  });
-
-  const yMin = allYValues.length ? Math.min(...allYValues, -10) : -10;
-  const yMax = allYValues.length ? Math.max(...allYValues, 10) : 10;
-  const yRange = yMax - yMin || 1;
-
   const toScreenX = (x) => padding + ((x - xMin) / (xMax - xMin)) * (width - padding * 2);
-  const toScreenY = (y) => height - padding - ((y - yMin) / yRange) * (height - padding * 2);
+  const toScreenY = (y) => height - padding - ((y - yMin) / (yMax - yMin)) * (height - padding * 2);
 
   const NS = "http://www.w3.org/2000/svg";
   mathGraphCanvas.innerHTML = "";
@@ -3112,9 +3106,21 @@ function renderMathGraph() {
     line.setAttribute("stroke", x === 0 ? "#1b2a38" : "#dfe9f2");
     line.setAttribute("stroke-width", x === 0 ? "1.3" : "0.8");
     mathGraphCanvas.appendChild(line);
+
+    if (x >= -10 && x <= 10) {
+      const label = document.createElementNS(NS, "text");
+      label.setAttribute("x", String(xCoord));
+      label.setAttribute("y", String(height - padding + 18));
+      label.setAttribute("text-anchor", "middle");
+      label.setAttribute("fill", "#37546c");
+      label.setAttribute("font-size", "11");
+      label.setAttribute("font-weight", "700");
+      label.textContent = String(x);
+      mathGraphCanvas.appendChild(label);
+    }
   }
 
-  for (let y = Math.ceil(yMin); y <= Math.floor(yMax); y += 1) {
+  for (let y = yMin; y <= yMax; y += 1) {
     const yCoord = toScreenY(y);
     const line = document.createElementNS(NS, "line");
     line.setAttribute("x1", String(padding));
@@ -3124,6 +3130,18 @@ function renderMathGraph() {
     line.setAttribute("stroke", y === 0 ? "#1b2a38" : "#e9eef7");
     line.setAttribute("stroke-width", y === 0 ? "1.3" : "0.8");
     mathGraphCanvas.appendChild(line);
+
+    if (y >= -10 && y <= 10) {
+      const label = document.createElementNS(NS, "text");
+      label.setAttribute("x", String(padding - 14));
+      label.setAttribute("y", String(yCoord + 4));
+      label.setAttribute("text-anchor", "end");
+      label.setAttribute("fill", "#37546c");
+      label.setAttribute("font-size", "11");
+      label.setAttribute("font-weight", "700");
+      label.textContent = String(y);
+      mathGraphCanvas.appendChild(label);
+    }
   }
 
   const xAxis = document.createElementNS(NS, "line");
@@ -3132,7 +3150,7 @@ function renderMathGraph() {
   xAxis.setAttribute("y1", String(toScreenY(0)));
   xAxis.setAttribute("y2", String(toScreenY(0)));
   xAxis.setAttribute("stroke", "#223744");
-  xAxis.setAttribute("stroke-width", "1.5");
+  xAxis.setAttribute("stroke-width", "1.8");
   mathGraphCanvas.appendChild(xAxis);
 
   const yAxis = document.createElementNS(NS, "line");
@@ -3141,8 +3159,22 @@ function renderMathGraph() {
   yAxis.setAttribute("y1", String(padding));
   yAxis.setAttribute("y2", String(height - padding));
   yAxis.setAttribute("stroke", "#223744");
-  yAxis.setAttribute("stroke-width", "1.5");
+  yAxis.setAttribute("stroke-width", "1.8");
   mathGraphCanvas.appendChild(yAxis);
+
+  const originLabel = document.createElementNS(NS, "text");
+  originLabel.setAttribute("x", String(toScreenX(0) + 8));
+  originLabel.setAttribute("y", String(toScreenY(0) - 8));
+  originLabel.setAttribute("fill", "#203348");
+  originLabel.setAttribute("font-size", "12");
+  originLabel.setAttribute("font-weight", "800");
+  originLabel.textContent = "O(0,0)";
+  mathGraphCanvas.appendChild(originLabel);
+
+  if (!rows.length) {
+    applyMathGraphTransform();
+    return;
+  }
 
   rows.forEach(({ type, a, b, c }, index) => {
     const points = [];
