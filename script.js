@@ -207,6 +207,12 @@ const csPracticeSets = (window.CS_DATA && Array.isArray(window.CS_DATA.practiceS
 const csChapterOrder = (window.CS_DATA && Array.isArray(window.CS_DATA.chapterOrder))
   ? window.CS_DATA.chapterOrder
   : ["Tin học cơ bản", "Thuật toán và lập trình", "Mạng máy tính", "An toàn thông tin", "Trí tuệ nhân tạo và dữ liệu"];
+const aiKnowledgeBase = (window.AI_DATA && Array.isArray(window.AI_DATA.knowledgeBase))
+  ? window.AI_DATA.knowledgeBase
+  : [];
+const aiPracticeSets = (window.AI_DATA && Array.isArray(window.AI_DATA.practiceSets))
+  ? window.AI_DATA.practiceSets
+  : [];
 
 const organicKnowledgeBase = [
   {
@@ -578,6 +584,7 @@ const modulePanels = {
   math: document.getElementById("module-math"),
   physics: document.getElementById("module-physics"),
   biology: document.getElementById("module-biology"),
+  ai: document.getElementById("module-ai"),
   "computer-science": document.getElementById("module-computer-science")
 };
 
@@ -661,6 +668,10 @@ const csPracticeChapterSelect = document.getElementById("csPracticeChapterSelect
 const csPracticeRefreshBtn = document.getElementById("csPracticeRefreshBtn");
 const csPracticeResults = document.getElementById("csPracticeResults");
 const csAdvancedToggle = document.querySelector(".cs-advanced-toggle");
+const aiSearchInput = document.getElementById("aiSearchInput");
+const aiSearchBtn = document.getElementById("aiSearchBtn");
+const aiResults = document.getElementById("aiResults");
+const aiTabButtons = document.querySelectorAll(".ai-tab-btn");
 
 const activitySeriesRoot = document.getElementById("activitySeries");
 const acidMetalInput = document.getElementById("acidMetalInput");
@@ -695,6 +706,7 @@ let csGradeFilter = "all";
 let csTypeFilter = "all";
 let csPracticeLevelFilter = "all";
 let csAdvancedVisible = false;
+let aiTabFilter = "overview";
 
 function normalizeFormula(formula) {
   return formula.replace(/\s+/g, "").toUpperCase();
@@ -2458,13 +2470,14 @@ function switchModule(nextModule) {
   });
 
   if (moduleNav) {
-    moduleNav.classList.toggle("is-hidden", ["physics", "math", "organic", "biology", "computer-science"].includes(nextModule));
+    moduleNav.classList.toggle("is-hidden", ["physics", "math", "organic", "biology", "ai", "computer-science"].includes(nextModule));
   }
 
   const subjectKey = nextModule === "physics" ? "physics"
     : nextModule === "math" ? "math"
     : nextModule === "organic" ? "organic"
     : nextModule === "biology" ? "biology"
+    : nextModule === "ai" ? "ai"
     : nextModule === "computer-science" ? "computer-science"
     : "chemistry";
   subjectButtons.forEach((button) => {
@@ -3367,6 +3380,20 @@ function buildSubjectKnowledgeRenderer(subjectLabel, chapterOrder, knowledgeBase
     });
   }
 
+  if (subjectLabel === "AI & Công nghệ số") {
+    aiTabButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        aiTabFilter = button.dataset.aiTab || "overview";
+        aiTabButtons.forEach((item) => {
+          const isActive = item.dataset.aiTab === aiTabFilter;
+          item.classList.toggle("active", isActive);
+          item.setAttribute("aria-selected", String(isActive));
+        });
+        renderAIResults();
+      });
+    });
+  }
+
   if (chapterSelect) {
     chapterSelect.innerHTML = "";
     const allOption = document.createElement("option");
@@ -3445,6 +3472,139 @@ function renderCSResults() {
     subject.renderResults();
     subject.renderPracticeSets();
   }
+}
+
+function renderAIResults() {
+  if (!aiResults) {
+    return;
+  }
+
+  const rawQuery = normalizeSearchText(aiSearchInput?.value || "");
+  const queryTerms = rawQuery.split(/\s+/).filter(Boolean);
+
+  const filteredTopics = aiKnowledgeBase.filter((topic) => {
+    const matchesTab = topic.category === aiTabFilter || (aiTabFilter === "overview" && ["overview", "ml", "dl"].includes(topic.category));
+    if (!matchesTab) {
+      return false;
+    }
+
+    if (!rawQuery) {
+      return true;
+    }
+
+    const haystack = [
+      topic.title,
+      topic.summary,
+      topic.explanation || "",
+      topic.formula || "",
+      topic.chapter,
+      topic.lesson || "",
+      ...(topic.tags || []),
+      ...(topic.aliases || [])
+    ].join(" ");
+
+    return queryTerms.some((term) => normalizeSearchText(haystack).includes(term));
+  });
+
+  const filteredSets = aiPracticeSets.filter((item) => {
+    const matchesTab = item.category === aiTabFilter || (aiTabFilter === "overview" && ["overview", "ml", "dl"].includes(item.category));
+    if (!matchesTab) {
+      return false;
+    }
+
+    if (!rawQuery) {
+      return true;
+    }
+
+    const haystack = [item.title, item.question, item.hint, item.answer, item.sourceLesson || ""].join(" ");
+    return queryTerms.some((term) => normalizeSearchText(haystack).includes(term));
+  });
+
+  aiResults.innerHTML = "";
+
+  if (!filteredTopics.length && !filteredSets.length) {
+    aiResults.innerHTML = '<div class="empty-state">Không tìm thấy nội dung AI phù hợp với từ khóa hoặc tab hiện tại.</div>';
+    return;
+  }
+
+  filteredTopics.forEach((topic) => {
+    const card = document.createElement("article");
+    card.className = "physics-card";
+
+    const tagsHtml = (topic.tags || [])
+      .map((tag) => `<span class="physics-tag">${tag}</span>`)
+      .join("");
+
+    card.innerHTML = `
+      <p class="physics-meta">Trí tuệ nhân tạo | ${topic.chapter} | ${topic.categoryLabel || "Nền tảng"}</p>
+      <h3>${topic.title}</h3>
+      <div class="physics-detail-stack">
+        <div class="physics-detail-block">
+          <p class="physics-detail-label">Khái niệm</p>
+          <p>${topic.explanation || topic.summary}</p>
+        </div>
+        <div class="physics-detail-block">
+          <p class="physics-detail-label">Điểm cần nhớ</p>
+          <ul class="physics-bullets">${(topic.keyPoints || []).map((point) => `<li>${point}</li>`).join("")}</ul>
+        </div>
+        <div class="physics-detail-block">
+          <p class="physics-detail-label">Ví dụ</p>
+          <p>${topic.example || topic.summary}</p>
+        </div>
+        <div class="physics-detail-block">
+          <p class="physics-detail-label">Mẹo ghi nhớ</p>
+          <p>${topic.memoryTip || "AI học từ dữ liệu và cải thiện qua quá trình huấn luyện."}</p>
+        </div>
+      </div>
+      ${topic.formula ? `<p class="physics-formula" data-katex-formula="${escapeHtml(topic.formula)}" data-display-mode="true"></p>` : ""}
+      <div class="physics-tags">${tagsHtml}</div>
+    `;
+
+    renderFormulaBlocks(card);
+    aiResults.appendChild(card);
+  });
+
+  filteredSets.forEach((item) => {
+    const card = document.createElement("article");
+    card.className = "physics-card";
+    card.innerHTML = `
+      <p class="physics-meta">Luyện tập AI | ${item.chapter || "Trí tuệ nhân tạo"}</p>
+      <h3>${item.title}</h3>
+      <div class="physics-detail-stack">
+        <div class="physics-detail-block">
+          <p class="physics-detail-label">Đề bài</p>
+          <p>${item.question}</p>
+        </div>
+        <div class="physics-detail-block">
+          <p class="physics-detail-label">Gợi ý</p>
+          <p>${item.hint}</p>
+        </div>
+        <div class="physics-detail-block">
+          <p class="physics-detail-label">Nguồn kiến thức</p>
+          <p>${item.sourceLesson || "AI cơ bản và ứng dụng trong thực tế"}</p>
+        </div>
+      </div>
+      <div class="physics-detail-block">
+        <p class="physics-detail-label">Câu trả lời của em</p>
+        <textarea class="math-answer-input" rows="3" placeholder="Nhập cách làm hoặc đáp án chính của em..."></textarea>
+        <button type="button" class="math-check-btn">Chấm nhanh</button>
+        <p class="math-check-feedback"></p>
+      </div>
+      <details class="math-practice-answer">
+        <summary>Xem đáp án mẫu</summary>
+        <p>${item.answer}</p>
+      </details>
+    `;
+
+    const checkBtn = card.querySelector(".math-check-btn");
+    const answerInput = card.querySelector(".math-answer-input");
+    const feedback = card.querySelector(".math-check-feedback");
+    if (checkBtn && answerInput && feedback) {
+      checkBtn.addEventListener("click", () => applyQuickGrading(answerInput.value, item.expectedKeywords || [], feedback));
+    }
+
+    aiResults.appendChild(card);
+  });
 }
 
 function applyQuickGrading(userAnswer, expectedKeywords, feedbackNode) {
@@ -3962,6 +4122,11 @@ subjectButtons.forEach((button) => {
       return;
     }
 
+    if (subject === "ai") {
+      switchModule("ai");
+      return;
+    }
+
     if (subject === "computer-science") {
       switchModule("computer-science");
       return;
@@ -4082,6 +4247,31 @@ if (csSearchInput) {
   });
 }
 
+if (aiSearchBtn) {
+  aiSearchBtn.addEventListener("click", renderAIResults);
+}
+
+if (aiSearchInput) {
+  aiSearchInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      renderAIResults();
+    }
+  });
+  aiSearchInput.addEventListener("input", renderAIResults);
+}
+
+aiTabButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    aiTabFilter = button.dataset.aiTab || "overview";
+    aiTabButtons.forEach((item) => {
+      const isActive = item.dataset.aiTab === aiTabFilter;
+      item.classList.toggle("active", isActive);
+      item.setAttribute("aria-selected", String(isActive));
+    });
+    renderAIResults();
+  });
+});
+
 if (physicsSearchBtn) {
   physicsSearchBtn.addEventListener("click", renderPhysicsResults);
 }
@@ -4128,6 +4318,7 @@ initOrganicPracticeChapterOptions();
 renderOrganicPracticeSets();
 renderBiologyResults();
 renderCSResults();
+renderAIResults();
 renderPhysicsResults();
 initMathPracticeChapterOptions();
 initPhysicsPracticeChapterOptions();

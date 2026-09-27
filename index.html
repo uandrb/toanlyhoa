@@ -25,6 +25,7 @@
       <button class="subject" type="button" data-subject="math" aria-selected="false">Toán 8-9</button>
       <button class="subject" type="button" data-subject="physics" aria-selected="false">Vật lý 8-9</button>
       <button class="subject" type="button" data-subject="biology" aria-selected="false">Sinh học</button>
+      <button class="subject" type="button" data-subject="ai" aria-selected="false">AI &amp; Công nghệ số</button>
       <button class="subject" type="button" data-subject="computer-science" aria-selected="false">Khoa học máy tính</button>
     </div>
 
@@ -450,11 +451,37 @@
       </div>
     </section>
 
+    <section class="module-panel is-hidden" id="module-ai" aria-labelledby="aiTitle">
+      <div class="physics-layout">
+        <h2 id="aiTitle">Kho kiến thức AI &amp; Công nghệ số</h2>
+        <p class="physics-intro">
+          Từ dữ liệu lớn, học máy, deep learning, LLM, cho đến ứng dụng AI trong đời sống và cách xây dựng một hệ thống AI thực tế.
+        </p>
+
+        <div class="physics-controls">
+          <div class="physics-filter-group" role="tablist" aria-label="Lọc nội dung AI theo nhóm">
+            <button type="button" class="ai-tab-btn active" data-ai-tab="overview" aria-selected="true">Tổng quan</button>
+            <button type="button" class="ai-tab-btn" data-ai-tab="ml" aria-selected="false">Dữ liệu &amp; ML</button>
+            <button type="button" class="ai-tab-btn" data-ai-tab="llm" aria-selected="false">LLM &amp; Chat</button>
+            <button type="button" class="ai-tab-btn" data-ai-tab="applications" aria-selected="false">Ứng dụng</button>
+            <button type="button" class="ai-tab-btn" data-ai-tab="development" aria-selected="false">Phát triển AI</button>
+          </div>
+
+          <div class="search-row physics-search-row">
+            <input id="aiSearchInput" type="text" placeholder="Ví dụ: dữ liệu lớn, machine learning, LLM, ChatGPT, ứng dụng AI" autocomplete="off" />
+            <button id="aiSearchBtn" type="button" class="primary-btn">Tra cứu AI</button>
+          </div>
+        </div>
+
+        <div class="physics-results" id="aiResults"></div>
+      </div>
+    </section>
+
     <section class="module-panel is-hidden" id="module-computer-science" aria-labelledby="computerScienceTitle">
       <div class="physics-layout">
         <h2 id="computerScienceTitle">Kho kiến thức Khoa học máy tính</h2>
         <p class="physics-intro">
-          Tìm hiểu máy tính, thuật toán, mạng, dữ liệu, AI và an toàn thông tin theo hướng học tập hiện đại và dễ tiếp cận.
+          Tìm hiểu máy tính, thuật toán, mạng, dữ liệu, an toàn thông tin và các nền tảng công nghệ số hiện đại.
         </p>
 
         <div class="physics-controls">
@@ -471,7 +498,7 @@
           </div>
 
           <div class="search-row physics-search-row">
-            <input id="csSearchInput" type="text" placeholder="Ví dụ: thuật toán, nhị phân, mạng, AI, an toàn thông tin" autocomplete="off" />
+            <input id="csSearchInput" type="text" placeholder="Ví dụ: thuật toán, nhị phân, mạng, an toàn thông tin" autocomplete="off" />
             <button id="csSearchBtn" type="button" class="primary-btn">Tra cứu kiến thức</button>
           </div>
 

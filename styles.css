@@ -187,6 +187,7 @@ h1 {
 .mode-btn:hover,
 .primary-btn:hover,
 .advanced-toggle-btn:hover,
+.ai-tab-btn:hover,
 .physics-grade-btn:hover,
 .physics-type-btn:hover,
 .math-grade-btn:hover,
@@ -1059,6 +1060,7 @@ input:focus-visible {
 }
 
 .advanced-toggle-btn,
+.ai-tab-btn,
 .physics-grade-btn,
 .physics-type-btn,
 .math-grade-btn,
@@ -1090,6 +1092,7 @@ input:focus-visible {
 }
 
 .advanced-toggle-btn[aria-pressed="true"],
+.ai-tab-btn.active,
 .physics-grade-btn.active,
 .physics-type-btn.active,
 .math-grade-btn.active,
