@@ -307,10 +307,17 @@
                 <button id="mathGraphAddBtn" type="button" class="primary-btn">Thêm hàm số</button>
                 <button id="mathGraphResetBtn" type="button" class="secondary-btn">Đặt lại</button>
               </div>
+              <div class="graph-zoom-controls" aria-label="Điều khiển zoom đồ thị">
+                <button id="mathGraphZoomInBtn" type="button" class="secondary-btn" aria-label="Phóng to đồ thị">+</button>
+                <button id="mathGraphZoomOutBtn" type="button" class="secondary-btn" aria-label="Thu nhỏ đồ thị">−</button>
+                <button id="mathGraphZoomResetBtn" type="button" class="secondary-btn" aria-label="Khôi phục kích thước ban đầu">100%</button>
+              </div>
             </div>
 
             <div class="graph-canvas-panel">
-              <svg id="mathGraphCanvas" viewBox="0 0 720 420" role="img" aria-label="Đồ thị hàm số"></svg>
+              <div class="graph-canvas-frame">
+                <svg id="mathGraphCanvas" viewBox="0 0 720 420" role="img" aria-label="Đồ thị hàm số"></svg>
+              </div>
             </div>
           </div>
         </section>

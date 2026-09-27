@@ -1132,6 +1132,18 @@ input:focus-visible {
   margin-top: 12px;
 }
 
+.graph-zoom-controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.graph-zoom-controls .secondary-btn {
+  min-width: 52px;
+  padding-inline: 12px;
+}
+
 .graph-remove-btn {
   border: 1px solid rgba(170, 83, 83, 0.32);
   background: rgba(255, 245, 245, 0.8);
@@ -1146,13 +1158,58 @@ input:focus-visible {
   min-height: 420px;
 }
 
+.graph-canvas-frame {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid rgba(114, 133, 130, 0.18);
+  background: linear-gradient(180deg, rgba(244, 249, 255, 0.96), rgba(239, 244, 240, 0.96));
+  touch-action: none;
+}
+
 #mathGraphCanvas {
   display: block;
   width: 100%;
-  height: 420px;
-  background: linear-gradient(180deg, rgba(244, 249, 255, 0.96), rgba(239, 244, 240, 0.96));
+  height: 100%;
+  max-width: 100%;
   border-radius: 12px;
-  border: 1px solid rgba(114, 133, 130, 0.18);
+  transform-origin: center center;
+  transition: transform 0.12s ease;
+  touch-action: none;
+}
+
+@media (max-width: 760px) {
+  .tool-launch-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tool-launch-note {
+    max-width: 100%;
+  }
+
+  .graph-tool-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .graph-control-panel,
+  .graph-canvas-panel {
+    padding: 10px;
+  }
+
+  .graph-canvas-panel {
+    min-height: 300px;
+  }
+
+  .graph-canvas-frame {
+    height: 300px;
+  }
+
+  #mathGraphCanvas {
+    height: 100%;
+  }
 }
 
 .physics-layout {

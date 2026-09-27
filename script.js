@@ -627,6 +627,20 @@ const mathLevelButtons = document.querySelectorAll(".math-level-btn");
 const mathPrevLessonBtn = document.getElementById("mathPrevLessonBtn");
 const mathNextLessonBtn = document.getElementById("mathNextLessonBtn");
 const mathLessonIndicator = document.getElementById("mathLessonIndicator");
+const mathGraphRowsRoot = document.getElementById("mathGraphRows");
+const mathGraphAddBtn = document.getElementById("mathGraphAddBtn");
+const mathGraphResetBtn = document.getElementById("mathGraphResetBtn");
+const mathGraphZoomInBtn = document.getElementById("mathGraphZoomInBtn");
+const mathGraphZoomOutBtn = document.getElementById("mathGraphZoomOutBtn");
+const mathGraphZoomResetBtn = document.getElementById("mathGraphZoomResetBtn");
+const mathGraphCanvas = document.getElementById("mathGraphCanvas");
+const mathGraphState = {
+  zoom: 1,
+  panX: 0,
+  panY: 0,
+  pointerMap: new Map(),
+  lastPointer: null
+};
 
 const mathPracticeResults = document.getElementById("mathPracticeResults");
 const mathPracticeGradeButtons = document.querySelectorAll(".math-practice-grade-btn");
@@ -2884,6 +2898,321 @@ function renderMathMap(topics) {
   });
 }
 
+function createMathGraphRow(config = { type: "line", a: 1, b: 0, c: 0 }) {
+  const row = document.createElement("div");
+  row.className = "graph-row";
+
+  row.innerHTML = `
+    <label class="graph-field">
+      <span>Loại đồ thị</span>
+      <select class="graph-type-select">
+        <option value="line" ${config.type === "line" ? "selected" : ""}>y = ax + b</option>
+        <option value="quadratic" ${config.type === "quadratic" ? "selected" : ""}>y = ax² + bx + c</option>
+        <option value="cubic" ${config.type === "cubic" ? "selected" : ""}>y = ax³ + bx² + cx</option>
+      </select>
+    </label>
+    <div class="graph-field-row">
+      <label class="graph-field">
+        <span>a</span>
+        <input type="number" class="graph-param" data-param="a" value="${Number(config.a ?? 1).toFixed(1).replace(/\.0$/, "")}" step="0.1" />
+      </label>
+      <label class="graph-field">
+        <span>b</span>
+        <input type="number" class="graph-param" data-param="b" value="${Number(config.b ?? 0).toFixed(1).replace(/\.0$/, "")}" step="0.1" />
+      </label>
+      <label class="graph-field">
+        <span>c</span>
+        <input type="number" class="graph-param" data-param="c" value="${Number(config.c ?? 0).toFixed(1).replace(/\.0$/, "")}" step="0.1" />
+      </label>
+    </div>
+    <button type="button" class="graph-remove-btn">Xoá</button>
+  `;
+
+  const removeBtn = row.querySelector(".graph-remove-btn");
+  removeBtn.addEventListener("click", () => {
+    const remainingRows = mathGraphRowsRoot.querySelectorAll(".graph-row");
+    if (remainingRows.length > 1) {
+      row.remove();
+      renderMathGraph();
+    }
+  });
+
+  row.querySelectorAll(".graph-type-select, .graph-param").forEach((input) => {
+    input.addEventListener("input", renderMathGraph);
+    input.addEventListener("change", renderMathGraph);
+  });
+
+  return row;
+}
+
+function getMathGraphRowsData() {
+  if (!mathGraphRowsRoot) {
+    return [];
+  }
+
+  return Array.from(mathGraphRowsRoot.querySelectorAll(".graph-row")).map((row) => {
+    const type = row.querySelector(".graph-type-select")?.value || "line";
+    const values = row.querySelectorAll(".graph-param");
+    const params = {
+      a: Number(values[0]?.value || 1),
+      b: Number(values[1]?.value || 0),
+      c: Number(values[2]?.value || 0)
+    };
+    return { type, ...params };
+  });
+}
+
+function evaluateMathGraphValue(type, x, a, b, c) {
+  switch (type) {
+    case "quadratic":
+      return a * x * x + b * x + c;
+    case "cubic":
+      return a * x * x * x + b * x * x + c * x;
+    case "line":
+    default:
+      return a * x + b;
+  }
+}
+
+function applyMathGraphTransform() {
+  if (!mathGraphCanvas) {
+    return;
+  }
+
+  const zoomValue = Math.min(3, Math.max(0.6, mathGraphState.zoom));
+  mathGraphCanvas.style.transform = `translate(${mathGraphState.panX}px, ${mathGraphState.panY}px) scale(${zoomValue})`;
+}
+
+function adjustMathGraphZoom(delta) {
+  const nextZoom = Math.min(3, Math.max(0.6, mathGraphState.zoom + delta));
+  mathGraphState.zoom = nextZoom;
+  applyMathGraphTransform();
+}
+
+function resetMathGraphView() {
+  mathGraphState.zoom = 1;
+  mathGraphState.panX = 0;
+  mathGraphState.panY = 0;
+  applyMathGraphTransform();
+}
+
+function handleMathGraphWheel(event) {
+  if (!mathGraphCanvas) {
+    return;
+  }
+
+  event.preventDefault();
+  const delta = event.deltaY < 0 ? 0.12 : -0.12;
+  adjustMathGraphZoom(delta);
+}
+
+function handleMathGraphPointerDown(event) {
+  if (!mathGraphCanvas) {
+    return;
+  }
+
+  mathGraphCanvas.setPointerCapture?.(event.pointerId);
+  mathGraphState.pointerMap.set(event.pointerId, { x: event.clientX, y: event.clientY });
+  mathGraphState.lastPointer = { x: event.clientX, y: event.clientY };
+}
+
+function handleMathGraphPointerMove(event) {
+  if (!mathGraphCanvas || !mathGraphState.pointerMap.has(event.pointerId)) {
+    return;
+  }
+
+  const previous = mathGraphState.pointerMap.get(event.pointerId);
+  const deltaX = event.clientX - previous.x;
+  const deltaY = event.clientY - previous.y;
+
+  mathGraphState.pointerMap.set(event.pointerId, { x: event.clientX, y: event.clientY });
+
+  if (mathGraphState.pointerMap.size === 1) {
+    mathGraphState.panX += deltaX;
+    mathGraphState.panY += deltaY;
+    applyMathGraphTransform();
+    return;
+  }
+
+  if (mathGraphState.pointerMap.size >= 2) {
+    const points = Array.from(mathGraphState.pointerMap.values());
+    const distance = Math.hypot(points[0].x - points[1].x, points[0].y - points[1].y);
+    const previousDistance = mathGraphState.lastPointer ? Math.hypot(points[0].x - mathGraphState.lastPointer.x, points[0].y - mathGraphState.lastPointer.y) : distance;
+    const deltaZoom = previousDistance ? (distance - previousDistance) / 180 : 0;
+    adjustMathGraphZoom(deltaZoom * 0.3);
+    mathGraphState.lastPointer = { x: (points[0].x + points[1].x) / 2, y: (points[0].y + points[1].y) / 2 };
+  }
+}
+
+function handleMathGraphPointerUp(event) {
+  if (!mathGraphCanvas) {
+    return;
+  }
+
+  mathGraphState.pointerMap.delete(event.pointerId);
+  if (mathGraphState.pointerMap.size === 0) {
+    mathGraphState.lastPointer = null;
+  }
+}
+
+function renderMathGraph() {
+  if (!mathGraphCanvas || !mathGraphRowsRoot) {
+    return;
+  }
+
+  const rows = getMathGraphRowsData();
+  if (!rows.length) {
+    mathGraphCanvas.innerHTML = "";
+    applyMathGraphTransform();
+    return;
+  }
+
+  const width = 720;
+  const height = 420;
+  const padding = 32;
+  const xMin = -10;
+  const xMax = 10;
+  const sampleStep = 0.18;
+
+  const allYValues = [];
+  rows.forEach(({ type, a, b, c }) => {
+    for (let x = xMin; x <= xMax; x += sampleStep) {
+      const y = evaluateMathGraphValue(type, x, a, b, c);
+      if (Number.isFinite(y)) {
+        allYValues.push(y);
+      }
+    }
+  });
+
+  const yMin = allYValues.length ? Math.min(...allYValues, -10) : -10;
+  const yMax = allYValues.length ? Math.max(...allYValues, 10) : 10;
+  const yRange = yMax - yMin || 1;
+
+  const toScreenX = (x) => padding + ((x - xMin) / (xMax - xMin)) * (width - padding * 2);
+  const toScreenY = (y) => height - padding - ((y - yMin) / yRange) * (height - padding * 2);
+
+  const NS = "http://www.w3.org/2000/svg";
+  mathGraphCanvas.innerHTML = "";
+
+  const background = document.createElementNS(NS, "rect");
+  background.setAttribute("x", "0");
+  background.setAttribute("y", "0");
+  background.setAttribute("width", String(width));
+  background.setAttribute("height", String(height));
+  background.setAttribute("fill", "#f9fbff");
+  mathGraphCanvas.appendChild(background);
+
+  for (let x = xMin; x <= xMax; x += 1) {
+    const xCoord = toScreenX(x);
+    const line = document.createElementNS(NS, "line");
+    line.setAttribute("x1", String(xCoord));
+    line.setAttribute("x2", String(xCoord));
+    line.setAttribute("y1", String(padding));
+    line.setAttribute("y2", String(height - padding));
+    line.setAttribute("stroke", x === 0 ? "#1b2a38" : "#dfe9f2");
+    line.setAttribute("stroke-width", x === 0 ? "1.3" : "0.8");
+    mathGraphCanvas.appendChild(line);
+  }
+
+  for (let y = Math.ceil(yMin); y <= Math.floor(yMax); y += 1) {
+    const yCoord = toScreenY(y);
+    const line = document.createElementNS(NS, "line");
+    line.setAttribute("x1", String(padding));
+    line.setAttribute("x2", String(width - padding));
+    line.setAttribute("y1", String(yCoord));
+    line.setAttribute("y2", String(yCoord));
+    line.setAttribute("stroke", y === 0 ? "#1b2a38" : "#e9eef7");
+    line.setAttribute("stroke-width", y === 0 ? "1.3" : "0.8");
+    mathGraphCanvas.appendChild(line);
+  }
+
+  const xAxis = document.createElementNS(NS, "line");
+  xAxis.setAttribute("x1", String(padding));
+  xAxis.setAttribute("x2", String(width - padding));
+  xAxis.setAttribute("y1", String(toScreenY(0)));
+  xAxis.setAttribute("y2", String(toScreenY(0)));
+  xAxis.setAttribute("stroke", "#223744");
+  xAxis.setAttribute("stroke-width", "1.5");
+  mathGraphCanvas.appendChild(xAxis);
+
+  const yAxis = document.createElementNS(NS, "line");
+  yAxis.setAttribute("x1", String(toScreenX(0)));
+  yAxis.setAttribute("x2", String(toScreenX(0)));
+  yAxis.setAttribute("y1", String(padding));
+  yAxis.setAttribute("y2", String(height - padding));
+  yAxis.setAttribute("stroke", "#223744");
+  yAxis.setAttribute("stroke-width", "1.5");
+  mathGraphCanvas.appendChild(yAxis);
+
+  rows.forEach(({ type, a, b, c }, index) => {
+    const points = [];
+    for (let x = xMin; x <= xMax; x += sampleStep) {
+      const y = evaluateMathGraphValue(type, x, a, b, c);
+      if (Number.isFinite(y)) {
+        points.push(`${toScreenX(x)},${toScreenY(y)}`);
+      }
+    }
+
+    const polyline = document.createElementNS(NS, "polyline");
+    polyline.setAttribute("points", points.join(" "));
+    polyline.setAttribute("fill", "none");
+    polyline.setAttribute("stroke", ["#0d7a70", "#d66d2a", "#4a67d6", "#8e58c9"][index % 4]);
+    polyline.setAttribute("stroke-width", "2.4");
+    polyline.setAttribute("stroke-linecap", "round");
+    polyline.setAttribute("stroke-linejoin", "round");
+    mathGraphCanvas.appendChild(polyline);
+  });
+
+  applyMathGraphTransform();
+}
+
+function initMathGraphTool() {
+  if (!mathGraphRowsRoot) {
+    return;
+  }
+
+  mathGraphRowsRoot.innerHTML = "";
+  mathGraphRowsRoot.appendChild(createMathGraphRow({ type: "line", a: 1, b: 0, c: 0 }));
+  mathGraphRowsRoot.appendChild(createMathGraphRow({ type: "quadratic", a: 1, b: -2, c: -3 }));
+
+  if (mathGraphAddBtn) {
+    mathGraphAddBtn.addEventListener("click", () => {
+      mathGraphRowsRoot.appendChild(createMathGraphRow({ type: "line", a: 1, b: 0, c: 0 }));
+      renderMathGraph();
+    });
+  }
+
+  if (mathGraphResetBtn) {
+    mathGraphResetBtn.addEventListener("click", () => {
+      initMathGraphTool();
+      renderMathGraph();
+    });
+  }
+
+  if (mathGraphZoomInBtn) {
+    mathGraphZoomInBtn.addEventListener("click", () => adjustMathGraphZoom(0.2));
+  }
+
+  if (mathGraphZoomOutBtn) {
+    mathGraphZoomOutBtn.addEventListener("click", () => adjustMathGraphZoom(-0.2));
+  }
+
+  if (mathGraphZoomResetBtn) {
+    mathGraphZoomResetBtn.addEventListener("click", resetMathGraphView);
+  }
+
+  if (mathGraphCanvas) {
+    mathGraphCanvas.addEventListener("wheel", handleMathGraphWheel, { passive: false });
+    mathGraphCanvas.addEventListener("pointerdown", handleMathGraphPointerDown);
+    mathGraphCanvas.addEventListener("pointermove", handleMathGraphPointerMove);
+    mathGraphCanvas.addEventListener("pointerup", handleMathGraphPointerUp);
+    mathGraphCanvas.addEventListener("pointerleave", handleMathGraphPointerUp);
+    mathGraphCanvas.addEventListener("pointercancel", handleMathGraphPointerUp);
+  }
+
+  renderMathGraph();
+}
+
 function updateMathLessonNavigator(total) {
   const safeTotal = Math.max(total, 0);
   if (!safeTotal) {
@@ -4325,5 +4654,6 @@ initPhysicsPracticeChapterOptions();
 renderMathResults();
 renderMathPracticeSets();
 renderPhysicsPracticeSets();
+initMathGraphTool();
 setGradeFilter("all");
 showEmpty("Hãy nhập chất để bắt đầu tra cứu.");
