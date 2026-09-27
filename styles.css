@@ -1065,7 +1065,13 @@ input:focus-visible {
 .math-type-btn,
 .math-level-btn,
 .math-practice-grade-btn,
-.math-practice-level-btn {
+.math-practice-level-btn,
+.biology-grade-btn,
+.biology-type-btn,
+.biology-practice-level-btn,
+.cs-grade-btn,
+.cs-type-btn,
+.cs-practice-level-btn {
   border: 1px solid #ccd9c3;
   background: #fff;
   color: #34495a;
@@ -1090,7 +1096,13 @@ input:focus-visible {
 .math-type-btn.active,
 .math-level-btn.active,
 .math-practice-grade-btn.active,
-.math-practice-level-btn.active {
+.math-practice-level-btn.active,
+.biology-grade-btn.active,
+.biology-type-btn.active,
+.biology-practice-level-btn.active,
+.cs-grade-btn.active,
+.cs-type-btn.active,
+.cs-practice-level-btn.active {
   border-color: transparent;
   background: linear-gradient(120deg, #1b8f67, #0b7a75);
   color: #fff;
@@ -1154,13 +1166,40 @@ input:focus-visible {
   color: #445f78;
 }
 
-#mathPracticeChapterSelect {
+#mathPracticeChapterSelect,
+#biologyPracticeChapterSelect,
+#csPracticeChapterSelect,
+#biologySearchInput,
+#csSearchInput,
+#physicsSearchInput,
+#mathSearchInput,
+#organicSearchInput,
+#elementSearchInput,
+#acidMetalInput,
+#displaceMetalInput,
+#displaceIonInput,
+select {
   border: 1px solid #ccd9c3;
-  border-radius: 10px;
-  padding: 8px 10px;
+  border-radius: 12px;
+  padding: 11px 12px;
   font: inherit;
   color: #2c3e50;
   background: #fff;
+  min-height: 42px;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+#biologySearchInput:focus,
+#csSearchInput:focus,
+#physicsSearchInput:focus,
+#mathSearchInput:focus,
+#organicSearchInput:focus,
+#elementSearchInput:focus,
+select:focus,
+input:focus {
+  border-color: rgba(11, 122, 117, 0.52);
+  box-shadow: 0 0 0 3px rgba(11, 122, 117, 0.08);
+  outline: none;
 }
 
 .math-practice-answer {
@@ -1207,6 +1246,21 @@ input:focus-visible {
 
 .physics-search-row {
   margin-top: 2px;
+}
+
+.search-row.physics-search-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-row.physics-search-row > * {
+  flex: 1 1 180px;
+}
+
+.search-row.physics-search-row .primary-btn {
+  flex: 0 0 auto;
 }
 
 .physics-map {
