@@ -189,6 +189,24 @@ const physicsPracticeSets = physicsPracticeSetsCurated;
 const organicPracticeSets = (window.ORGANIC_PRACTICE_DATA && Array.isArray(window.ORGANIC_PRACTICE_DATA.sets))
   ? window.ORGANIC_PRACTICE_DATA.sets
   : [];
+const biologyKnowledgeBase = (window.BIOLOGY_DATA && Array.isArray(window.BIOLOGY_DATA.knowledgeBase))
+  ? window.BIOLOGY_DATA.knowledgeBase
+  : [];
+const biologyPracticeSets = (window.BIOLOGY_DATA && Array.isArray(window.BIOLOGY_DATA.practiceSets))
+  ? window.BIOLOGY_DATA.practiceSets
+  : [];
+const biologyChapterOrder = (window.BIOLOGY_DATA && Array.isArray(window.BIOLOGY_DATA.chapterOrder))
+  ? window.BIOLOGY_DATA.chapterOrder
+  : ["Sinh học tế bào", "Sinh học cơ thể", "Sinh thái học", "Di truyền học", "Sinh học thực vật", "Sinh học động vật"];
+const csKnowledgeBase = (window.CS_DATA && Array.isArray(window.CS_DATA.knowledgeBase))
+  ? window.CS_DATA.knowledgeBase
+  : [];
+const csPracticeSets = (window.CS_DATA && Array.isArray(window.CS_DATA.practiceSets))
+  ? window.CS_DATA.practiceSets
+  : [];
+const csChapterOrder = (window.CS_DATA && Array.isArray(window.CS_DATA.chapterOrder))
+  ? window.CS_DATA.chapterOrder
+  : ["Tin học cơ bản", "Thuật toán và lập trình", "Mạng máy tính", "An toàn thông tin", "Trí tuệ nhân tạo và dữ liệu"];
 
 const organicKnowledgeBase = [
   {
@@ -558,7 +576,9 @@ const modulePanels = {
   practice: document.getElementById("module-practice"),
   organic: document.getElementById("module-organic"),
   math: document.getElementById("module-math"),
-  physics: document.getElementById("module-physics")
+  physics: document.getElementById("module-physics"),
+  biology: document.getElementById("module-biology"),
+  "computer-science": document.getElementById("module-computer-science")
 };
 
 const form = document.getElementById("searchForm");
@@ -618,6 +638,30 @@ const physicsPracticeLevelButtons = document.querySelectorAll(".physics-practice
 const physicsPracticeChapterSelect = document.getElementById("physicsPracticeChapterSelect");
 const physicsPracticeRefreshBtn = document.getElementById("physicsPracticeRefreshBtn");
 
+const biologySearchInput = document.getElementById("biologySearchInput");
+const biologySearchBtn = document.getElementById("biologySearchBtn");
+const biologyResults = document.getElementById("biologyResults");
+const biologyMap = document.getElementById("biologyMap");
+const biologyGradeButtons = document.querySelectorAll(".biology-grade-btn");
+const biologyTypeButtons = document.querySelectorAll(".biology-type-btn");
+const biologyPracticeLevelButtons = document.querySelectorAll(".biology-practice-level-btn");
+const biologyPracticeChapterSelect = document.getElementById("biologyPracticeChapterSelect");
+const biologyPracticeRefreshBtn = document.getElementById("biologyPracticeRefreshBtn");
+const biologyPracticeResults = document.getElementById("biologyPracticeResults");
+const biologyAdvancedToggle = document.querySelector(".biology-advanced-toggle");
+
+const csSearchInput = document.getElementById("csSearchInput");
+const csSearchBtn = document.getElementById("csSearchBtn");
+const csResults = document.getElementById("csResults");
+const csMap = document.getElementById("csMap");
+const csGradeButtons = document.querySelectorAll(".cs-grade-btn");
+const csTypeButtons = document.querySelectorAll(".cs-type-btn");
+const csPracticeLevelButtons = document.querySelectorAll(".cs-practice-level-btn");
+const csPracticeChapterSelect = document.getElementById("csPracticeChapterSelect");
+const csPracticeRefreshBtn = document.getElementById("csPracticeRefreshBtn");
+const csPracticeResults = document.getElementById("csPracticeResults");
+const csAdvancedToggle = document.querySelector(".cs-advanced-toggle");
+
 const activitySeriesRoot = document.getElementById("activitySeries");
 const acidMetalInput = document.getElementById("acidMetalInput");
 const acidCheckBtn = document.getElementById("acidCheckBtn");
@@ -643,6 +687,14 @@ let mathPracticeLevelFilter = "all";
 let organicPracticeLevelFilter = "all";
 let physicsPracticeGradeFilter = "all";
 let physicsPracticeLevelFilter = "all";
+let biologyGradeFilter = "all";
+let biologyTypeFilter = "all";
+let biologyPracticeLevelFilter = "all";
+let biologyAdvancedVisible = false;
+let csGradeFilter = "all";
+let csTypeFilter = "all";
+let csPracticeLevelFilter = "all";
+let csAdvancedVisible = false;
 
 function normalizeFormula(formula) {
   return formula.replace(/\s+/g, "").toUpperCase();
@@ -2406,10 +2458,15 @@ function switchModule(nextModule) {
   });
 
   if (moduleNav) {
-    moduleNav.classList.toggle("is-hidden", nextModule === "physics" || nextModule === "math" || nextModule === "organic");
+    moduleNav.classList.toggle("is-hidden", ["physics", "math", "organic", "biology", "computer-science"].includes(nextModule));
   }
 
-  const subjectKey = nextModule === "physics" ? "physics" : nextModule === "math" ? "math" : nextModule === "organic" ? "organic" : "chemistry";
+  const subjectKey = nextModule === "physics" ? "physics"
+    : nextModule === "math" ? "math"
+    : nextModule === "organic" ? "organic"
+    : nextModule === "biology" ? "biology"
+    : nextModule === "computer-science" ? "computer-science"
+    : "chemistry";
   subjectButtons.forEach((button) => {
     const isActive = button.dataset.subject === subjectKey;
     button.classList.toggle("active", isActive);
@@ -3035,6 +3092,361 @@ function renderPhysicsPracticeSets() {
   });
 }
 
+function buildSubjectKnowledgeRenderer(subjectLabel, chapterOrder, knowledgeBase, practiceSets, searchInput, resultsRootNode, mapRootNode, gradeButtons, typeButtons, practiceLevelButtons, chapterSelect, practiceRefreshButton, practiceResultsNode, currentGradeFilter, currentTypeFilter, currentPracticeLevel, advancedVisible) {
+  const getFilteredTopics = () => {
+    const rawQuery = (searchInput?.value || "").trim();
+    const queryTerms = expandPhysicsQueryTerms(rawQuery);
+    const advancedQueryMatch = /nang cao|advanced|van dung|vận dụng/i.test(rawQuery);
+    const shouldShowAdvanced = advancedVisible || advancedQueryMatch;
+
+    const filtered = knowledgeBase.filter((topic) => {
+      const topicLevel = topic.level || "basic";
+      const matchGrade = currentGradeFilter === "all" || topic.grade === currentGradeFilter;
+      const matchType = currentTypeFilter === "all" || topic.type === currentTypeFilter;
+      const matchAdvanced = shouldShowAdvanced || topicLevel !== "advanced";
+      if (!matchGrade || !matchType || !matchAdvanced) {
+        return false;
+      }
+
+      if (!rawQuery) {
+        return true;
+      }
+
+      const haystack = [
+        topic.title,
+        topic.summary,
+        topic.explanation || "",
+        topic.formula || "",
+        topic.chapter,
+        topic.lesson || "",
+        ...(topic.tags || []),
+        ...(topic.aliases || [])
+      ].join(" ");
+      const normalizedHaystack = normalizeSearchText(haystack);
+      return queryTerms.some((term) => normalizedHaystack.includes(term));
+    });
+
+    return filtered
+      .map((topic, index) => ({ topic, index, score: scorePhysicsTopic(topic, queryTerms, rawQuery) }))
+      .sort((a, b) => {
+        const scoreDelta = b.score - a.score;
+        if (scoreDelta !== 0) {
+          return scoreDelta;
+        }
+
+        const chapterDelta = chapterOrder.indexOf(a.topic.chapter) - chapterOrder.indexOf(b.topic.chapter);
+        if (chapterDelta !== 0) {
+          return chapterDelta;
+        }
+
+        return a.index - b.index;
+      })
+      .map((entry) => entry.topic);
+  };
+
+  const renderMap = (topics) => {
+    if (!mapRootNode) {
+      return;
+    }
+
+    const countByChapter = new Map();
+    topics.forEach((topic) => {
+      countByChapter.set(topic.chapter, (countByChapter.get(topic.chapter) || 0) + 1);
+    });
+
+    mapRootNode.innerHTML = "";
+    chapterOrder.forEach((chapter) => {
+      const count = countByChapter.get(chapter) || 0;
+      if (!count) {
+        return;
+      }
+      const card = document.createElement("article");
+      card.className = "physics-map-card";
+      card.innerHTML = `<h3>${chapter}</h3><p>${count} mục kiến thức phù hợp bộ lọc hiện tại.</p>`;
+      mapRootNode.appendChild(card);
+    });
+  };
+
+  const renderResults = () => {
+    if (!resultsRootNode) {
+      return;
+    }
+
+    const topics = getFilteredTopics();
+    renderMap(topics);
+    resultsRootNode.innerHTML = "";
+
+    if (!topics.length) {
+      resultsRootNode.innerHTML = `<div class="empty-state">Không tìm thấy mục kiến thức phù hợp ở ${subjectLabel}. Hãy thử đổi từ khóa hoặc bộ lọc.</div>`;
+      return;
+    }
+
+    topics.forEach((topic) => {
+      const card = document.createElement("article");
+      card.className = "physics-card";
+
+      const tagsHtml = (topic.tags || [])
+        .map((tag) => `<span class="physics-tag">${tag}</span>`)
+        .join("");
+
+      const explanation = topic.explanation || topic.summary || `Nội dung ${topic.title} thuộc phần ${topic.chapter}.`;
+      const keyPoints = Array.isArray(topic.keyPoints) && topic.keyPoints.length
+        ? topic.keyPoints
+        : [
+          topic.summary || `Khái niệm trọng tâm của ${topic.title}.`,
+          topic.formula ? `Công thức liên quan: ${topic.formula}` : `Hãy ghi nhớ đặc điểm chính của ${topic.title}.`,
+          `Mẹo ôn tập: liên hệ ${topic.title.toLowerCase()} với ví dụ thực tế và dạng bài tương ứng.`
+        ];
+      const examples = Array.isArray(topic.examples) && topic.examples.length
+        ? topic.examples
+        : (topic.example ? [topic.example] : []);
+      const memoryTip = topic.memoryTip || `Mẹo nhớ: hãy nối ${topic.title.toLowerCase()} với ví dụ và sơ đồ học tập của ${topic.chapter}.`;
+      const lessonHtml = topic.lesson ? `<div class="physics-detail-block"><p class="physics-detail-label">Bài học SGK</p><p>${topic.lesson}</p></div>` : "";
+      const exampleHtml = examples.length ? `<div class="physics-detail-block"><p class="physics-detail-label">Ví dụ</p><p class="physics-example">${examples[0]}</p></div>` : "";
+      const bulletsHtml = keyPoints.map((point) => `<li>${point}</li>`).join("");
+
+      card.innerHTML = `
+        <p class="physics-meta">${subjectLabel} | ${topic.chapter} | ${subjectTypeLabels[topic.type] || topic.type}</p>
+        <h3>${topic.title}</h3>
+        <div class="physics-detail-stack">
+          <div class="physics-detail-block">
+            <p class="physics-detail-label">Khái niệm</p>
+            <p>${explanation}</p>
+          </div>
+          ${lessonHtml}
+          <div class="physics-detail-block">
+            <p class="physics-detail-label">Điểm cần nhớ</p>
+            <ul class="physics-bullets">${bulletsHtml}</ul>
+          </div>
+          ${exampleHtml}
+          <div class="physics-detail-block">
+            <p class="physics-detail-label">Mẹo ghi nhớ</p>
+            <p>${memoryTip}</p>
+          </div>
+        </div>
+        ${topic.formula ? `<p class="physics-formula" data-katex-formula="${escapeHtml(topic.formula)}" data-display-mode="true"></p>` : ""}
+        <div class="physics-tags">${tagsHtml}</div>
+      `;
+      renderFormulaBlocks(card);
+      resultsRootNode.appendChild(card);
+    });
+  };
+
+  const renderPracticeSets = () => {
+    if (!practiceResultsNode) {
+      return;
+    }
+
+    const selectedChapter = chapterSelect?.value || "all";
+    const sets = practiceSets.filter((item) => {
+      const matchLevel = currentPracticeLevel === "all" || item.level === currentPracticeLevel;
+      const matchChapter = selectedChapter === "all" || item.chapter === selectedChapter;
+      return matchLevel && matchChapter;
+    });
+
+    practiceResultsNode.innerHTML = "";
+    if (!sets.length) {
+      practiceResultsNode.innerHTML = `<div class="empty-state">Chưa có bộ đề thích hợp cho ${subjectLabel}.</div>`;
+      return;
+    }
+
+    sets.forEach((item) => {
+      const card = document.createElement("article");
+      card.className = "physics-card";
+      const tagsHtml = ["luyện tập", item.chapter, `lớp ${item.grade}`, mathProblemLevelLabels[item.level] || item.level]
+        .map((tag) => `<span class="physics-tag">${tag}</span>`)
+        .join("");
+
+      card.innerHTML = `
+        <p class="physics-meta">Lớp ${item.grade} | ${item.chapter} | ${mathProblemLevelLabels[item.level] || item.level}</p>
+        <h3>${item.title}</h3>
+        <div class="physics-detail-stack">
+          <div class="physics-detail-block">
+            <p class="physics-detail-label">Đề bài</p>
+            <p>${item.question}</p>
+          </div>
+          <div class="physics-detail-block">
+            <p class="physics-detail-label">Gợi ý</p>
+            <p>${item.hint}</p>
+          </div>
+          <div class="physics-detail-block">
+            <p class="physics-detail-label">Nguồn kiến thức</p>
+            <p>${item.sourceLesson || subjectLabel}</p>
+          </div>
+        </div>
+        <div class="physics-detail-block">
+          <p class="physics-detail-label">Câu trả lời của em</p>
+          <textarea class="math-answer-input" rows="3" placeholder="Nhập cách làm hoặc đáp án chính của em..."></textarea>
+          <button type="button" class="math-check-btn">Chấm nhanh</button>
+          <p class="math-check-feedback"></p>
+        </div>
+        <details class="math-practice-answer">
+          <summary>Xem đáp án mẫu</summary>
+          <p>${item.answer}</p>
+        </details>
+        <div class="physics-tags">${tagsHtml}</div>
+      `;
+
+      const checkBtn = card.querySelector(".math-check-btn");
+      const answerInput = card.querySelector(".math-answer-input");
+      const feedback = card.querySelector(".math-check-feedback");
+      if (checkBtn && answerInput && feedback) {
+        checkBtn.addEventListener("click", () => applyQuickGrading(answerInput.value, item.expectedKeywords || [], feedback));
+      }
+
+      practiceResultsNode.appendChild(card);
+    });
+  };
+
+  gradeButtons?.forEach((button) => {
+    button.addEventListener("click", () => {
+      const nextGrade = button.dataset.grade || "all";
+      if (subjectLabel === "Sinh học") {
+        biologyGradeFilter = nextGrade;
+      } else if (subjectLabel === "Khoa học máy tính") {
+        csGradeFilter = nextGrade;
+      }
+      gradeButtons.forEach((item) => {
+        const isActive = item.dataset.grade === nextGrade;
+        item.classList.toggle("active", isActive);
+        item.setAttribute("aria-selected", String(isActive));
+      });
+      renderResults();
+    });
+  });
+
+  typeButtons?.forEach((button) => {
+    button.addEventListener("click", () => {
+      const nextType = button.dataset.type || "all";
+      if (subjectLabel === "Sinh học") {
+        biologyTypeFilter = nextType;
+      } else if (subjectLabel === "Khoa học máy tính") {
+        csTypeFilter = nextType;
+      }
+      typeButtons.forEach((item) => {
+        const isActive = item.dataset.type === nextType;
+        item.classList.toggle("active", isActive);
+        item.setAttribute("aria-selected", String(isActive));
+      });
+      renderResults();
+    });
+  });
+
+  practiceLevelButtons?.forEach((button) => {
+    button.addEventListener("click", () => {
+      const nextLevel = button.dataset.level || "all";
+      if (subjectLabel === "Sinh học") {
+        biologyPracticeLevelFilter = nextLevel;
+      } else if (subjectLabel === "Khoa học máy tính") {
+        csPracticeLevelFilter = nextLevel;
+      }
+      practiceLevelButtons.forEach((item) => {
+        const isActive = item.dataset.level === nextLevel;
+        item.classList.toggle("active", isActive);
+        item.setAttribute("aria-selected", String(isActive));
+      });
+      renderPracticeSets();
+    });
+  });
+
+  if (subjectLabel === "Sinh học" && biologyAdvancedToggle) {
+    biologyAdvancedToggle.addEventListener("click", () => {
+      biologyAdvancedVisible = !biologyAdvancedVisible;
+      biologyAdvancedToggle.setAttribute("aria-pressed", String(biologyAdvancedVisible));
+      biologyAdvancedToggle.textContent = biologyAdvancedVisible ? "Đang hiển thị nâng cao" : "Hiển thị nội dung nâng cao";
+      renderResults();
+    });
+  }
+
+  if (subjectLabel === "Khoa học máy tính" && csAdvancedToggle) {
+    csAdvancedToggle.addEventListener("click", () => {
+      csAdvancedVisible = !csAdvancedVisible;
+      csAdvancedToggle.setAttribute("aria-pressed", String(csAdvancedVisible));
+      csAdvancedToggle.textContent = csAdvancedVisible ? "Đang hiển thị nâng cao" : "Hiển thị nội dung nâng cao";
+      renderResults();
+    });
+  }
+
+  if (chapterSelect) {
+    chapterSelect.innerHTML = "";
+    const allOption = document.createElement("option");
+    allOption.value = "all";
+    allOption.textContent = "Tất cả chương";
+    chapterSelect.appendChild(allOption);
+
+    chapterOrder.forEach((chapter) => {
+      const option = document.createElement("option");
+      option.value = chapter;
+      option.textContent = chapter;
+      chapterSelect.appendChild(option);
+    });
+
+    chapterSelect.addEventListener("change", renderPracticeSets);
+  }
+
+  practiceRefreshButton?.addEventListener("click", renderPracticeSets);
+  searchInput?.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      renderResults();
+    }
+  });
+  searchInput?.addEventListener("input", renderResults);
+
+  return { renderResults, renderPracticeSets };
+}
+
+function renderBiologyResults() {
+  const subject = buildSubjectKnowledgeRenderer(
+    "Sinh học",
+    biologyChapterOrder,
+    biologyKnowledgeBase,
+    biologyPracticeSets,
+    biologySearchInput,
+    biologyResults,
+    biologyMap,
+    biologyGradeButtons,
+    biologyTypeButtons,
+    biologyPracticeLevelButtons,
+    biologyPracticeChapterSelect,
+    biologyPracticeRefreshBtn,
+    biologyPracticeResults,
+    biologyGradeFilter,
+    biologyTypeFilter,
+    biologyPracticeLevelFilter,
+    biologyAdvancedVisible
+  );
+  if (subject) {
+    subject.renderResults();
+    subject.renderPracticeSets();
+  }
+}
+
+function renderCSResults() {
+  const subject = buildSubjectKnowledgeRenderer(
+    "Khoa học máy tính",
+    csChapterOrder,
+    csKnowledgeBase,
+    csPracticeSets,
+    csSearchInput,
+    csResults,
+    csMap,
+    csGradeButtons,
+    csTypeButtons,
+    csPracticeLevelButtons,
+    csPracticeChapterSelect,
+    csPracticeRefreshBtn,
+    csPracticeResults,
+    csGradeFilter,
+    csTypeFilter,
+    csPracticeLevelFilter,
+    csAdvancedVisible
+  );
+  if (subject) {
+    subject.renderResults();
+    subject.renderPracticeSets();
+  }
+}
+
 function applyQuickGrading(userAnswer, expectedKeywords, feedbackNode) {
   const userText = normalizeSearchText(userAnswer);
   const expected = expectedKeywords.map((key) => normalizeSearchText(key));
@@ -3529,18 +3941,29 @@ subjectButtons.forEach((button) => {
       return;
     }
 
-    if (button.dataset.subject === "physics") {
+    const subject = button.dataset.subject;
+    if (subject === "physics") {
       switchModule("physics");
       return;
     }
 
-    if (button.dataset.subject === "math") {
+    if (subject === "math") {
       switchModule("math");
       return;
     }
 
-    if (button.dataset.subject === "organic") {
+    if (subject === "organic") {
       switchModule("organic");
+      return;
+    }
+
+    if (subject === "biology") {
+      switchModule("biology");
+      return;
+    }
+
+    if (subject === "computer-science") {
+      switchModule("computer-science");
       return;
     }
 
@@ -3635,6 +4058,30 @@ if (organicSearchInput) {
   });
 }
 
+if (biologySearchBtn) {
+  biologySearchBtn.addEventListener("click", renderBiologyResults);
+}
+
+if (biologySearchInput) {
+  biologySearchInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      renderBiologyResults();
+    }
+  });
+}
+
+if (csSearchBtn) {
+  csSearchBtn.addEventListener("click", renderCSResults);
+}
+
+if (csSearchInput) {
+  csSearchInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      renderCSResults();
+    }
+  });
+}
+
 if (physicsSearchBtn) {
   physicsSearchBtn.addEventListener("click", renderPhysicsResults);
 }
@@ -3679,6 +4126,8 @@ renderActivitySeries();
 renderOrganicTopics();
 initOrganicPracticeChapterOptions();
 renderOrganicPracticeSets();
+renderBiologyResults();
+renderCSResults();
 renderPhysicsResults();
 initMathPracticeChapterOptions();
 initPhysicsPracticeChapterOptions();

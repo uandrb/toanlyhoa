@@ -15,6 +15,12 @@
   box-sizing: border-box;
 }
 
+button,
+input,
+select {
+  font: inherit;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -166,18 +172,38 @@ h1 {
 }
 
 .subject {
-  border: 1px solid var(--line);
-  padding: 9px 14px;
+  border: 1px solid rgba(106, 121, 105, 0.28);
+  padding: 10px 16px;
   border-radius: 999px;
-  font-weight: 600;
-  background: var(--surface);
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.72);
   color: #384351;
+  box-shadow: 0 4px 10px rgba(15, 40, 48, 0.04);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.subject:hover,
+.grade-btn:hover,
+.mode-btn:hover,
+.primary-btn:hover,
+.advanced-toggle-btn:hover,
+.physics-grade-btn:hover,
+.physics-type-btn:hover,
+.math-grade-btn:hover,
+.math-type-btn:hover,
+.math-level-btn:hover,
+.math-practice-grade-btn:hover,
+.math-practice-level-btn:hover,
+.math-nav-btn:hover,
+.tag:hover {
+  transform: translateY(-1px);
 }
 
 .subject.active {
   border-color: transparent;
   background: linear-gradient(120deg, var(--primary), #10908a);
   color: #fff;
+  box-shadow: 0 10px 24px rgba(11, 122, 117, 0.18);
 }
 
 .subject:disabled {
@@ -190,6 +216,10 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  padding: 8px;
+  border: 1px solid rgba(116, 132, 117, 0.2);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.56);
 }
 
 .module-nav.is-hidden {
@@ -197,19 +227,21 @@ h1 {
 }
 
 .module-tab {
-  border: 1px solid #c9d6c6;
-  background: #fff;
+  border: 1px solid rgba(134, 153, 128, 0.28);
+  background: rgba(255, 255, 255, 0.7);
   color: #2e4d4a;
   font-weight: 700;
   border-radius: 12px;
   padding: 10px 14px;
   cursor: pointer;
+  transition: all 0.18s ease;
 }
 
 .module-tab.active {
   border-color: transparent;
   background: linear-gradient(120deg, var(--accent), #d65615);
   color: #fff;
+  box-shadow: 0 8px 20px rgba(229, 107, 31, 0.18);
 }
 
 main {
@@ -271,6 +303,10 @@ main {
   padding: 18px;
 }
 
+.module-panel {
+  margin-top: 18px;
+}
+
 .search-panel h2,
 .results-panel h2,
 .periodic-layout h2,
@@ -293,9 +329,10 @@ main {
   background: #fff;
   color: #35534d;
   border-radius: 999px;
-  padding: 7px 12px;
+  padding: 8px 13px;
   font-weight: 700;
   cursor: pointer;
+  transition: all 0.18s ease;
 }
 
 .grade-btn.active {
@@ -326,7 +363,7 @@ main {
   padding: 10px 12px;
   cursor: pointer;
   font-weight: 600;
-  transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+  transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .mode-btn:hover {
@@ -375,6 +412,8 @@ input:focus-visible {
   color: #fff;
   font-weight: 700;
   cursor: pointer;
+  box-shadow: 0 10px 22px rgba(229, 107, 31, 0.14);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
 .primary-btn.full-width {
@@ -991,6 +1030,11 @@ input:focus-visible {
 
 .physics-layout {
   padding: 20px;
+  border: 1px solid rgba(93, 110, 95, 0.18);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(4px);
 }
 
 .physics-intro {
@@ -1000,8 +1044,12 @@ input:focus-visible {
 
 .physics-controls {
   display: grid;
-  gap: 10px;
+  gap: 12px;
   margin-bottom: 14px;
+  padding: 12px;
+  border: 1px solid rgba(116, 132, 117, 0.18);
+  border-radius: 16px;
+  background: rgba(250, 252, 249, 0.9);
 }
 
 .physics-filter-group {
@@ -1010,6 +1058,7 @@ input:focus-visible {
   gap: 8px;
 }
 
+.advanced-toggle-btn,
 .physics-grade-btn,
 .physics-type-btn,
 .math-grade-btn,
@@ -1021,11 +1070,20 @@ input:focus-visible {
   background: #fff;
   color: #34495a;
   border-radius: 999px;
-  padding: 7px 12px;
+  padding: 8px 13px;
   font-weight: 700;
   cursor: pointer;
+  transition: all 0.18s ease;
 }
 
+.advanced-toggle-btn {
+  padding: 10px 18px;
+  background: #f3f7f1;
+  border-color: #d3dbc8;
+  min-width: 220px;
+}
+
+.advanced-toggle-btn[aria-pressed="true"],
 .physics-grade-btn.active,
 .physics-type-btn.active,
 .math-grade-btn.active,
@@ -1034,7 +1092,7 @@ input:focus-visible {
 .math-practice-grade-btn.active,
 .math-practice-level-btn.active {
   border-color: transparent;
-  background: linear-gradient(120deg, #2162b8, #1f7f92);
+  background: linear-gradient(120deg, #1b8f67, #0b7a75);
   color: #fff;
 }
 
@@ -1079,10 +1137,11 @@ input:focus-visible {
 
 .math-practice {
   margin-top: 14px;
-  border: 1px solid #d9e3ea;
-  border-radius: 14px;
-  background: #fcfeff;
+  border: 1px solid rgba(93, 110, 95, 0.18);
+  border-radius: 18px;
+  background: rgba(248, 252, 249, 0.9);
   padding: 14px;
+  box-shadow: 0 8px 20px rgba(15, 40, 48, 0.05);
 }
 
 .math-practice h3 {
@@ -1182,10 +1241,11 @@ input:focus-visible {
 }
 
 .physics-card {
-  border: 1px solid #dde6ef;
-  border-radius: 14px;
-  background: #fff;
+  border: 1px solid #e0e6d8;
+  border-radius: 16px;
+  background: var(--card);
   padding: 14px;
+  box-shadow: 0 10px 24px rgba(15, 40, 48, 0.04);
 }
 
 .physics-meta {
@@ -1214,9 +1274,9 @@ input:focus-visible {
 }
 
 .physics-detail-block {
-  border: 1px solid #e0ebf8;
+  border: 1px solid #e6eee1;
   border-radius: 12px;
-  background: #f8fbff;
+  background: #f9fbf8;
   padding: 10px 12px;
 }
 

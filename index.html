@@ -24,6 +24,8 @@
       <button class="subject" type="button" data-subject="organic" aria-selected="false">Hóa Hữu Cơ</button>
       <button class="subject" type="button" data-subject="math" aria-selected="false">Toán 8-9</button>
       <button class="subject" type="button" data-subject="physics" aria-selected="false">Vật lý 8-9</button>
+      <button class="subject" type="button" data-subject="biology" aria-selected="false">Sinh học</button>
+      <button class="subject" type="button" data-subject="computer-science" aria-selected="false">Khoa học máy tính</button>
     </div>
 
     <div class="module-nav" id="moduleNav" role="tablist" aria-label="Nội dung Hóa Vô Cơ">
@@ -391,6 +393,118 @@
         </section>
       </div>
     </section>
+
+    <section class="module-panel is-hidden" id="module-biology" aria-labelledby="biologyTitle">
+      <div class="physics-layout">
+        <h2 id="biologyTitle">Kho kiến thức Sinh học 9</h2>
+        <p class="physics-intro">
+          Tra cứu theo tế bào, cơ thể, sinh thái, di truyền và các chủ đề trọng tâm của SGK KHTN lớp 9.
+        </p>
+
+        <div class="physics-controls">
+          <div class="physics-filter-group" role="tablist" aria-label="Lọc theo lớp Sinh học">
+            <button type="button" class="biology-grade-btn active" data-grade="all" aria-selected="true">Tất cả</button>
+            <button type="button" class="biology-grade-btn" data-grade="9" aria-selected="false">Lớp 9</button>
+          </div>
+
+          <div class="physics-filter-group" role="tablist" aria-label="Lọc theo loại nội dung Sinh học">
+            <button type="button" class="biology-type-btn active" data-type="all" aria-selected="true">Tất cả nội dung</button>
+            <button type="button" class="biology-type-btn" data-type="theory" aria-selected="false">Lý thuyết</button>
+            <button type="button" class="biology-type-btn" data-type="formula" aria-selected="false">Công thức</button>
+            <button type="button" class="biology-type-btn" data-type="problem" aria-selected="false">Dạng bài</button>
+          </div>
+
+          <div class="search-row physics-search-row">
+            <input id="biologySearchInput" type="text" placeholder="Ví dụ: tế bào, quang hợp, di truyền, hệ tiêu hóa" autocomplete="off" />
+            <button id="biologySearchBtn" type="button" class="primary-btn">Tra cứu kiến thức</button>
+          </div>
+
+          <div class="search-row physics-search-row">
+            <button type="button" class="advanced-toggle-btn biology-advanced-toggle" data-subject="biology" aria-pressed="false">Hiển thị nội dung nâng cao</button>
+          </div>
+        </div>
+
+        <div class="physics-map" id="biologyMap"></div>
+        <div class="physics-results" id="biologyResults"></div>
+
+        <section class="math-practice" aria-labelledby="biologyPracticeTitle">
+          <h3 id="biologyPracticeTitle">Bộ đề luyện tập Sinh học</h3>
+          <p class="math-practice-intro">Luyện tập theo chương, mức độ và gợi ý trả lời theo hướng SGK KHTN 9.</p>
+
+          <div class="physics-controls">
+            <div class="physics-filter-group" role="tablist" aria-label="Lọc đề Sinh học theo mức độ">
+              <button type="button" class="biology-practice-level-btn active" data-level="all" aria-selected="true">Mọi mức độ</button>
+              <button type="button" class="biology-practice-level-btn" data-level="basic" aria-selected="false">Nhận biết</button>
+              <button type="button" class="biology-practice-level-btn" data-level="intermediate" aria-selected="false">Thông hiểu</button>
+              <button type="button" class="biology-practice-level-btn" data-level="advanced" aria-selected="false">Vận dụng</button>
+            </div>
+
+            <div class="search-row physics-search-row">
+              <select id="biologyPracticeChapterSelect" aria-label="Chọn chương Sinh học để luyện tập"></select>
+              <button id="biologyPracticeRefreshBtn" type="button" class="primary-btn">Lọc đề luyện tập</button>
+            </div>
+          </div>
+
+          <div class="physics-results" id="biologyPracticeResults"></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="module-panel is-hidden" id="module-computer-science" aria-labelledby="computerScienceTitle">
+      <div class="physics-layout">
+        <h2 id="computerScienceTitle">Kho kiến thức Khoa học máy tính</h2>
+        <p class="physics-intro">
+          Tìm hiểu máy tính, thuật toán, mạng, dữ liệu, AI và an toàn thông tin theo hướng học tập hiện đại và dễ tiếp cận.
+        </p>
+
+        <div class="physics-controls">
+          <div class="physics-filter-group" role="tablist" aria-label="Lọc theo lớp Khoa học máy tính">
+            <button type="button" class="cs-grade-btn active" data-grade="all" aria-selected="true">Tất cả</button>
+            <button type="button" class="cs-grade-btn" data-grade="9" aria-selected="false">Lớp 9</button>
+          </div>
+
+          <div class="physics-filter-group" role="tablist" aria-label="Lọc theo loại nội dung Khoa học máy tính">
+            <button type="button" class="cs-type-btn active" data-type="all" aria-selected="true">Tất cả nội dung</button>
+            <button type="button" class="cs-type-btn" data-type="theory" aria-selected="false">Lý thuyết</button>
+            <button type="button" class="cs-type-btn" data-type="formula" aria-selected="false">Công thức</button>
+            <button type="button" class="cs-type-btn" data-type="problem" aria-selected="false">Dạng bài</button>
+          </div>
+
+          <div class="search-row physics-search-row">
+            <input id="csSearchInput" type="text" placeholder="Ví dụ: thuật toán, nhị phân, mạng, AI, an toàn thông tin" autocomplete="off" />
+            <button id="csSearchBtn" type="button" class="primary-btn">Tra cứu kiến thức</button>
+          </div>
+
+          <div class="search-row physics-search-row">
+            <button type="button" class="advanced-toggle-btn cs-advanced-toggle" data-subject="computer-science" aria-pressed="false">Hiển thị nội dung nâng cao</button>
+          </div>
+        </div>
+
+        <div class="physics-map" id="csMap"></div>
+        <div class="physics-results" id="csResults"></div>
+
+        <section class="math-practice" aria-labelledby="csPracticeTitle">
+          <h3 id="csPracticeTitle">Bộ đề luyện tập Khoa học máy tính</h3>
+          <p class="math-practice-intro">Gồm các dạng bài nhận biết, thông hiểu và vận dụng trên nền khung chương trình lớp 9.</p>
+
+          <div class="physics-controls">
+            <div class="physics-filter-group" role="tablist" aria-label="Lọc đề Khoa học máy tính theo mức độ">
+              <button type="button" class="cs-practice-level-btn active" data-level="all" aria-selected="true">Mọi mức độ</button>
+              <button type="button" class="cs-practice-level-btn" data-level="basic" aria-selected="false">Nhận biết</button>
+              <button type="button" class="cs-practice-level-btn" data-level="intermediate" aria-selected="false">Thông hiểu</button>
+              <button type="button" class="cs-practice-level-btn" data-level="advanced" aria-selected="false">Vận dụng</button>
+            </div>
+
+            <div class="search-row physics-search-row">
+              <select id="csPracticeChapterSelect" aria-label="Chọn chương Khoa học máy tính để luyện tập"></select>
+              <button id="csPracticeRefreshBtn" type="button" class="primary-btn">Lọc đề luyện tập</button>
+            </div>
+          </div>
+
+          <div class="physics-results" id="csPracticeResults"></div>
+        </section>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer">
@@ -429,6 +543,8 @@
   <script src="organic-practice-data.js"></script>
   <script src="math-data.js"></script>
   <script src="math-practice-data.js"></script>
+  <script src="biology-data.js"></script>
+  <script src="computer-science-data.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
   <script defer src="script.js"></script>
