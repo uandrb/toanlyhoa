@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GeoGebra Math Tool</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --ink: #1b2a38;
+      --muted: #5a7187;
+      --primary: #1d6fd6;
+      --accent: #0a8d74;
+      --line: rgba(27, 42, 56, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Be Vietnam Pro", "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #edf5ff 0%, #f9fbff 100%);
+      color: var(--ink);
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 18px 40px;
+    }
+
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 8px 14px;
+      background: rgba(29, 111, 214, 0.12);
+      border: 1px solid rgba(29, 111, 214, 0.2);
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: 0 18px 40px rgba(28, 52, 80, 0.08);
+      overflow: hidden;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(250, 252, 255, 0.9);
+    }
+
+    .toolbar button,
+    .toolbar a {
+      appearance: none;
+      border: 1px solid rgba(29, 111, 214, 0.2);
+      background: #fff;
+      color: var(--ink);
+      padding: 10px 14px;
+      border-radius: 10px;
+      font: inherit;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .toolbar .primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .toolbar .ghost {
+      background: transparent;
+    }
+
+    .stage {
+      display: grid;
+      grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+      min-height: 720px;
+    }
+
+    .sidebar {
+      border-right: 1px solid var(--line);
+      background: rgba(246, 250, 255, 0.8);
+      padding: 18px;
+    }
+
+    .sidebar h2 {
+      margin: 0 0 14px;
+      font-size: 1.1rem;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .field label {
+      font-weight: 700;
+      color: var(--muted);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(101, 123, 152, 0.28);
+      background: #fff;
+      font: inherit;
+      color: var(--ink);
+    }
+
+    .helper {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .embed-area {
+      position: relative;
+      min-height: 720px;
+      background: linear-gradient(180deg, #edf8ff 0%, #f7fbff 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .embed-box {
+      width: 100%;
+      min-height: 620px;
+      border-radius: 20px;
+      border: 1px solid rgba(46, 73, 104, 0.18);
+      background: #fff;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .placeholder {
+      text-align: center;
+      max-width: 480px;
+      padding: 32px 20px;
+    }
+
+    .placeholder h3 {
+      margin: 0 0 12px;
+      font-size: clamp(1.3rem, 2vw, 1.8rem);
+    }
+
+    .placeholder p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 840px) {
+      .stage {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        border-right: none;
+        border-bottom: 1px solid var(--line);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="header">
+      <h1>GeoGebra – Công cụ hỗ trợ học tập</h1>
+      <div class="badge">Mục riêng • Dành cho Toán học</div>
+    </div>
+
+    <div class="panel">
+      <div class="toolbar">
+        <button class="primary" type="button">Vẽ đồ thị</button>
+        <button type="button" class="ghost">Hình học</button>
+        <button type="button" class="ghost">Phương trình</button>
+        <a href="index.html">Quay lại trang chính</a>
+      </div>
+
+      <div class="stage">
+        <aside class="sidebar">
+          <h2>Thông số nhanh</h2>
+
+          <div class="field">
+            <label for="equationType">Loại đồ thị</label>
+            <select id="equationType">
+              <option value="line">Đường thẳng: y = ax + b</option>
+              <option value="quadratic">Parabol: y = ax² + bx + c</option>
+              <option value="cubic">Hàm bậc ba: y = ax³ + bx² + cx</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="aValue">a</label>
+            <input id="aValue" type="number" value="1" step="0.1" />
+          </div>
+
+          <div class="field">
+            <label for="bValue">b</label>
+            <input id="bValue" type="number" value="0" step="0.1" />
+          </div>
+
+          <div class="field">
+            <label for="cValue">c</label>
+            <input id="cValue" type="number" value="0" step="0.1" />
+          </div>
+
+          <button id="renderBtn" type="button" class="primary" style="width: 100%; margin-top: 6px;">Xem đồ thị</button>
+          <p class="helper">
+            Đây là phiên bản tách riêng theo mục đích: học sinh có thể mở công cụ GeoGebra độc lập, không làm rối phần kiến thức chính của ứng dụng.
+          </p>
+        </aside>
+
+        <div class="embed-area">
+          <div class="embed-box">
+            <div class="placeholder">
+              <h3>GeoGebra tool đang sẵn sàng</h3>
+              <p>
+                Khi cần, phần này có thể được đánh dấu bằng iframe hoặc tích hợp trực tiếp từ nguồn GeoGebra. Hiện tại, hướng làm đã được tách riêng thành tool độc lập để dễ mở rộng và tối ưu trải nghiệm học tập.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const equationType = document.getElementById('equationType');
+    const aValue = document.getElementById('aValue');
+    const bValue = document.getElementById('bValue');
+    const cValue = document.getElementById('cValue');
+    const renderBtn = document.getElementById('renderBtn');
+    const embedBox = document.querySelector('.embed-box');
+
+    function evaluate(type, x, a, b, c) {
+      switch (type) {
+        case 'quadratic':
+          return a * x * x + b * x + c;
+        case 'cubic':
+          return a * x * x * x + b * x * x + c * x;
+        case 'line':
+        default:
+          return a * x + b;
+      }
+    }
+
+    function drawGraph() {
+      const type = equationType.value;
+      const a = Number(aValue.value) || 0;
+      const b = Number(bValue.value) || 0;
+      const c = Number(cValue.value) || 0;
+      const width = 760;
+      const height = 520;
+      const pad = 36;
+      const xMin = -10;
+      const xMax = 10;
+      const sampleStep = 0.12;
+
+      const values = [];
+      for (let x = xMin; x <= xMax; x += sampleStep) {
+        const y = evaluate(type, x, a, b, c);
+        if (Number.isFinite(y)) values.push(y);
+      }
+
+      const yMin = values.length ? Math.min(...values, -10) : -10;
+      const yMax = values.length ? Math.max(...values, 10) : 10;
+      const yRange = yMax - yMin || 1;
+
+      const toX = (x) => pad + ((x - xMin) / (xMax - xMin)) * (width - pad * 2);
+      const toY = (y) => height - pad - ((y - yMin) / yRange) * (height - pad * 2);
+
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+      svg.setAttribute('width', '100%');
+      svg.setAttribute('height', '100%');
+
+      const bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      bg.setAttribute('x', '0');
+      bg.setAttribute('y', '0');
+      bg.setAttribute('width', String(width));
+      bg.setAttribute('height', String(height));
+      bg.setAttribute('fill', '#f9fbff');
+      svg.appendChild(bg);
+
+      for (let x = -10; x <= 10; x += 1) {
+        const xLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        const xPos = toX(x);
+        xLine.setAttribute('x1', String(xPos));
+        xLine.setAttribute('x2', String(xPos));
+        xLine.setAttribute('y1', String(pad));
+        xLine.setAttribute('y2', String(height - pad));
+        xLine.setAttribute('stroke', x === 0 ? '#1b2a38' : '#dfeaf5');
+        xLine.setAttribute('stroke-width', x === 0 ? '1.5' : '0.8');
+        svg.appendChild(xLine);
+      }
+
+      for (let y = Math.ceil(yMin); y <= Math.floor(yMax); y += 1) {
+        const yLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        const yPos = toY(y);
+        yLine.setAttribute('x1', String(pad));
+        yLine.setAttribute('x2', String(width - pad));
+        yLine.setAttribute('y1', String(yPos));
+        yLine.setAttribute('y2', String(yPos));
+        yLine.setAttribute('stroke', y === 0 ? '#1b2a38' : '#edf2f8');
+        yLine.setAttribute('stroke-width', y === 0 ? '1.5' : '0.8');
+        svg.appendChild(yLine);
+      }
+
+      const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      xAxis.setAttribute('x1', String(pad));
+      xAxis.setAttribute('x2', String(width - pad));
+      xAxis.setAttribute('y1', String(toY(0))); xAxis.setAttribute('y2', String(toY(0)));
+      xAxis.setAttribute('stroke', '#1b2a38');
+      xAxis.setAttribute('stroke-width', '1.8');
+      svg.appendChild(xAxis);
+
+      const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      yAxis.setAttribute('x1', String(toX(0))); yAxis.setAttribute('x2', String(toX(0)));
+      yAxis.setAttribute('y1', String(pad)); yAxis.setAttribute('y2', String(height - pad));
+      yAxis.setAttribute('stroke', '#1b2a38');
+      yAxis.setAttribute('stroke-width', '1.8');
+      svg.appendChild(yAxis);
+
+      const points = [];
+      for (let x = xMin; x <= xMax; x += sampleStep) {
+        const y = evaluate(type, x, a, b, c);
+        if (Number.isFinite(y)) {
+          points.push(`${toX(x)},${toY(y)}`);
+        }
+      }
+
+      const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+      polyline.setAttribute('points', points.join(' '));
+      polyline.setAttribute('fill', 'none');
+      polyline.setAttribute('stroke', '#1d6fd6');
+      polyline.setAttribute('stroke-width', '3');
+      polyline.setAttribute('stroke-linecap', 'round');
+      polyline.setAttribute('stroke-linejoin', 'round');
+      svg.appendChild(polyline);
+
+      embedBox.innerHTML = '';
+      embedBox.appendChild(svg);
+    }
+
+    renderBtn.addEventListener('click', drawGraph);
+    equationType.addEventListener('change', drawGraph);
+    [aValue, bValue, cValue].forEach((input) => input.addEventListener('input', drawGraph));
+    drawGraph();
+  </script>
+</body>
+</html>
