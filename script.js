@@ -4348,12 +4348,27 @@ function findElement(queryText) {
 
   const aliasSymbol = symbolAliases[normalizeFormula(q).replace(/[^A-Z0-9]/g, "")];
   const byAtomic = Number.parseInt(q, 10);
-  const element = periodicElements.find((item) => (
-    item.symbol.toLowerCase() === String(aliasSymbol || "").toLowerCase() ||
-    item.symbol.toLowerCase() === q ||
-    item.name.toLowerCase().includes(q) ||
-    item.z === byAtomic
-  ));
+  const matchesElementQuery = (item) => {
+    const symbol = item.symbol.toLowerCase();
+    const name = item.name.toLowerCase();
+    const normalizedAlias = String(aliasSymbol || "").toLowerCase();
+
+    if (symbol === q || normalizedAlias === q || name === q) {
+      return true;
+    }
+
+    if (symbol.startsWith(q) || name.startsWith(q)) {
+      return true;
+    }
+
+    if (name.includes(" " + q)) {
+      return true;
+    }
+
+    return item.z === byAtomic;
+  };
+
+  const element = periodicElements.find(matchesElementQuery);
 
   if (!element) {
     elementResult.textContent = "Không tìm thấy nguyên tố phù hợp.";
